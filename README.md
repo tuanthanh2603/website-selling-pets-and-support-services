@@ -1,13 +1,12 @@
 # website-selling-pets-and-support-services
-node -v
-npm -v
-# Khởi tạo Vite
-npm create vite@latest
+# check version
+1. node -v
+2. npm -v
 
 # Now run
-cd vuejs
-npm install
-npm run dev
+1. cd vuejs
+2. npm install
+3. npm run dev
 
 # Install Vue Router
 npm install vue-router@4
