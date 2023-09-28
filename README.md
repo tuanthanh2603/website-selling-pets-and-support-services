@@ -17,8 +17,10 @@ npm i bootstrap@5.3.2
 # Install Ant Design Vue 
 npm i --save ant-design-vue
 
-(version 3.2.20)
+npm install --save @ant-design/icons-vue
 
+(version 3.2.20)
+Check 'antd.css' in 'node_modules/ant-design-vue/dist/antd.css'
 
 # update code
 git pull
