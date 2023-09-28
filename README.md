@@ -14,6 +14,12 @@ npm install vue-router@4
 # Install Bootstrap
 npm i bootstrap@5.3.2
 
+# Install Ant Design Vue 
+npm i --save ant-design-vue
+----------------
+(version 3.2.20)
+----------------
+
 # update code
 git pull
 
