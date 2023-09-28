@@ -2,12 +2,12 @@
 
     
       <a-menu v-model:selectedKeys="current" mode="horizontal" class="centered-menu">
-        <a-menu-item key="mail">
-          Trang chủ
+        <a-menu-item key="home">
+          <span  style="font-weight: 700;">Trang chủ</span>
         </a-menu-item>
   
         <a-sub-menu key="sub1">
-          <template #title>Thú cưng</template>
+          <template #title ><span style="font-weight: 700;">Thú cưng</span></template>
           <a-menu-item-group title="Item 1">
             <a-menu-item key="setting:1">Option 1</a-menu-item>
             <a-menu-item key="setting:2">Option 2</a-menu-item>
@@ -18,7 +18,7 @@
           </a-menu-item-group>
         </a-sub-menu>
         <a-sub-menu key="sub2">
-          <template #title>Dịch vụ</template>
+          <template #title><span style="font-weight: 700;">Dịch vụ</span></template>
           <a-menu-item-group title="Item 1">
             <a-menu-item key="setting:1">Option 1</a-menu-item>
             <a-menu-item key="setting:2">Option 2</a-menu-item>
@@ -29,7 +29,7 @@
           </a-menu-item-group>
         </a-sub-menu>
         <a-sub-menu key="sub3">
-          <template #title>Phụ kiện</template>
+            <template #title><span style="font-weight: 700;">Phụ kiện</span></template>
           <a-menu-item-group title="Item 1">
             <a-menu-item key="setting:1">Option 1</a-menu-item>
             <a-menu-item key="setting:2">Option 2</a-menu-item>
@@ -40,7 +40,7 @@
           </a-menu-item-group>
         </a-sub-menu>
         <a-menu-item key="alipay">
-          Giới thiệu
+         <span style="font-weight: 700;">Giới thiệu</span>
         </a-menu-item>
 
         <a-menu-item >
@@ -53,7 +53,7 @@
         </a-menu-item>
         <a-menu-item >
             <user-outlined />
-            Khách hàng
+            Đăng nhập
         </a-menu-item>
         
         
