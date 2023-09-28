@@ -45,12 +45,15 @@
 
         <a-menu-item >
             <search-outlined />
+            Tìm kiếm
         </a-menu-item>
         <a-menu-item >
             <shopping-outlined />
+            Giỏ hàng
         </a-menu-item>
         <a-menu-item >
             <user-outlined />
+            Khách hàng
         </a-menu-item>
         
         
