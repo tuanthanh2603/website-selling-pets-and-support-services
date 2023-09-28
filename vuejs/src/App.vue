@@ -1,7 +1,9 @@
+<!-- Client -->  
 <template>
-  
     <TheHeader/>
+    <!-- Hiển thị các trang con -->
     <router-view></router-view>
+    <!--  -->
   
 </template>
 <script>
