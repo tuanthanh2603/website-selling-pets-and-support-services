@@ -11,5 +11,9 @@
 # Install Vue Router
 npm install vue-router@4
 
+# Install Booststrap
+npm i bootstrap@5.3.2
+
 # update code
 git pull
+
