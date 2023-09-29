@@ -1,7 +1,9 @@
 <template>
     <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
-        <div class="col-4">2</div>
-        <div class="col-8">
+        <div class="col-md-4" style="display: flex;justify-content: center; align-items: center;">
+            <h1 class="display-4 font-italic">Best Place <br><span style="font-size: 40px;">for</span><br> Pet Lover</h1>
+        </div>
+        <div class="col-md-8">
             <a-carousel autoplay>
                 <div ><h3>1</h3></div>
                 <div ><h3>2</h3></div>
@@ -17,7 +19,7 @@
   
   <style scoped >
  
-  /* For demo */
+ 
   .ant-carousel :deep(.slick-slide) {
     text-align: center;
     height: 450px;

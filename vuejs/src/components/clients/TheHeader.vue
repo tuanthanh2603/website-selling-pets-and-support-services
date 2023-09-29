@@ -7,7 +7,7 @@
         </a-menu-item>
   
         <a-sub-menu key="sub1">
-          <template #title ><span style="font-weight: 700;">Thú cưng</span></template>
+          <template #title ><span style="font-weight: 700;">Sản phẩm</span></template>
           <a-menu-item-group title="Item 1">
             <a-menu-item key="setting:1">Option 1</a-menu-item>
             <a-menu-item key="setting:2">Option 2</a-menu-item>
