@@ -71,7 +71,103 @@
 
 
   <div class="container">
-    <h2>Phổ biến nhất</h2>
+    <div class="row" style="justify-content: space-between;">
+      <h2 class="col-md-6" style="text-align: left;">Phổ biến nhất</h2>
+      <div class="col-md-6" style="text-align: right;"><a-button type="primary" danger><router-link to="/pho-bien-nhat">Xem thêm >></router-link></a-button></div>
+    </div>
+    <div class="row g-5">
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid">
+                <div class="product-image">
+                    <a href="#" class="image">
+                        <img src="https://azpet.com.vn/wp-content/uploads/2021/06/Alaska.jpg">
+                    </a>
+                    <span class="product-discount-label">Phổ biến</span>
+                    <ul class="product-links">
+                        <li><a href="#"><search-outlined /></a></li>
+                        <li><a href="#"><heart-outlined /></a></li>
+                        <li><a href="#"><export-outlined /></a></li>
+                    </ul>
+                    <!-- <a href="" class="add-to-cart">Xem</a> -->
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Alaska</a></h3>
+                    <!-- <div class="price">1.800.000đ <span>2.000.000đ</span></div> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid">
+                <div class="product-image">
+                    <a href="#" class="image">
+                        <img src="https://azpet.com.vn/wp-content/uploads/2021/06/Alaska.jpg">
+                    </a>
+                    <span class="product-discount-label">-23%</span>
+                    <ul class="product-links">
+                        <li><a href="#"><i class="fa fa-search"></i></a></li>
+                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                        <li><a href="#"><i class="fa fa-random"></i></a></li>
+                    </ul>
+                    <a href="" class="add-to-cart">Thêm vào giỏ hàng</a>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Chó</a></h3>
+                    <!-- <div class="price">1.800.000đ <span>2.000.000đ</span></div> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid">
+                <div class="product-image">
+                    <a href="#" class="image">
+                        <img src="https://azpet.com.vn/wp-content/uploads/2021/06/Alaska.jpg">
+                    </a>
+                    <span class="product-discount-label">-3%</span>
+                    <ul class="product-links">
+                        <li><a href="#"><i class="fa fa-search"></i></a></li>
+                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                        <li><a href="#"><i class="fa fa-random"></i></a></li>
+                    </ul>
+                    <a href="" class="add-to-cart">Thêm vào giỏ hàng</a>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Chó</a></h3>
+                    <!-- <div class="price">1.800.000đ <span>2.000.000đ</span></div> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid">
+                <div class="product-image">
+                    <a href="#" class="image">
+                        <img src="https://azpet.com.vn/wp-content/uploads/2021/06/Alaska.jpg">
+                    </a>
+                    <span class="product-discount-label">-0%</span>
+                    <ul class="product-links">
+                        <li><a href="#"><i class="fa fa-search"></i></a></li>
+                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                        <li><a href="#"><i class="fa fa-random"></i></a></li>
+                    </ul>
+                    <a href="" class="add-to-cart">Thêm vào giỏ hàng</a>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#">Chó</a></h3>
+                    <!-- <div class="price">1.800.000đ <span>2.000.000đ</span></div> -->
+                </div>
+            </div>
+        </div>
+        
+    </div>
+  </div>
+  
+  <div class="container mt-5">
+    <div class="d-flex" style="justify-content: space-between;">
+      <h2 style="text-align: right;">Mới nhất</h2>
+      <div style="text-align: left;"><a-button type="primary" danger>Xem thêm >></a-button></div>
+    </div>
     <div class="row g-5">
         <div class="col-md-3 col-sm-6">
             <div class="product-grid">
@@ -162,11 +258,11 @@
 </template>
 <script>
 import { defineComponent, ref } from 'vue';
-import { HeartOutlined, SearchOutlined, ExportOutlined } from '@ant-design/icons-vue';
+import { HeartOutlined, SearchOutlined, ExportOutlined,  } from '@ant-design/icons-vue';
 export default defineComponent({
   
   components: {
-    HeartOutlined, SearchOutlined, ExportOutlined
+    HeartOutlined, SearchOutlined, ExportOutlined,
   }
   
 })

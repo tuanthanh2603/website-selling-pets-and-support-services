@@ -7,15 +7,22 @@
     </a-menu-item>
 
     <a-sub-menu key="sub1">
-      <template #title><span style="font-weight: 700;">Sản phẩm</span></template>
-      <a-menu-item-group title="Item 1">
-        <a-menu-item key="setting:1">Option 1</a-menu-item>
-        <a-menu-item key="setting:2">Option 2</a-menu-item>
-      </a-menu-item-group>
-      <a-menu-item-group title="Item 2">
-        <a-menu-item key="setting:3">Option 3</a-menu-item>
-        <a-menu-item key="setting:4">Option 4</a-menu-item>
-      </a-menu-item-group>
+      <template #title><span style="font-weight: 700;">Thú cưng</span></template>
+      
+      <a-sub-menu key="cho-canh" title="Chó cảnh">
+        <a-menu-item key="11">Afghan Hound</a-menu-item>
+        <a-menu-item key="12">Akita Inu</a-menu-item>
+        <a-menu-item key="13">Alabai</a-menu-item>
+        <a-menu-item key="14">Alaska</a-menu-item>
+        <a-menu-item key="15">American Bully</a-menu-item>
+      </a-sub-menu>
+      <a-sub-menu key="meo-canh" title="Mèo cảnh">
+        <a-menu-item key="16">Anh Lông Ngắn</a-menu-item>
+        <a-menu-item key="17">Ba Tư</a-menu-item>
+        <a-menu-item key="18">Mỹ Lông Ngắn</a-menu-item>
+        <a-menu-item key="19">Rừng Na Uy</a-menu-item>
+      </a-sub-menu>
+      
     </a-sub-menu>
     <a-sub-menu key="sub2">
       <template #title><span style="font-weight: 700;">Dịch vụ</span></template>
