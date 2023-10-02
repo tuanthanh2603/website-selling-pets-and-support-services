@@ -22,6 +22,9 @@ npm install --save @ant-design/icons-vue
 (version 3.2.20)
 Check 'antd.css' in 'node_modules/ant-design-vue/dist/antd.css' ---> vào ib rồi gửi file cho
 
+# Install Express
+npm install express
+
 # update code
 git pull
 
