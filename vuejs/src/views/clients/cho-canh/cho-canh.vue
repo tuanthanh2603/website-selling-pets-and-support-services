@@ -1,0 +1,3 @@
+<template>
+    Chó cảnh
+</template>

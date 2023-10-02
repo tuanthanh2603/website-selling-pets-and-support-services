@@ -1,0 +1,3 @@
+<template>
+    Mèo cảnh
+</template>

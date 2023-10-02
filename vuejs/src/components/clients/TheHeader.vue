@@ -1,7 +1,9 @@
 <template>
   <a-menu v-model:selectedKeys="current" mode="horizontal" class="centered-menu">
     <a-menu-item key="home">
+      <router-link to="/" tag="a" class="menu-item">
       <span style="font-weight: 700;">Trang chủ</span>
+      </router-link>
     </a-menu-item>
 
     <a-sub-menu key="sub1">
