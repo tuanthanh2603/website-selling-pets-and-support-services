@@ -6,7 +6,7 @@
       </router-link>
     </a-menu-item>
 
-    <a-sub-menu key="sub1">
+    <a-sub-menu key="pet-category">
       <template #title><span style="font-weight: 700;">Thú cưng</span></template>
       
       <a-sub-menu key="cho-canh" title="Chó cảnh">
@@ -24,31 +24,51 @@
       </a-sub-menu>
       
     </a-sub-menu>
-    <a-sub-menu key="sub2">
+    <a-sub-menu key="service-category">
       <template #title><span style="font-weight: 700;">Dịch vụ</span></template>
-      <a-menu-item-group title="Item 1">
-        <a-menu-item key="setting:1">Option 1</a-menu-item>
-        <a-menu-item key="setting:2">Option 2</a-menu-item>
+      <a-menu-item-group title="Spa & Grooming">
+        <a-menu-item key="setting:1">Tắm spa</a-menu-item>
+        <a-menu-item key="setting:2">Cắt tỉa lông</a-menu-item>
       </a-menu-item-group>
-      <a-menu-item-group title="Item 2">
-        <a-menu-item key="setting:3">Option 3</a-menu-item>
-        <a-menu-item key="setting:4">Option 4</a-menu-item>
+      <a-menu-item-group title="Y tế">
+        <a-menu-item key="setting:3">Cấp cứu 24/7</a-menu-item>
+        <a-menu-item key="setting:4">Khám sức khỏe định kỳ cho pet</a-menu-item>
       </a-menu-item-group>
     </a-sub-menu>
-    <a-sub-menu key="sub3">
+
+
+    <a-sub-menu key="accessory-category">
       <template #title><span style="font-weight: 700;">Phụ kiện</span></template>
-      <a-menu-item-group title="Item 1">
-        <a-menu-item key="setting:1">Option 1</a-menu-item>
-        <a-menu-item key="setting:2">Option 2</a-menu-item>
+      <a-menu-item-group title="Thức ăn">
+        <a-menu-item key="setting:1">Thức ăn khô</a-menu-item>
+        <a-menu-item key="setting:2">Thức ăn vặt</a-menu-item>
       </a-menu-item-group>
-      <a-menu-item-group title="Item 2">
-        <a-menu-item key="setting:3">Option 3</a-menu-item>
-        <a-menu-item key="setting:4">Option 4</a-menu-item>
+      <a-menu-item-group title="Phụ kiện">
+        <a-menu-item key="setting:3">Dây xích, vòng cổ, rọ mõm...</a-menu-item>
+        <a-menu-item key="setting:4">Đồ chơi</a-menu-item>
+      </a-menu-item-group>
+      <a-menu-item-group title="Khác">
+        <a-menu-item key="setting:3">Quần áo</a-menu-item>
+        <a-menu-item key="setting:4">Sữa tắm</a-menu-item>
       </a-menu-item-group>
     </a-sub-menu>
-    <a-menu-item key="alipay">
+
+
+    <a-menu-item key="gioithieu">
       <span style="font-weight: 700;">Giới thiệu</span>
     </a-menu-item>
+
+
+    <a-sub-menu key="support">
+      <template #title><span style="font-weight: 700;">Hỗ trợ</span></template>
+      <a-menu-item-group title="Hình thức vận chuyển">
+        <a-menu-item key="setting:1">Hình thức vận chuyển</a-menu-item>
+      </a-menu-item-group>
+      <a-menu-item-group title="Chính sách mua hàng">
+        <a-menu-item key="setting:3">Bảo hành - Đổi trả</a-menu-item>
+        <a-menu-item key="setting:4">Chính Sách Bảo Mật</a-menu-item>
+      </a-menu-item-group>
+    </a-sub-menu>
 
     <a-menu-item key="tim-kiem">
       <search-outlined />
