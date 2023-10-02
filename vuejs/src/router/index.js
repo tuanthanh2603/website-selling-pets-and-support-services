@@ -9,10 +9,7 @@ const router = createRouter({
             name: 'Home',
             component: HomePage,
         },
-        {
-            path: '/about',
-            component: () => import('../views/About.vue')
-        },
+      
         {
             path: '/cho-canh',
             component: () => import('../views/clients/cho-canh/cho-canh.vue')
