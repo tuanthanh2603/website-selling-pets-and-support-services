@@ -3,10 +3,16 @@
 1. node -v
 2. npm -v
 
-# Run project
+# Run project Vuejs
 1. cd vuejs
 2. npm install
 3. npm run dev
+
+# Run Node Server
+1. New terminal
+2. cd vuejs
+3. cd server
+4. node server
 
 # Install Vue Router
 npm install vue-router@4
