@@ -31,18 +31,18 @@ Check 'antd.css' in 'node_modules/ant-design-vue/dist/antd.css' ---> v√†o ib r·ª
 # Install Axios
 npm install axios
 
-# Install Express
-npm install express
-
-npm install cors
-
------------
+------------
 # Backend
+1. cd backend
+2. npm init
 
 # Install Express
 npm install express cors
 
+npm install --save-dev nodemon
 
+
+-------------
 # update code
 git pull
 
