@@ -33,14 +33,7 @@ npm install axios
 
 ------------
 # Backend
-1. cd backend
-2. node server
 
-
-# Install Express
-npm install express cors
-
-npm install --save-dev nodemon
 
 
 -------------

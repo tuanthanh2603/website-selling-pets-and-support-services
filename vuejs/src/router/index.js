@@ -39,6 +39,10 @@ const router = createRouter({
             path: '/them-nhan-vien-moi',
             component: () => import('../admin/views/quan-ly-nhan-vien/them-nhan-vien-moi.vue')
         },
+        {
+            path: '/danh-sach-nhan-vien',
+            component: () => import('../admin/views/quan-ly-nhan-vien/danh-sach-nhan-vien.vue')
+        },
         
        
 
