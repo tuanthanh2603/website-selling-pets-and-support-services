@@ -30,9 +30,18 @@ const router = createRouter({
             path: '/pho-bien-nhat',
             component: () => import('../client/views/pho-bien-nhat/pho-bien-nhat.vue')
         },
+        // Admin
         {
             path: '/dashboard',
             component: () => import('../admin/views/dashboard/dashboard.vue')
+        },
+        {
+            path: '/dashboard',
+            component: () => import('../admin/views/dashboard/dashboard.vue')
+        },
+        {
+            path: '/them-nhan-vien-moi',
+            component: () => import('../admin/views/quan-ly-nhan-vien/them-nhan-vien-moi.vue')
         },
         
        
