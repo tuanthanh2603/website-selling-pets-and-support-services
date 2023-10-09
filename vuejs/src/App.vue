@@ -4,7 +4,7 @@
     <a-layout-header style="padding-inline: 0px;" >
       <TheHeader/>
     </a-layout-header>
-    <a-layout-content style="padding: 0 50px">
+    <a-layout-content style="padding: 0 0px">
       <!-- Hiển thị các trang con -->
         <router-view></router-view>
       <!--  -->

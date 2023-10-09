@@ -30,6 +30,10 @@ const router = createRouter({
             path: '/pho-bien-nhat',
             component: () => import('../client/views/pho-bien-nhat/pho-bien-nhat.vue')
         },
+        {
+            path: '/dashboard',
+            component: () => import('../admin/views/dashboard/dashboard.vue')
+        },
         
        
 

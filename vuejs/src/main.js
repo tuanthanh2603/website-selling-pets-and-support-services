@@ -25,7 +25,7 @@ const app = createApp(App);
 
 app.use(router)
 app.use(Antd)
-app.mount('#client-app');
+app.mount('#app');
 
 
 
