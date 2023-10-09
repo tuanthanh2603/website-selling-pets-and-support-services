@@ -17,7 +17,7 @@
   
 </template>
 <script>
-import TheHeader from './components/clients/TheHeader.vue';
+import TheHeader from './client/components/TheHeader.vue';
 
 
 export default {
