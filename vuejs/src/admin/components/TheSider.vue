@@ -3,8 +3,10 @@
 
         <a-menu theme="" mode="inline">
             <a-menu-item key="1">
-                <pie-chart-outlined />
-                <span>Dashboard</span>
+                <router-link to="/dashboard">
+                    <pie-chart-outlined />
+                    <span>Dashboard</span>
+                </router-link>
             </a-menu-item>
 
            
@@ -17,11 +19,21 @@
                         <span>Quản lý nhân viên</span>
                     </span>
                 </template>
-                <router-link to="them-nhan-vien-moi">
-                    <a-menu-item key="3">Thêm nhân viên mới</a-menu-item>
-                </router-link>
                 
-                <a-menu-item key="4">Danh sách nhân viên</a-menu-item>
+                    <a-menu-item key="3">
+                        <router-link to="them-nhan-vien-moi">
+                            <span>Thêm nhân viên mới</span>
+                        </router-link>
+                    </a-menu-item>
+
+                    <a-menu-item key="4">
+                        <router-link to="danh-sach-nhan-vien">
+                            <span>Danh sách nhân viên</span>
+                        </router-link>
+                    </a-menu-item>
+                
+                
+                
                 
             </a-sub-menu>
             
