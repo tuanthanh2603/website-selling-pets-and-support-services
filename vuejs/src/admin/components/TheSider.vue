@@ -36,6 +36,36 @@
                 
                 
             </a-sub-menu>
+            <a-sub-menu key="sub2">
+                <template #title>
+                    <span>
+                        <user-outlined />
+                        
+                        <span>Quản lý thú cưng</span>
+                    </span>
+                </template>
+                <a-menu-item key="7">
+                        <router-link to="danh-muc-thu-cung">
+                            <span>Danh mục thú cưng</span>
+                        </router-link>
+                    </a-menu-item>
+                
+                    <a-menu-item key="5">
+                        <router-link to="them-thu-cung-moi">
+                            <span>Thêm thú cưng mới</span>
+                        </router-link>
+                    </a-menu-item>
+
+                    <a-menu-item key="6">
+                        <router-link to="danh-sach-thu-cung">
+                            <span>Danh sách thú cưng</span>
+                        </router-link>
+                    </a-menu-item>
+                
+                
+                
+                
+            </a-sub-menu>
             
             <a-menu-item key="9">
                 <file-outlined />

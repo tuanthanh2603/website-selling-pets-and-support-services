@@ -43,6 +43,14 @@ const router = createRouter({
             path: '/danh-sach-nhan-vien',
             component: () => import('../admin/views/quan-ly-nhan-vien/danh-sach-nhan-vien.vue')
         },
+        {
+            path: '/danh-muc-thu-cung',
+            component: () => import('../admin/views/quan-ly-thu-cung/danh-muc-thu-cung.vue')
+        },
+        {
+            path: '/them-thu-cung-moi',
+            component: () => import('../admin/views/quan-ly-thu-cung/them-thu-cung-moi.vue')
+        },
         
        
 

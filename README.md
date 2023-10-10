@@ -34,6 +34,7 @@ npm install express multer cloudinary cors datauri dotenv
 
 npm install --save-dev nodemon
 
+npm run server
 
 
 -------------
