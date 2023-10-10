@@ -33,7 +33,11 @@ npm install axios
 
 ------------
 # Backend
-npm install express
+cd backend
+
+npm install express multer cloudinary cors datauri dotenv
+
+npm install --save-dev nodemon
 
 
 
