@@ -28,13 +28,16 @@ npm install axios
 
 ------------
 # Backend
-cd backend
+1. new Terminal
+2. cd backend
 
 npm install express multer cloudinary cors datauri dotenv
 
 npm install --save-dev nodemon
 
-npm run server
+npm install mongoose
+
+3. npm run server
 
 
 -------------
