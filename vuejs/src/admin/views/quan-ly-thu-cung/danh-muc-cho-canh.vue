@@ -97,7 +97,7 @@ export default defineComponent({
                 };
                 console.log('Dữ liệu để gửi đi:', newCategoryData);
 
-                const serverUrl = 'http://localhost:3000/addCategory';
+                const serverUrl = 'http://localhost:3000/addCategoryDog';
 
                 axios.post(serverUrl, newCategoryData)
                 // Vị trí này đang lỗi server nhận được dữ liệu nhưng client không hiện thông báo thành công 
