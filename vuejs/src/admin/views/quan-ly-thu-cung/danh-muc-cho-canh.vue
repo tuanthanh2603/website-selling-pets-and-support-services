@@ -17,8 +17,8 @@
 
                                 <a-form-item :name="['user', 'status']" label="Trạng thái">
                                     <a-select v-model:value="valueStatus">
-                                        <a-select-option value="true">Hiện</a-select-option>
-                                        <a-select-option value="false">Ẩn</a-select-option>
+                                        <a-select-option value="1">Hiện</a-select-option>
+                                        <a-select-option value="2">Ẩn</a-select-option>
                                     </a-select>
                                 </a-form-item>
                                 <a-form-item :name="['user', 'images']" label="Hình ảnh">

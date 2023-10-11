@@ -9,45 +9,57 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors());
 
-//////////
-const { MongoClient, ServerApiVersion  } = require('mongodb');
-const uri = "mongodb+srv://tuanthanh:CVbn12345@ooad.14cdlg8.mongodb.net/?retryWrites=true&w=majority"
-//////////
-const client = new MongoClient(uri, {
-    serverApi: {
-      version: ServerApiVersion.v1,
-      strict: true,
-      deprecationErrors: true,
-    }
-});
-async function run() {
-    try {
-      // Connect the client to the server	(optional starting in v4.7)
-      await client.connect();
-      // Send a ping to confirm a successful connection
-      await client.db("admin").command({ ping: 1 });
-      console.log("Pinged your deployment. You successfully connected to MongoDB!");
-    } finally {
-      // Ensures that the client will close when you finish/error
-      await client.close();
-    }
+// const { MongoClient, ServerApiVersion  } = require('mongodb');
+const { MongoClient } = require('mongodb');
+const uri = "mongodb+srv://tuanthanh:CVbn12345@ooad.14cdlg8.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(uri); // Xóa tùy chọn useNewUrlParser
+
+
+async function connectToDatabase() {
+  try {
+    await client.connect();
+    console.log('Connected to MongoDB');
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error);
   }
-run().catch(console.dir);
+}
+connectToDatabase();
+
+// const client = new MongoClient(uri, {
+//     serverApi: {
+//       version: ServerApiVersion.v1,
+//       strict: true,
+//       deprecationErrors: true,
+//     }
+// });
+// async function run() {
+//     try {
+//       // Connect the client to the server	(optional starting in v4.7)
+//       await client.connect();
+//       // Send a ping to confirm a successful connection
+//       await client.db("admin").command({ ping: 1 });
+//       console.log("Pinged your deployment. You successfully connected to MongoDB!");
+//     } finally {
+//       // Ensures that the client will close when you finish/error
+//       await client.close();
+//     }
+//   }
+// run().catch(console.dir); 
 
 // async function insertData() {
 //     try {
 //       // Tạo một đối tượng để chèn vào cơ sở dữ liệu
-//       const dataToInsert = {
+//       const dataToInsert2 = {
 //         name: "Example Category",
-//         status: true,
-//         images: "image1.jpg",
+//         status: 2,
+//         images: "image2.jpg",
 //       };
   
 //       // Lựa chọn bảng (collection) bạn muốn chèn dữ liệu vào
 //       const collection = client.db("project-ooad").collection("CategoryDog");
   
 //       // Thực hiện việc chèn dữ liệu bằng insertOne()
-//       const result = await collection.insertOne(dataToInsert);
+//       const result = await collection.insertOne(dataToInsert2);
   
 //       console.log(`Inserted ${result.insertedCount} document into the database`);
 //     } catch (error) {
@@ -60,25 +72,27 @@ run().catch(console.dir);
 app.post('/addCategoryDog', async (req, res) => {
     try {
       const requestData = req.body;
+      
+      console.log(requestData);
   
       // Tạo một đối tượng để chèn vào cơ sở dữ liệu
-      const dataToInsert = {
-        name: 'g',
-        status: true,
-        images: '2.jpg'
+      const dataToInsert2 = {
+        name: req.body.name,
+        status: req.body.status,
+        images: req.body.images
       };
   
       // Lựa chọn bảng (collection) bạn muốn chèn dữ liệu vào
       const collection = client.db("project-ooad").collection("CategoryDog");
   
       // Thực hiện việc chèn dữ liệu bằng insertOne()
-      const result = await collection.insertOne(dataToInsert);
+      const result = await collection.insertOne(dataToInsert2);
   
       console.log(`Inserted ${result.insertedCount} document into the database`);
       res.status(200).send({ "msg": "Inserted to DB" });
     } catch (error) {
       console.error("Error inserting data:", error);
-      res.status(500).send({ "msg": "Error inserting to DB" });
+      res.status(500).send({ "msg": "Error inserting to DB" })
     }
   });
 
