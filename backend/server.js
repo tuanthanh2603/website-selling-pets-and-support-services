@@ -12,7 +12,7 @@ app.use(cors());
 // const { MongoClient, ServerApiVersion  } = require('mongodb');
 const { MongoClient } = require('mongodb');
 const uri = "mongodb+srv://tuanthanh:CVbn12345@ooad.14cdlg8.mongodb.net/?retryWrites=true&w=majority";
-const client = new MongoClient(uri); // Xóa tùy chọn useNewUrlParser
+const client = new MongoClient(uri); 
 
 
 async function connectToDatabase() {
@@ -69,32 +69,7 @@ connectToDatabase();
 // insertData().catch(console.dir);
   
 
-app.post('/addCategoryDog', async (req, res) => {
-    try {
-      const requestData = req.body;
-      
-      console.log(requestData);
-  
-      // Tạo một đối tượng để chèn vào cơ sở dữ liệu
-      const dataToInsert2 = {
-        name: req.body.name,
-        status: req.body.status,
-        images: req.body.images
-      };
-  
-      // Lựa chọn bảng (collection) bạn muốn chèn dữ liệu vào
-      const collection = client.db("project-ooad").collection("CategoryDog");
-  
-      // Thực hiện việc chèn dữ liệu bằng insertOne()
-      const result = await collection.insertOne(dataToInsert2);
-  
-      console.log(`Inserted ${result.insertedCount} document into the database`);
-      res.status(200).send({ "msg": "Inserted to DB" });
-    } catch (error) {
-      console.error("Error inserting data:", error);
-      res.status(500).send({ "msg": "Error inserting to DB" })
-    }
-  });
+
 
 
 
