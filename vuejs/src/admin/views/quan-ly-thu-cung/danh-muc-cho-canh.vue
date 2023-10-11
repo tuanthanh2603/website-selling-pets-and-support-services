@@ -17,11 +17,11 @@
 
                                 <a-form-item :name="['user', 'status']" label="Trạng thái">
                                     <a-select v-model:value="valueStatus">
-                                        <a-select-option value="1">Hiện</a-select-option>
-                                        <a-select-option value="0">Ẩn</a-select-option>
+                                        <a-select-option value="true">Hiện</a-select-option>
+                                        <a-select-option value="false">Ẩn</a-select-option>
                                     </a-select>
                                 </a-form-item>
-                                <a-form-item :name="['user', 'image']" label="Hình ảnh">
+                                <a-form-item :name="['user', 'images']" label="Hình ảnh">
                                     <a-upload v-model:file-list="fileList" list-type="picture" :max-count="1">
                                         <a-button>
                                             <upload-outlined />
@@ -77,7 +77,7 @@ export default defineComponent({
             user: {
                 name: '',
                 status: '',
-                image: '',
+                images: '',
             },
         });
 
@@ -93,7 +93,7 @@ export default defineComponent({
                 const newCategoryData = {
                     name: formState.value.user.name,
                     status: valueStatus.value,
-                    image: uploadedImage.name, // Lấy tên của ảnh đã tải lên từ fileList
+                    images: uploadedImage.name, // Lấy tên của ảnh đã tải lên từ fileList
                 };
                 console.log('Dữ liệu để gửi đi:', newCategoryData);
 
@@ -108,7 +108,7 @@ export default defineComponent({
                         formState.value.user = {
                             name: '',
                             status: '',
-                            image: '',
+                            images: '',
                         };
                         fileList.value = []; 
                         
