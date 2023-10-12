@@ -14,7 +14,6 @@
                                 <a-form-item :name="['user', 'name']" label="Tên danh mục" :rules="[{ required: true }]">
                                     <a-input v-model:value="formState.user.name" />
                                 </a-form-item>
-
                                 <a-form-item :name="['user', 'status']" label="Trạng thái">
                                     <a-select v-model:value="valueStatus">
                                         <a-select-option value="1">Hiện</a-select-option>
@@ -29,17 +28,44 @@
                                         </a-button>
                                     </a-upload>
                                 </a-form-item>
-
-
-
                                 <a-form-item :wrapper-col="{ ...layout.wrapperCol, offset: 10 }">
                                     <a-button type="primary" html-type="submit">Thêm danh mục</a-button>
                                 </a-form-item>
-
                             </a-form>
                         </div>
                         <div class="col-md-6">
-                            
+                            <a-table :columns="columns" :data-source="data">
+                                <template #headerCell="{ column }">
+                                    <template v-if="column.key === 'name'">
+                                        <span>
+                                            Danh mục chó cảnh
+                                        </span>
+                                    </template>
+                                </template>
+                                <template #bodyCell="{ column, record }">
+                                    <template v-if="column.key === 'name'">
+                                        <a>
+                                            {{ record.name }}
+                                        </a>
+                                    </template>
+                                    <template v-else-if="column.key === 'status'">
+                                        <span>
+                                            {{ record.status === 1 ? 'Hiện' : record.status === 2 ? 'Ẩn' : '' }}
+                                        </span>
+                                    </template>
+                                    <template v-else-if="column.key === 'setting'">
+                                        <span>
+                                            <a-button><delete-two-tone /></a-button>
+                                            <a-divider type="vertical" />
+                                            <a-button><edit-two-tone /></a-button>
+                                            
+                                        </span>
+                                    </template>
+                                    <template v-else-if="column.key === 'images'">
+                                        <img :src="record.images" alt="Hình ảnh" width="50" height="50" />
+                                    </template>
+                                </template>
+                            </a-table>
                         </div>
                     </div>
                 </div>
@@ -49,17 +75,67 @@
 </template>
 <script>
 import TheSider from '../../components/TheSider.vue';
-import { UploadOutlined } from '@ant-design/icons-vue';
-import { defineComponent, ref } from 'vue';
+import { UploadOutlined, DeleteTwoTone, EditTwoTone } from '@ant-design/icons-vue';
+import { defineComponent, ref, onMounted } from 'vue';
 import axios from 'axios';
 
+const columns = [{
+    name: 'Danh mục chó cảnh',
+    dataIndex: 'name',
+    key: 'name',
+}, {
+    key: 'images',
+    dataIndex: 'images',
+    title: 'Hình ảnh',
+}, {
+    title: 'Trạng thái',
+    key: 'status',
+    dataIndex: 'status',
+}, {
+    title: 'Tùy chọn',
+    key: 'setting',
+}];
+
+// const data = [{
+//     key: '1',
+//     name: '2',
+//     image: "3",
+//     status: ['1'],
+
+// }];
 
 export default defineComponent({
     components: {
         TheSider,
-        UploadOutlined
+        UploadOutlined,
+        DeleteTwoTone,
+        EditTwoTone
+        
     },
     setup() {
+        const categoryDogs = ref([]);
+        const data = ref([]);
+        onMounted(() => {
+           
+            const serverUrl = 'http://localhost:3000/admin/danh-muc-cho-canh/';
+            axios.get(serverUrl)
+                .then((response) => {
+                    categoryDogs.value = response.data;
+                    data.value = response.data.map((item, index) => ({
+                        key: index + 1,
+                        name: item.name,
+                        images: item.images,
+                        status: item.status,
+                    }))
+                    console.log(response.data)
+                    
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        });
+
+
         const layout = {
             labelCol: {
                 span: 10,
@@ -96,11 +172,9 @@ export default defineComponent({
                     images: uploadedImage.name, // Lấy tên của ảnh đã tải lên từ fileList
                 };
                 console.log('Dữ liệu để gửi đi:', newCategoryData);
-
-                const serverUrl = 'http://localhost:3000/admin/addCategoryDog';
-
+                const serverUrl = 'http://localhost:3000/admin/danh-muc-cho-canh/addCategoryDog';
                 axios.post(serverUrl, newCategoryData)
-                // Vị trí này đang lỗi server nhận được dữ liệu nhưng client không hiện thông báo thành công 
+                    // Vị trí này đang lỗi server nhận được dữ liệu nhưng client không hiện thông báo thành công 
                     .then((response) => {
                         console.log('Phản hồi từ server:', response.data);
                         console.log('Thêm danh mục thành công!');
@@ -110,10 +184,9 @@ export default defineComponent({
                             status: '',
                             images: '',
                         };
-                        fileList.value = []; 
-                        
+                        fileList.value = [];
+
                     })
-                    
                     .catch((error) => {
                         console.log('Thêm danh mục thất bại!', error);
                     });
@@ -121,8 +194,8 @@ export default defineComponent({
                 console.log('Vui lòng chọn một ảnh.');
             }
             // window.location.reload();
-            
         };
+
 
         return {
             formState,
@@ -130,8 +203,18 @@ export default defineComponent({
             layout,
             validateMessages,
             valueStatus,
-            fileList
+            fileList,
+
+            data,
+            columns,
+            
+
+            categoryDogs 
+
+
         };
+
     },
 });
 </script>
+

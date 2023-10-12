@@ -29,12 +29,7 @@
 import { CategoryDog } from "../../models/admin/categoryDogModel.js";
 
 
-export const getAdmin = (req, res) => {
-  res.send("user");
-};
-export const getAdmin2 = (req, res) => {
-  res.send("user2");
-};
+
 export const createCategoryDogController = async (req, res) => {
   const requestData = req.body;
   const { name, status, images } = requestData; 
@@ -51,6 +46,15 @@ export const createCategoryDogController = async (req, res) => {
   } catch (error) { 
     console.error("Error inserting data:", error);
     res.status(500).json({ msg: "Error inserting to DB" }); 
+  }
+}
+export const getCategoryDog = async (req, res) => {
+  try{
+    const categoryDogs = await CategoryDog.find();
+    res.status(200).json(categoryDogs);
+  } catch {
+    console.error("Error retrieving data:", error);
+    res.status(500).json({ msg: "Error retrieving data from DB" });
   }
 }
 
