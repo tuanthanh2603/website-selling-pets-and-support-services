@@ -1,4 +1,3 @@
-import { Double } from "mongodb";
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
@@ -17,4 +16,4 @@ const categoryDogSchema = new Schema({
     }
 });
 
-export const CategoryDog = mongoose.model("CategoryDog", categoryDogSchema);
+export const CategoryDog = mongoose.model("CategoryDog", categoryDogSchema, "CategoryDog");

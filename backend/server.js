@@ -19,7 +19,7 @@ app.use(express.json());
 const PORT = 3000;
 
 // console.log('dotenv', process.env.URI_MONGODB)
-mongoose.connect(process.env.URI_MONGODB)
+mongoose.connect(process.env.URI_MONGODB, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {
   console.log('Connected to MongoDB success');
 })
