@@ -36,7 +36,13 @@ npm install express multer cloudinary cors datauri dotenv
 npm install --save-dev nodemon
 
 npm install mongoose
-npm install mongodb
+
+npm install multer --save
+
+npm i dotenv
+
+npm i googleapis
+
 
 3. npm start
 4. npm run server

@@ -164,12 +164,13 @@ export default defineComponent({
             // Lấy giá trị fileList từ form
             const uploadedImage = fileList.value[0];
 
-            // Kiểm tra xem có ảnh nào được chọn không
+            // check images 
+            
             if (uploadedImage) {
                 const newCategoryData = {
                     name: formState.value.user.name,
                     status: valueStatus.value,
-                    images: uploadedImage.name, // Lấy tên của ảnh đã tải lên từ fileList
+                    images: uploadedImage.name,
                 };
                 console.log('Dữ liệu để gửi đi:', newCategoryData);
                 const serverUrl = 'http://localhost:3000/admin/danh-muc-cho-canh/addCategoryDog';

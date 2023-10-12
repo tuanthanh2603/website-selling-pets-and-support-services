@@ -1,5 +1,13 @@
 import express from "express";
 import cors from "cors";
+// import multer from "multer";
+
+
+
+import { google } from "googleapis";
+import fs  from "fs"
+import path from "path";
+
 // import { json as _json, urlencoded } from 'body-parser';
 
 // const mongoose = require('mongoose');
@@ -16,9 +24,10 @@ dotenv.config()
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static('public'));
 const PORT = 3000;
 
-// console.log('dotenv', process.env.URI_MONGODB)
+// console.log('dotenv', process.env.REFRESH_TOKEN)
 mongoose.connect(process.env.URI_MONGODB, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {
   console.log('Connected to MongoDB success');
@@ -41,6 +50,38 @@ routes(app);
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 })
+
+
+
+// const CLIENT_ID = process.env.CLIENT_ID;
+// const CLIENT_SECRET = process.env.CLIENT_SECRET;
+// const REDIRECT_URI = process.env.REDIRECT_URI;
+// const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+// const oauth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
+// oauth2Client.setCredentials({refresh_token: REFRESH_TOKEN})
+// const drive = google.drive({
+//   version: 'v3',
+//   auth: oauth2Client
+// })
+
+// async function uploadFile(){
+//   try{
+//     const createFile = await drive.files.create({
+//       requestBody: {
+//         name: "love.jpg",
+//         mimeType: 'image/jpg'
+//       },
+//       media: {
+//         mimeType: 'image/jpg',
+//         body: fs.createReadStream('./Alaska.jpg')
+//       }
+//     })
+//     console.log(createFile.data)
+//   } catch(error){
+//     console.error(error);
+//   }
+// }
+// uploadFile();
 
 // const { MongoClient, ServerApiVersion  } = require('mongodb');
 // import { MongoClient } from 'mongodb';

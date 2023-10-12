@@ -26,23 +26,53 @@
 //         res.status(500).send({ "msg": "Error inserting to DB" })
 //       }
 // }
-import { CategoryDog } from "../../models/admin/categoryDogModel.js";
 
+import { CategoryDog } from "../../models/admin/categoryDogModel.js";
+import { google } from "googleapis";
+import fs  from "fs";
+import axios from "axios";
+
+import * as dotenv from "dotenv";
+dotenv.config()
+
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REDIRECT_URI = process.env.REDIRECT_URI;
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+const oauth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
+oauth2Client.setCredentials({refresh_token: REFRESH_TOKEN})
+const drive = google.drive({
+  version: 'v3',
+  auth: oauth2Client
+})
 
 
 export const createCategoryDogController = async (req, res) => {
   const requestData = req.body;
-  const { name, status, images } = requestData; 
+  const { name, status } = requestData;
+  const { images } = req.body;
+  const response = await axios.get(images, { responseType: 'stream' });
 
   try {
-    const newCategoryDog = await CategoryDog.create({
-      name, 
-      status, 
-      images, 
-    });
+    const createFile = await drive.files.create({
+      requestBody: {
+        name: "love3.jpg",
+        mimeType: 'image/jpg'
+      },
+      media: {
+        mimeType: 'image/jpg',
+        body: response.data,
+      }
+    })
+    console.log(createFile.data)
+    // const newCategoryDog = await CategoryDog.create({
+    //   name, 
+    //   status, 
+    //   images : createFile.data.webViewLink 
+    // });
 
-    console.log(newCategoryDog);
-    res.status(201).json(newCategoryDog); // Trả về kết quả mới tạo
+    // console.log(newCategoryDog);
+    // res.status(201).json(newCategoryDog); 
   } catch (error) { 
     console.error("Error inserting data:", error);
     res.status(500).json({ msg: "Error inserting to DB" }); 
