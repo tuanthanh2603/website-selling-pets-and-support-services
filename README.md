@@ -38,7 +38,8 @@ npm install --save-dev nodemon
 npm install mongoose
 npm install mongodb
 
-3. npm run server
+3. npm start
+4. npm run server
 
 
 -------------

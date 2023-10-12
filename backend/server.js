@@ -1,29 +1,64 @@
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require('body-parser');
-const app = express();
+import express from "express";
+import cors from "cors";
+// import { json as _json, urlencoded } from 'body-parser';
+
 // const mongoose = require('mongoose');
 
-app.use(express.json());
+// app.use(json());
 // app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+
+// app.use(urlencoded({ extended: false }));
+
+import mongoose from "mongoose";
+import * as dotenv from "dotenv";
+dotenv.config()
+
+const app = express();
 app.use(cors());
+app.use(express.json());
+const PORT = 3000;
+
+// console.log('dotenv', process.env.URI_MONGODB)
+mongoose.connect(process.env.URI_MONGODB)
+.then(() => {
+  console.log('Connected to MongoDB success');
+})
+.catch((err) => {
+  console.log('Error connecting to MongoDB:', err)
+})
+
+
+
+
+
+
+import routes from "./routes/index.js";
+routes(app);
+
+
+
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+})
 
 // const { MongoClient, ServerApiVersion  } = require('mongodb');
-const { MongoClient } = require('mongodb');
-const uri = "mongodb+srv://tuanthanh:CVbn12345@ooad.14cdlg8.mongodb.net/?retryWrites=true&w=majority";
-const client = new MongoClient(uri); 
+// import { MongoClient } from 'mongodb';
+
+// const uri = "mongodb+srv://tuanthanh:CVbn12345@ooad.14cdlg8.mongodb.net/?retryWrites=true&w=majority";
+// const client = new MongoClient(uri); 
 
 
-async function connectToDatabase() {
-  try {
-    await client.connect();
-    console.log('Connected to MongoDB');
-  } catch (error) {
-    console.error('Error connecting to MongoDB:', error);
-  }
-}
-connectToDatabase();
+// async function connectToDatabase() {
+//   try {
+//     await client.connect();
+//     console.log('Connected to MongoDB');
+//   } catch (error) {
+//     console.error('Error connecting to MongoDB:', error);
+//   }
+// }
+// connectToDatabase();
+
 
 // const client = new MongoClient(uri, {
 //     serverApi: {
@@ -73,10 +108,7 @@ connectToDatabase();
 
 
 
-const port = 3000;
-app.listen(port, () => {
-    console.log("Server running on port: ", port);
-})
+
 
 // MongoDB Atlas
 // const dbUrl = "mongodb+srv://tuanthanh:CVbn12345@ooad.14cdlg8.mongodb.net/"
