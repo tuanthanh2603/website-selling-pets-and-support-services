@@ -46,6 +46,7 @@
                                     </template>
                                 </template>
                                 <template #bodyCell="{ column, record }">
+                                    
                                     <template v-if="column.key === 'name'">
                                         <a>
                                             {{ record.name }}
@@ -58,7 +59,7 @@
                                     </template>
                                     <template v-else-if="column.key === 'setting'">
                                         <span>
-                                            <a-button><delete-two-tone /></a-button>
+                                            <a-button @click="deleteData(record.id)"><delete-two-tone /></a-button>
                                             <a-divider type="vertical" />
                                             <a-button><edit-two-tone /></a-button>
 
@@ -66,6 +67,9 @@
                                     </template>
                                     <template v-else-if="column.key === 'images'">
                                         <img :src="record.images" alt="Hình ảnh" width="50" height="50" />
+                                    </template>
+                                    <template v-else-if="column.key === 'stt'">
+                                        <span>{{ record.key }}</span>
                                     </template>
                                 </template>
                             </a-table>
@@ -81,8 +85,17 @@ import TheSider from '../../components/TheSider.vue';
 import { UploadOutlined, DeleteTwoTone, EditTwoTone } from '@ant-design/icons-vue';
 import { defineComponent, ref, onMounted } from 'vue';
 import axios from 'axios';
+import Noty from "noty"
+import 'noty/lib/themes/mint.css'
+import 'noty/lib/noty.css'
+import 'noty/lib/noty.js'
+
 
 const columns = [{
+    title: 'STT',
+    dataIndex: 'stt',
+    key: 'stt',
+},{
     name: 'Danh mục chó cảnh',
     dataIndex: 'name',
     key: 'name',
@@ -99,13 +112,7 @@ const columns = [{
     key: 'setting',
 }];
 
-// const data = [{
-//     key: '1',
-//     name: '2',
-//     image: "3",
-//     status: ['1'],
 
-// }];
 
 export default defineComponent({
     components: {
@@ -119,7 +126,6 @@ export default defineComponent({
         const categoryDogs = ref([]);
         const data = ref([]);
         onMounted(() => {
-
             const serverUrl = 'http://localhost:3000/admin/danh-muc-cho-canh/';
             axios.get(serverUrl)
                 .then((response) => {
@@ -129,14 +135,115 @@ export default defineComponent({
                         name: item.name,
                         images: item.images,
                         status: item.status,
+                        id:item._id.toString(),
                     }))
                     console.log(response.data)
+                    
+
+                    
+
 
                 })
                 .catch((error) => {
                     console.error('Error:', error);
                 });
         });
+
+        const valueStatus = ref('1'); // Giá trị mặc định
+        const fileList = ref([]);
+        const onFinish2 = () => {
+            const uploadedImage = fileList.value[0];
+            if (uploadedImage) {
+                // const newCategoryData = new FormData();
+                // newCategoryData.append('name', formState.value.user.name);
+                // newCategoryData.append('status', valueStatus.value);
+                // newCategoryData.append('images', uploadedImage)
+                const newCategoryData = {
+                    name: formState.value.user.name,
+                    status: valueStatus.value,
+                    images: uploadedImage,
+                };
+                console.log('Dữ liệu để gửi đi:', newCategoryData);
+                console.log('Tên tệp ảnh:', uploadedImage.name);
+
+                const serverUrl = 'http://localhost:3000/admin/danh-muc-cho-canh/addCategoryDog';
+                axios.post(serverUrl, newCategoryData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
+
+                    .then((response) => {
+                        console.log('Phản hồi từ server:', response.data);
+                        console.log('Thêm danh mục thành công!');
+                        // Đặt lại giá trị trong form và fileList
+                        formState.value.user = {
+                            name: '',
+                            status: '',
+                            images: '',
+                        };
+                        fileList.value = [];
+                        new Noty({
+                            text: 'Thêm danh mục thành công!',
+                            type: 'success',
+                            layout: 'topRight',
+                            theme: 'mint', 
+                            timeout: 3000,
+                            callbacks: {
+                                afterShow: function() {
+                                    // Reload lại trang sau khi Noty hiện xong
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    }, 3000); // Sau 3 giây
+                                }
+                            }
+                        }).show();
+                    })
+                    .catch((error) => {
+                        console.log('Thêm danh mục thất bại!', error);
+                    });
+            } else {
+                console.log('Vui lòng chọn một ảnh.');
+                new Noty({
+                        text: 'Vui lòng chọn một ảnh!',
+                        type: 'error',
+                        layout: 'topRight',
+                        theme: 'mint', 
+                        timeout: 3000,
+                    }).show();
+            }
+            
+        };
+
+        const deleteData = (id) => {
+            console.log(id);
+            const serverUrl = `http://localhost:3000/admin/danh-muc-cho-canh/deleteCategoryDog/${id}`;
+            axios.delete(serverUrl)
+            .then(_response => {
+                console.log('Xóa dữ liệu thành công!')
+                new Noty({
+                            text: 'Xóa danh mục thành công!',
+                            type: 'success',
+                            layout: 'topRight',
+                            theme: 'mint', 
+                            timeout: 3000,
+                            callbacks: {
+                                afterShow: function() {
+                                    // Reload lại trang sau khi Noty hiện xong
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    }, 2000); // Sau 3 giây
+                                }
+                            }
+                }).show();
+                
+            })
+            .catch((error) => {
+                console.error("Lỗi khi xóa dữ liệu:", error)
+            });
+        };
+
+
 
       
 
@@ -162,50 +269,7 @@ export default defineComponent({
             },
         });
 
-        const valueStatus = ref('1'); // Giá trị mặc định
-        const fileList = ref([]);
-
-        const onFinish2 = () => {
-            const uploadedImage = fileList.value[0];
-            if (uploadedImage) {
-                // const newCategoryData = new FormData();
-                // newCategoryData.append('name', formState.value.user.name);
-                // newCategoryData.append('status', valueStatus.value);
-                // newCategoryData.append('images', uploadedImage)
-                const newCategoryData = {
-                    name: formState.value.user.name,
-                    status: valueStatus.value,
-                    images: uploadedImage,
-                };
-                console.log('Dữ liệu để gửi đi:', newCategoryData);
-                console.log('Tên tệp ảnh:', uploadedImage.name);
-
-                const serverUrl = 'http://localhost:3000/admin/danh-muc-cho-canh/addCategoryDog';
-                axios.post(serverUrl, newCategoryData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                })
-                    // Vị trí này đang lỗi server nhận được dữ liệu nhưng client không hiện thông báo thành công 
-                    .then((response) => {
-                        console.log('Phản hồi từ server:', response.data);
-                        console.log('Thêm danh mục thành công!');
-                        // Đặt lại giá trị trong form và fileList
-                        formState.value.user = {
-                            name: '',
-                            status: '',
-                            images: '',
-                        };
-                        fileList.value = [];
-                    })
-                    .catch((error) => {
-                        console.log('Thêm danh mục thất bại!', error);
-                    });
-            } else {
-                console.log('Vui lòng chọn một ảnh.');
-            }
-            // window.location.reload();
-        };
+        
 
 
 
@@ -222,6 +286,7 @@ export default defineComponent({
 
 
             categoryDogs,
+            deleteData
            
 
 

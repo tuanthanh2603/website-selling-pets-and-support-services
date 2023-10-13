@@ -13,6 +13,10 @@ const categoryDogSchema = new Schema({
     images: {
         type: String,
         required: true,
+    },
+    fileId: {
+        type: String,
+        required: true,
     }
 });
 

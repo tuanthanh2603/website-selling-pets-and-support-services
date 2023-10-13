@@ -90,14 +90,13 @@ export const createCategoryDogController = async (req, res) => {
     drive.files.get(
       {
         fileId: fileId,
-        fields: "webViewLink", 
+        fields: "webViewLink",
       },
       (err, response) => {
         if (err) {
           console.error("Lỗi khi tải thông tin tệp ảnh:", err);
         } else {
           const webViewLink = response.data.webViewLink;
-         
         }
       }
     );
@@ -107,22 +106,27 @@ export const createCategoryDogController = async (req, res) => {
       name: name,
       status: status,
       images: linkImages,
+      fileId: fileId,
     });
     console.log(newCategoryDog);
     res.status(201).json(newCategoryDog);
 
-    if(linkImages){
-      const imagePathToDelete = path.join(process.cwd(), 'public/uploads', uploadedFiles);
-      console.log(imagePathToDelete)
+    if (linkImages) {
+      const imagePathToDelete = path.join(
+        process.cwd(),
+        "public/uploads",
+        uploadedFiles
+      );
+      
       fs.unlink(imagePathToDelete, (err) => {
-        if(err){
-          console.log('Lỗi khi xóa tệp ảnh: ', err)
+        if (err) {
+          console.log("Lỗi khi xóa tệp ảnh: ", err);
         } else {
-          console.log('Tệp ảnh đã xóa khỏi thư mục public.')
+          console.log("Tệp ảnh đã xóa khỏi thư mục public.");
         }
-      })
-    } else{
-      console.log('linkImages chưa được tạo.')
+      });
+    } else {
+      console.log("linkImages chưa được tạo.");
     }
   } catch (error) {
     console.error("Error inserting data:", error);
@@ -137,5 +141,28 @@ export const getCategoryDog = async (req, res) => {
   } catch {
     console.error("Error retrieving data:", error);
     res.status(500).json({ msg: "Error retrieving data from DB" });
+  }
+};
+
+export const deleteCategoryDog = async (req, res) => {
+  const itemId = req.params.id;
+  console.log("id: " + itemId);
+  try {
+    const result = await CategoryDog.findById(itemId);
+    console.log(result);
+    if (!result) {
+      console.log('Không tìm thấy bản ghi để xóa.');
+      return res.status(404).json({ message: 'Không tìm thấy bản ghi để xóa.' });
+    }
+    const fileId = result.fileId;
+    await drive.files.delete({ fileId });
+    await CategoryDog.findByIdAndRemove(itemId);
+
+    console.log('Xóa thành công');
+    return res.status(200).json({ message: 'Đã xóa thành công.' });
+    
+  } catch {
+    console.error("Lỗi khi xóa dữ liệu:", error);
+    res.status(500).json({ message: "Lỗi khi xóa dữ liệu." });
   }
 };
