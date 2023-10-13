@@ -45,12 +45,13 @@ const router = createRouter({
         },
         {
             path: '/danh-muc-cho-canh',
-            component: () => import('../admin/views/quan-ly-thu-cung/danh-muc-cho-canh.vue')
+            component: () => import('../admin/views/quan-ly-thu-cung/cho-canh/danh-muc-cho-canh.vue')
         },
         {
-            path: '/them-thu-cung-moi',
-            component: () => import('../admin/views/quan-ly-thu-cung/them-thu-cung-moi.vue')
+            path: '/danh-muc-meo-canh',
+            component: () => import('../admin/views/quan-ly-thu-cung/meo-canh/danh-muc-meo-canh.vue')
         },
+        
         
        
 

@@ -1,4 +1,4 @@
-// const addCategoryDog = async (req, res) => {
+// const addCategoryCat = async (req, res) => {
 //     try {
 //         const requestData = req.body;
 
@@ -12,7 +12,7 @@
 //         };
 
 //         // Lựa chọn bảng (collection)
-//         const collection = client.db("project-ooad").collection("CategoryDog");
+//         const collection = client.db("project-ooad").collection("CategoryCat");
 
 //         // Chèn dữ liệu bằng insertOne()
 //         const result = await collection.insertOne(dataToInsert2);
@@ -25,7 +25,7 @@
 //       }
 // }
 
-import { CategoryDog } from "../../models/admin/categoryDogModel.js";
+import { CategoryCat } from "../../models/admin/categoryCatModel.js";
 import { google } from "googleapis";
 import fs from "fs";
 import path from "path";
@@ -49,11 +49,11 @@ const drive = google.drive({
   auth: oauth2Client,
 });
 
-export const createCategoryDogController = async (req, res) => {
+export const createCategoryCatController = async (req, res) => {
   console.log(req.files[0].filename);
   const { name, status } = req.body;
-  const existingCategoryDog = await CategoryDog.findOne({ name });
-  if(existingCategoryDog) {
+  const existingCategoryCat = await CategoryCat.findOne({ name });
+  if(existingCategoryCat) {
     console.log('Tên danh mục đã tồn tại')
     return res.status(400).json({ message: 'Tên danh mục đã tồn tại' });
     
@@ -110,14 +110,14 @@ export const createCategoryDogController = async (req, res) => {
     const linkImages = `https://drive.google.com/uc?id=${fileId}`;
     console.log(linkImages);
 
-    const newCategoryDog = await CategoryDog.create({
+    const newCategoryCat = await CategoryCat.create({
       name: name,
       status: status,
       images: linkImages,
       fileId: fileId,
     });
-    console.log(newCategoryDog);
-    res.status(201).json(newCategoryDog);
+    console.log(newCategoryCat);
+    res.status(201).json(newCategoryCat);
 
     if (linkImages) {
       const imagePathToDelete = path.join(
@@ -142,21 +142,21 @@ export const createCategoryDogController = async (req, res) => {
   }
 };
 
-export const getCategoryDog = async (req, res) => {
+export const getCategoryCat = async (req, res) => {
   try {
-    const categoryDogs = await CategoryDog.find();
-    res.status(200).json(categoryDogs);
+    const categoryCats = await CategoryCat.find();
+    res.status(200).json(categoryCats);
   } catch {
     console.error("Error retrieving data:", error);
     res.status(500).json({ msg: "Error retrieving data from DB" });
   }
 };
 
-export const deleteCategoryDog = async (req, res) => {
+export const deleteCategoryCat = async (req, res) => {
   const itemId = req.params.id;
   console.log("id: " + itemId);
   try {
-    const result = await CategoryDog.findById(itemId);
+    const result = await CategoryCat.findById(itemId);
     console.log(result);
     if (!result) {
       console.log('Không tìm thấy bản ghi để xóa.');
@@ -164,7 +164,7 @@ export const deleteCategoryDog = async (req, res) => {
     }
     const fileId = result.fileId;
     await drive.files.delete({ fileId });
-    await CategoryDog.findByIdAndRemove(itemId);
+    await CategoryCat.findByIdAndRemove(itemId);
 
     console.log('Xóa thành công');
     return res.status(200).json({ message: 'Đã xóa thành công.' });

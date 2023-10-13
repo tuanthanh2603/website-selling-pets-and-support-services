@@ -60,7 +60,7 @@
                                     <template v-else-if="column.key === 'setting'">
                                         <span>
                                             <a-button @click="deleteData(record.id)"><delete-two-tone /></a-button>
-                                            <a-divider type="vertical" />
+                                            &nbsp;
                                             <a-button><edit-two-tone /></a-button>
 
                                         </span>
@@ -81,7 +81,7 @@
     </div>
 </template>
 <script>
-import TheSider from '../../components/TheSider.vue';
+import TheSider from '../../../components/TheSider.vue';
 import { UploadOutlined, DeleteTwoTone, EditTwoTone } from '@ant-design/icons-vue';
 import { defineComponent, ref, onMounted } from 'vue';
 import axios from 'axios';
@@ -138,11 +138,6 @@ export default defineComponent({
                         id:item._id.toString(),
                     }))
                     console.log(response.data)
-                    
-
-                    
-
-
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -200,7 +195,22 @@ export default defineComponent({
                         }).show();
                     })
                     .catch((error) => {
-                        console.log('Thêm danh mục thất bại!', error);
+                        if (error.response) {
+                        
+                            new Noty({
+                            text: error.response.data.message,
+                            type: 'error',
+                            layout: 'topRight',
+                            theme: 'mint', 
+                            timeout: 3000,
+                        }).show();
+                        } else if (error.request) {
+                       
+                        console.error('Không kết nối được đến máy chủ');
+                        } else {
+                        
+                        console.error('Lỗi thiết lập yêu cầu:', error.message);
+                        }
                     });
             } else {
                 console.log('Vui lòng chọn một ảnh.');

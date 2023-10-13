@@ -49,6 +49,11 @@
                             <span>Danh mục chó cảnh</span>
                         </router-link>
                 </a-menu-item>
+                <a-menu-item key="8">
+                        <router-link to="danh-muc-meo-canh">
+                            <span>Danh mục mèo cảnh</span>
+                        </router-link>
+                </a-menu-item>
                 
                    
 
