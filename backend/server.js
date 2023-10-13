@@ -1,12 +1,11 @@
 import express from "express";
 import cors from "cors";
-// import multer from "multer";
+import bodyParser from "body-parser";
 
 
 
-import { google } from "googleapis";
-import fs  from "fs"
-import path from "path";
+
+
 
 // import { json as _json, urlencoded } from 'body-parser';
 
@@ -25,6 +24,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
+app.use(bodyParser.urlencoded({ extended: true }));
+
 const PORT = 3000;
 
 // console.log('dotenv', process.env.REFRESH_TOKEN)
@@ -43,6 +44,9 @@ mongoose.connect(process.env.URI_MONGODB, { useNewUrlParser: true, useUnifiedTop
 
 import routes from "./routes/index.js";
 routes(app);
+
+
+
 
 
 

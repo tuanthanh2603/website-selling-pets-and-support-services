@@ -33,6 +33,9 @@
                                 </a-form-item>
                             </a-form>
                         </div>
+                        
+
+              
                         <div class="col-md-6">
                             <a-table :columns="columns" :data-source="data">
                                 <template #headerCell="{ column }">
@@ -58,7 +61,7 @@
                                             <a-button><delete-two-tone /></a-button>
                                             <a-divider type="vertical" />
                                             <a-button><edit-two-tone /></a-button>
-                                            
+
                                         </span>
                                     </template>
                                     <template v-else-if="column.key === 'images'">
@@ -110,13 +113,13 @@ export default defineComponent({
         UploadOutlined,
         DeleteTwoTone,
         EditTwoTone
-        
+
     },
     setup() {
         const categoryDogs = ref([]);
         const data = ref([]);
         onMounted(() => {
-           
+
             const serverUrl = 'http://localhost:3000/admin/danh-muc-cho-canh/';
             axios.get(serverUrl)
                 .then((response) => {
@@ -128,12 +131,14 @@ export default defineComponent({
                         status: item.status,
                     }))
                     console.log(response.data)
-                    
+
                 })
                 .catch((error) => {
                     console.error('Error:', error);
                 });
         });
+
+      
 
 
         const layout = {
@@ -161,20 +166,26 @@ export default defineComponent({
         const fileList = ref([]);
 
         const onFinish2 = () => {
-            // Lấy giá trị fileList từ form
             const uploadedImage = fileList.value[0];
-
-            // check images 
-            
             if (uploadedImage) {
+                // const newCategoryData = new FormData();
+                // newCategoryData.append('name', formState.value.user.name);
+                // newCategoryData.append('status', valueStatus.value);
+                // newCategoryData.append('images', uploadedImage)
                 const newCategoryData = {
                     name: formState.value.user.name,
                     status: valueStatus.value,
-                    images: uploadedImage.name,
+                    images: uploadedImage,
                 };
                 console.log('Dữ liệu để gửi đi:', newCategoryData);
+                console.log('Tên tệp ảnh:', uploadedImage.name);
+
                 const serverUrl = 'http://localhost:3000/admin/danh-muc-cho-canh/addCategoryDog';
-                axios.post(serverUrl, newCategoryData)
+                axios.post(serverUrl, newCategoryData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
                     // Vị trí này đang lỗi server nhận được dữ liệu nhưng client không hiện thông báo thành công 
                     .then((response) => {
                         console.log('Phản hồi từ server:', response.data);
@@ -186,7 +197,6 @@ export default defineComponent({
                             images: '',
                         };
                         fileList.value = [];
-
                     })
                     .catch((error) => {
                         console.log('Thêm danh mục thất bại!', error);
@@ -196,6 +206,7 @@ export default defineComponent({
             }
             // window.location.reload();
         };
+
 
 
         return {
@@ -208,9 +219,10 @@ export default defineComponent({
 
             data,
             columns,
-            
 
-            categoryDogs 
+
+            categoryDogs,
+           
 
 
         };
