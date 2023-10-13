@@ -61,7 +61,7 @@
                                         <span>
                                             <a-button @click="deleteData(record.id)"><delete-two-tone /></a-button>
                                             &nbsp;
-                                            <a-button><edit-two-tone /></a-button>
+                                            <a-button @click="updateItem(record.id)"><edit-two-tone /></a-button>
 
                                         </span>
                                     </template>
@@ -253,6 +253,11 @@ export default defineComponent({
             });
         };
 
+        const updateItem = (id) => {
+            console.log(id)
+            console.log('Đã nhấn vào nút chỉnh sửa');
+        }
+
 
 
       
@@ -296,7 +301,8 @@ export default defineComponent({
 
 
             categoryCats,
-            deleteData
+            deleteData,
+            updateItem
            
 
 

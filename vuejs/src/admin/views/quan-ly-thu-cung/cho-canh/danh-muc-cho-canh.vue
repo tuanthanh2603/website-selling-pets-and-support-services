@@ -14,8 +14,9 @@
                                 <a-form-item :name="['user', 'name']" label="Tên danh mục" :rules="[{ required: true }]">
                                     <a-input v-model:value="formState.user.name" />
                                 </a-form-item>
-                                <a-form-item :name="['user', 'status']" label="Trạng thái">
-                                    <a-select v-model:value="valueStatus">
+                                <a-form-item :name="['user', 'status']" label="Trạng thái" :rules="[{ required: true }]">
+                                    <a-select v-model:value="formState.user.status">
+                                        <a-select-option value="0">Chọn trạng thái</a-select-option>
                                         <a-select-option value="1">Hiện</a-select-option>
                                         <a-select-option value="2">Ẩn</a-select-option>
                                     </a-select>
@@ -54,14 +55,15 @@
                                     </template>
                                     <template v-else-if="column.key === 'status'">
                                         <span>
-                                            {{ record.status === 1 ? 'Hiện' : record.status === 2 ? 'Ẩn' : '' }}
+                                            {{ record.status === 1 ? 'Hiện' : record.status === 2 ? 'Ẩn' : 'Chờ xử lý' }}
+
                                         </span>
                                     </template>
                                     <template v-else-if="column.key === 'setting'">
                                         <span>
                                             <a-button @click="deleteData(record.id)"><delete-two-tone /></a-button>
                                             &nbsp;
-                                            <a-button><edit-two-tone /></a-button>
+                                            <a-button @click="editItem(record.id)"><edit-two-tone /></a-button>
 
                                         </span>
                                     </template>
@@ -83,7 +85,7 @@
 <script>
 import TheSider from '../../../components/TheSider.vue';
 import { UploadOutlined, DeleteTwoTone, EditTwoTone } from '@ant-design/icons-vue';
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import Noty from "noty"
 import 'noty/lib/themes/mint.css'
@@ -123,8 +125,39 @@ export default defineComponent({
 
     },
     setup() {
-        const categoryDogs = ref([]);
+        const formState = ref({
+            user: {
+                name: '',
+                status: '0',
+                images: '',
+            },
+        });
+        const selectedItem = ref(null);
+        
+        const fileList = ref([]);
+        const images = computed(() => {
+            return formState.value.user.images;
+        })
         const data = ref([]);
+        
+        const editItem = (id) => {
+            const itemToEdit = data.value.find(item => item.id === id)
+            console.log(itemToEdit)
+            if(itemToEdit){
+                selectedItem.value = itemToEdit;
+                formState.value.user.name = itemToEdit.name;
+                formState.value.user.status =  'Chọn trạng thái';
+                
+
+
+
+                formState.value.user.images = itemToEdit.images;
+                fileList.value = [{
+                    url: itemToEdit.images,
+                }];
+            }
+        }
+        const categoryDogs = ref([]);
         onMounted(() => {
             const serverUrl = 'http://localhost:3000/admin/danh-muc-cho-canh/';
             axios.get(serverUrl)
@@ -144,8 +177,11 @@ export default defineComponent({
                 });
         });
 
-        const valueStatus = ref('1'); // Giá trị mặc định
-        const fileList = ref([]);
+     
+        
+
+        
+       
         const onFinish2 = () => {
             const uploadedImage = fileList.value[0];
             if (uploadedImage) {
@@ -155,7 +191,7 @@ export default defineComponent({
                 // newCategoryData.append('images', uploadedImage)
                 const newCategoryData = {
                     name: formState.value.user.name,
-                    status: valueStatus.value,
+                    status: formState.value.user.status,
                     images: uploadedImage,
                 };
                 console.log('Dữ liệu để gửi đi:', newCategoryData);
@@ -253,6 +289,8 @@ export default defineComponent({
             });
         };
 
+        
+
 
 
       
@@ -271,13 +309,7 @@ export default defineComponent({
             required: 'Vui lòng không để trống ${label}!',
         };
 
-        const formState = ref({
-            user: {
-                name: '',
-                status: '',
-                images: '',
-            },
-        });
+        
 
         
 
@@ -288,7 +320,7 @@ export default defineComponent({
             onFinish2,
             layout,
             validateMessages,
-            valueStatus,
+            
             fileList,
 
             data,
@@ -296,7 +328,8 @@ export default defineComponent({
 
 
             categoryDogs,
-            deleteData
+            deleteData,
+            editItem
            
 
 
