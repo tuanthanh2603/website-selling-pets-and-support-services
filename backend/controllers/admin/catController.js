@@ -1,142 +1,34 @@
-// const addCategoryCat = async (req, res) => {
-//     try {
-//         const requestData = req.body;
-
-//         console.log(requestData);
-
-//         // Tạo một đối tượng để chèn vào cơ sở dữ liệu
-//         const dataToInsert2 = {
-//           name: req.body.name,
-//           status: req.body.status,
-//           images: req.body.images
-//         };
-
-//         // Lựa chọn bảng (collection)
-//         const collection = client.db("project-ooad").collection("CategoryCat");
-
-//         // Chèn dữ liệu bằng insertOne()
-//         const result = await collection.insertOne(dataToInsert2);
-
-//         console.log(`Inserted ${result.insertedCount} document into the database`);
-//         res.status(200).send({ "msg": "Inserted to DB" });
-//       } catch (error) {
-//         console.error("Error inserting data:", error);
-//         res.status(500).send({ "msg": "Error inserting to DB" })
-//       }
-// }
-
 import { CategoryCat } from "../../models/admin/categoryCatModel.js";
-import { google } from "googleapis";
+
 import fs from "fs";
 import path from "path";
 
-import * as dotenv from "dotenv";
 
-dotenv.config();
-
-const CLIENT_ID = process.env.CLIENT_ID;
-const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const REDIRECT_URI = process.env.REDIRECT_URI;
-const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
-const oauth2Client = new google.auth.OAuth2(
-  CLIENT_ID,
-  CLIENT_SECRET,
-  REDIRECT_URI
-);
-oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
-const drive = google.drive({
-  version: "v3",
-  auth: oauth2Client,
-});
 
 export const createCategoryCatController = async (req, res) => {
   console.log(req.files[0].filename);
+  
   const { name, status } = req.body;
+  console.log(req.body)
   const existingCategoryCat = await CategoryCat.findOne({ name });
-  if(existingCategoryCat) {
-    console.log('Tên danh mục đã tồn tại')
-    return res.status(400).json({ message: 'Tên danh mục đã tồn tại' });
-    
+  if (existingCategoryCat) {
+    console.log("Tên danh mục đã tồn tại");
+    return res.status(400).json({ message: "Tên danh mục đã tồn tại" });
   }
-
   try {
-    const uploadedFiles = req.files[0].filename;
-    const imageFile = req.body.images;
-    const imagePath = path.join(process.cwd(), "public/uploads", uploadedFiles);
-    const imageData = fs.createReadStream(imagePath);
-    console.log(imageFile);
-    const createFile = await drive.files.create({
-      requestBody: {
-        name: uploadedFiles,
-        mimeType: ["image/png", "image/jpeg", "image/jpg"],
-        visibility: "public",
-      },
-      media: {
-        mimeType: ["image/png", "image/jpeg", "image/jpg"],
-        body: imageData,
-      },
-    });
-    console.log(createFile.data);
-    const fileId = createFile.data.id;
-    drive.permissions.create(
-      {
-        fileId: fileId,
-        requestBody: {
-          role: "reader",
-          type: "anyone",
-        },
-      },
-      (err, response) => {
-        if (err) {
-          console.error("Lỗi khi thiết lập quyền truy cập:", err);
-        } else {
-          console.log("Quyền truy cập ảnh đã được thiết lập.");
-        }
-      }
-    );
-    drive.files.get(
-      {
-        fileId: fileId,
-        fields: "webViewLink",
-      },
-      (err, response) => {
-        if (err) {
-          console.error("Lỗi khi tải thông tin tệp ảnh:", err);
-        } else {
-          const webViewLink = response.data.webViewLink;
-        }
-      }
-    );
-    const linkImages = `https://drive.google.com/uc?id=${fileId}`;
-    console.log(linkImages);
-
+    const baseImagePath = 'http://localhost:3000/public/uploads/';
+    const images2 = baseImagePath + req.files[0].filename;
+    console.log(images2);
+    const images = req.files[0].filename
     const newCategoryCat = await CategoryCat.create({
       name: name,
       status: status,
-      images: linkImages,
-      fileId: fileId,
+      images: images,
+      
     });
     console.log(newCategoryCat);
     res.status(201).json(newCategoryCat);
-
-    if (linkImages) {
-      const imagePathToDelete = path.join(
-        process.cwd(),
-        "public/uploads",
-        uploadedFiles
-      );
-      
-      fs.unlink(imagePathToDelete, (err) => {
-        if (err) {
-          console.log("Lỗi khi xóa tệp ảnh: ", err);
-        } else {
-          console.log("Tệp ảnh đã xóa khỏi thư mục public.");
-        }
-      });
-    } else {
-      console.log("linkImages chưa được tạo.");
-    }
-  } catch (error) {
+  } catch {
     console.error("Error inserting data:", error);
     res.status(500).json({ msg: "Error inserting to DB" });
   }
@@ -146,6 +38,7 @@ export const getCategoryCat = async (req, res) => {
   try {
     const categoryCats = await CategoryCat.find();
     res.status(200).json(categoryCats);
+
   } catch {
     console.error("Error retrieving data:", error);
     res.status(500).json({ msg: "Error retrieving data from DB" });
@@ -155,19 +48,27 @@ export const getCategoryCat = async (req, res) => {
 export const deleteCategoryCat = async (req, res) => {
   const itemId = req.params.id;
   console.log("id: " + itemId);
-  try {
-    const result = await CategoryCat.findById(itemId);
-    console.log(result);
-    if (!result) {
-      console.log('Không tìm thấy bản ghi để xóa.');
-      return res.status(404).json({ message: 'Không tìm thấy bản ghi để xóa.' });
+  
+  try{
+    const categoryCat = await CategoryCat.findById(itemId);
+    console.log(categoryCat.images)
+    if(categoryCat){
+      const imagePathToDelete = path.join(process.cwd(), "public/uploads", categoryCat.images)
+      fs.unlink(imagePathToDelete, (err) => {
+        if(err) {
+          console.log("Lỗi khi xóa tệp ảnh: ", err);
+          res.status(500).json({ message: "Lỗi khi xóa tệp ảnh." });
+        } else {
+          console.log("Tệp ảnh đã xóa khỏi thư mục public.");
+        }
+      })
+    } else {
+      console.log("Chưa truy xuất được ảnh");
     }
-    const fileId = result.fileId;
-    await drive.files.delete({ fileId });
-    await CategoryCat.findByIdAndRemove(itemId);
 
-    console.log('Xóa thành công');
-    return res.status(200).json({ message: 'Đã xóa thành công.' });
+    await CategoryCat.findByIdAndRemove(itemId);
+    console.log("Xóa danh mục thành công");
+    res.status(200).json({ message: "Xóa thành công" });
     
   } catch {
     console.error("Lỗi khi xóa dữ liệu:", error);

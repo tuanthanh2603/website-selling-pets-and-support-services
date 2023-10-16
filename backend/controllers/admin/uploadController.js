@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
       const hours = String(currentDate.getHours()).padStart(2, "0");
       const minutes = String(currentDate.getMinutes()).padStart(2, "0");
 
-      const newFileName = `${year}-${month}-${day}@${hours}${minutes}-${originalname}`;
+      const newFileName = `${year}-${month}-${day}-${hours}${minutes}@${originalname}`;
       cb(null, newFileName);
     } else {
       // Định dạng không hợp lệ

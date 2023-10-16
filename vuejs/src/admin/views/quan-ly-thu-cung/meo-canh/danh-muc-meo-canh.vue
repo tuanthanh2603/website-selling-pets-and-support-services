@@ -14,10 +14,11 @@
                                 <a-form-item :name="['user', 'name']" label="Tên danh mục" :rules="[{ required: true }]">
                                     <a-input v-model:value="formState.user.name" />
                                 </a-form-item>
-                                <a-form-item :name="['user', 'status']" label="Trạng thái">
-                                    <a-select v-model:value="valueStatus">
-                                        <a-select-option value="1">Hiện</a-select-option>
-                                        <a-select-option value="2">Ẩn</a-select-option>
+                                <a-form-item :name="['user', 'status']" label="Trạng thái" :rules="[{ required: true }]">
+                                    <a-select v-model:value="formState.user.status">
+                                        <a-select-option value="Chờ xử lý">Chờ xử lý</a-select-option>
+                                        <a-select-option value="Hiện">Hiện</a-select-option>
+                                        <a-select-option value="Ẩn">Ẩn</a-select-option>
                                     </a-select>
                                 </a-form-item>
                                 <a-form-item :name="['user', 'images']" label="Hình ảnh">
@@ -54,19 +55,20 @@
                                     </template>
                                     <template v-else-if="column.key === 'status'">
                                         <span>
-                                            {{ record.status === 1 ? 'Hiện' : record.status === 2 ? 'Ẩn' : '' }}
+                                            {{ record.status }}
+
                                         </span>
                                     </template>
                                     <template v-else-if="column.key === 'setting'">
                                         <span>
                                             <a-button @click="deleteData(record.id)"><delete-two-tone /></a-button>
                                             &nbsp;
-                                            <a-button @click="updateItem(record.id)"><edit-two-tone /></a-button>
+                                            <a-button @click="showModal(record.id)"><edit-two-tone /></a-button>
 
                                         </span>
                                     </template>
                                     <template v-else-if="column.key === 'images'">
-                                        <img :src="record.images" alt="Hình ảnh" width="50" height="50" />
+                                        <img :src="`http://localhost:3000/uploads/${record.images}`" alt="Hình ảnh" width="50" height="50" />
                                     </template>
                                     <template v-else-if="column.key === 'stt'">
                                         <span>{{ record.key }}</span>
@@ -79,11 +81,42 @@
             </div>
         </div>
     </div>
+
+    <a-modal v-model:visible="modalVisible" title="Chỉnh sửa thông tin" @ok="handleOk" @cancel="handleCancel" :closable="false">
+        <a-form :model="formState" v-bind="layout2" name="nest-messages"
+            :validate-messages="validateMessages" @finish="onFinish2">
+            <a-form-item :name="['user', 'editName']" label="Tên danh mục" :rules="[{ required: true }]">
+                <a-input v-model:value="formEdit.user.editName" />
+            </a-form-item>
+            <a-form-item :name="['user', 'editStatus']" label="Trạng thái" >
+                <a-select v-model:value="formEdit.user.editStatus">
+                    <a-select-option value="0">Chờ xử lý</a-select-option>
+                    <a-select-option value="1">Hiện</a-select-option>
+                    <a-select-option value="2">Ẩn</a-select-option>
+                </a-select>
+            </a-form-item>
+            <a-form-item :name="['user', 'editImages']" label="Hình ảnh">
+                <a-upload v-model:file-list="fileListEdit" list-type="picture" :max-count="1">
+                    <a-button>
+                        <upload-outlined />
+                        Chọn ảnh
+                    </a-button>
+                </a-upload>
+            </a-form-item>
+            
+        </a-form>
+        <template #defaultFooter>
+            <!-- Không có nút "OK" ở đây -->
+        </template>
+    </a-modal>
+    
 </template>
 <script>
 import TheSider from '../../../components/TheSider.vue';
 import { UploadOutlined, DeleteTwoTone, EditTwoTone } from '@ant-design/icons-vue';
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted, computed  } from 'vue';
+
+
 import axios from 'axios';
 import Noty from "noty"
 import 'noty/lib/themes/mint.css'
@@ -96,7 +129,7 @@ const columns = [{
     dataIndex: 'stt',
     key: 'stt',
 },{
-    name: 'Danh mục mèo cảnh',
+    name: 'Danh mục chó cảnh',
     dataIndex: 'name',
     key: 'name',
 }, {
@@ -123,8 +156,79 @@ export default defineComponent({
 
     },
     setup() {
-        const categoryCats = ref([]);
+        
+        const modalVisible = ref(false);
+
+        const showModal = (id) => {
+            modalVisible.value = true;
+            const itemToEdit = data.value.find(item => item.id === id)
+            console.log(itemToEdit)
+            if(itemToEdit){
+                selectedItem.value = itemToEdit;
+                formEdit.value.user.editName = itemToEdit.name;
+                if(itemToEdit.status === 1){
+                    formEdit.value.user.editStatus = 'Hiện';
+                } else if(itemToEdit.status === 2){
+                    formEdit.value.user.editStatus = 'Ẩn';
+                } else if(itemToEdit.status === 0){
+                    formEdit.value.user.editStatus = 'Chờ xử lý';
+                }
+                
+                // formEdit.value.user.editStatus = itemToEdit.status === 'Hiện' ? '1' : '0';
+                formEdit.value.user.editImages = itemToEdit.images;
+                fileListEdit.value = [{
+                    url: itemToEdit.images,
+                }]
+
+            }
+        };
+
+        const fileListEdit = ref([]);
+        const handleOk = () => {
+            const uploadedImage = fileListEdit.value[0];
+            if(uploadedImage){
+                console.log(uploadedImage);
+                const updateCategoryCat = {
+                    name: formEdit.value.user.editName,
+                    status: formEdit.value.user.editStatus,
+                    images: uploadedImage,
+                }
+                console.log(updateCategoryCat)
+            }
+            modalVisible.value = false;
+        };
+
+        const handleCancel = () => {
+        modalVisible.value = false;
+        };
+        const formEdit = ref({
+            user: {
+                editName: '',
+                editStatus: '',
+                editImages: '',
+            },
+        });
+
         const data = ref([]);
+        
+        
+       
+        const formState = ref({
+            user: {
+                name: '',
+                status: 'Chờ xử lý',
+                images: '',
+            },
+        });
+        const selectedItem = ref(null);
+        
+        const fileList = ref([]);
+        const images = computed(() => {
+            return formState.value.user.images;
+        })
+        
+        const categoryCats = ref([]);
+      
         onMounted(() => {
             const serverUrl = 'http://localhost:3000/admin/danh-muc-meo-canh/';
             axios.get(serverUrl)
@@ -144,8 +248,6 @@ export default defineComponent({
                 });
         });
 
-        const valueStatus = ref('1'); // Giá trị mặc định
-        const fileList = ref([]);
         const onFinish2 = () => {
             const uploadedImage = fileList.value[0];
             if (uploadedImage) {
@@ -155,7 +257,7 @@ export default defineComponent({
                 // newCategoryData.append('images', uploadedImage)
                 const newCategoryData = {
                     name: formState.value.user.name,
-                    status: valueStatus.value,
+                    status: formState.value.user.status,
                     images: uploadedImage,
                 };
                 console.log('Dữ liệu để gửi đi:', newCategoryData);
@@ -229,9 +331,10 @@ export default defineComponent({
             console.log(id);
             const serverUrl = `http://localhost:3000/admin/danh-muc-meo-canh/deleteCategoryCat/${id}`;
             axios.delete(serverUrl)
-            .then(_response => {
+            .then(response => {
                 console.log('Xóa dữ liệu thành công!')
-                new Noty({
+                if(response.data.message == "Xóa thành công") {
+                    new Noty({
                             text: 'Xóa danh mục thành công!',
                             type: 'success',
                             layout: 'topRight',
@@ -245,18 +348,17 @@ export default defineComponent({
                                     }, 2000); // Sau 3 giây
                                 }
                             }
-                }).show();
-                
+                 }).show();
+                } else {
+                    console.error("Server trả về thông báo không hợp lệ.");
+                }
             })
             .catch((error) => {
                 console.error("Lỗi khi xóa dữ liệu:", error)
             });
         };
 
-        const updateItem = (id) => {
-            console.log(id)
-            console.log('Đã nhấn vào nút chỉnh sửa');
-        }
+        
 
 
 
@@ -271,18 +373,20 @@ export default defineComponent({
                 span: 16,
             },
         };
+        const layout2 = {
+            labelCol: {
+                span: 7,
+            },
+            wrapperCol: {
+                span: 16,
+            },
+        };
 
         const validateMessages = {
             required: 'Vui lòng không để trống ${label}!',
         };
 
-        const formState = ref({
-            user: {
-                name: '',
-                status: '',
-                images: '',
-            },
-        });
+        
 
         
 
@@ -292,8 +396,9 @@ export default defineComponent({
             formState,
             onFinish2,
             layout,
+            layout2,
             validateMessages,
-            valueStatus,
+            fileListEdit,
             fileList,
 
             data,
@@ -302,7 +407,14 @@ export default defineComponent({
 
             categoryCats,
             deleteData,
-            updateItem
+            
+            modalVisible,
+            showModal,
+            formEdit,
+            handleOk,
+            handleCancel,
+            
+            
            
 
 
@@ -311,4 +423,8 @@ export default defineComponent({
     },
 });
 </script>
-
+<style scoped>
+  .ant-modal-footer {
+    display: none !important;
+  }
+</style>
