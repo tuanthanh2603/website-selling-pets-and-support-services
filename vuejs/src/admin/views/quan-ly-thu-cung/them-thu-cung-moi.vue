@@ -21,8 +21,11 @@ import { defineComponent, ref  } from 'vue';
 export default defineComponent({
     components: {
         TheSider,
-        
-
     },
+    setup(){
+        return{
+            
+        }
+    }
 })
 </script>

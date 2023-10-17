@@ -368,12 +368,6 @@ export default defineComponent({
             });
         };
 
-        
-
-
-
-      
-
 
         const layout = {
             labelCol: {
@@ -395,12 +389,6 @@ export default defineComponent({
         const validateMessages = {
             required: 'Vui lòng không để trống ${label}!',
         };
-
-        
-
-        
-
-
 
         return {
             formState,
