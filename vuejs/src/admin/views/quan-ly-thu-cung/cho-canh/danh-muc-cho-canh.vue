@@ -64,6 +64,7 @@
                                             <a-button @click="deleteData(record.id)"><delete-two-tone /></a-button>
                                             &nbsp;
                                             <a-button @click="showModal(record.id)"><edit-two-tone /></a-button>
+                                            
 
                                         </span>
                                     </template>

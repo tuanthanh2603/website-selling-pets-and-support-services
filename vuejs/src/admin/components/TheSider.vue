@@ -54,6 +54,11 @@
                             <span>Danh mục mèo cảnh</span>
                         </router-link>
                 </a-menu-item>
+                <a-menu-item key="9">
+                        <router-link to="them-thu-cung-moi">
+                            <span>Thêm thú cưng mới</span>
+                        </router-link>
+                </a-menu-item>
                 
                    
 
