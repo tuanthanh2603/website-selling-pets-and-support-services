@@ -14,6 +14,6 @@ const router = Router();
 router.post("/addCategoryDog", upload.any() ,createCategoryDogController);
 router.get("/", getCategoryDog);
 router.delete("/deleteCategoryDog/:id", deleteCategoryDog);
-router.post('/updateCategoryDog', upload.any() ,updateCategoryDogController);
+router.put('/updateCategoryDog', upload.any() ,updateCategoryDogController);
 
 export default router;

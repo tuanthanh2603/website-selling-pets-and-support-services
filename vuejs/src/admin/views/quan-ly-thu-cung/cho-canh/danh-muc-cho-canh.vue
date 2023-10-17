@@ -202,7 +202,7 @@ export default defineComponent({
                 }
                 console.log('Dữ liệu gửi đi: ', updateCategoryDog);
                 const serverUrl = `http://localhost:3000/admin/danh-muc-cho-canh/updateCategoryDog`;
-                axios.post(serverUrl, updateCategoryDog)
+                axios.put(serverUrl, updateCategoryDog)
                     .then((response) => {
                         console.log('Cập nhật thành công');
                     })
@@ -299,7 +299,7 @@ export default defineComponent({
                                 afterShow: function() {
                                     // Reload lại trang sau khi Noty hiện xong
                                     setTimeout(() => {
-                                        window.location.reload();
+                                        // window.location.reload();
                                     }, 3000); // Sau 3 giây
                                 }
                             }
