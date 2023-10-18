@@ -112,7 +112,7 @@ export default defineComponent({
             }
         };
         const callDogAPI = () => {
-            const serverUrlDog = 'http://localhost:3000/admin/them-thu-cung-moi/getDog';
+            const serverUrlDog = 'http://localhost:3000/admin/them-thu-cung-moi/geCategorytDog';
             axios.get(serverUrlDog)
             .then((response) => {
                 breedList.value = response.data;
@@ -123,7 +123,7 @@ export default defineComponent({
             })
         }
         const callCatAPI = () => {
-            const serverUrlCat = 'http://localhost:3000/admin/them-thu-cung-moi/getCat';
+            const serverUrlCat = 'http://localhost:3000/admin/them-thu-cung-moi/getCategoryCat';
             axios.get(serverUrlCat)
             .then((response) => {
                 breedList.value = response.data;

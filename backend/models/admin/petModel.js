@@ -12,10 +12,12 @@ const petSchema = new Schema({
     },
     classify: {
         type: String,
+        
         required: true,
     },
     category: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'CategoryDog',
         required: true,
     },
     sex: {

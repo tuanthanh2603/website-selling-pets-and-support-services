@@ -33,6 +33,7 @@ import path from "path";
 import * as dotenv from "dotenv";
 import multer from "multer";
 import upload from "./uploadController.js";
+import { Pet } from "../../models/admin/petModel.js";
 
 dotenv.config();
 
@@ -218,6 +219,33 @@ export const deleteCategoryDog = async (req, res) => {
 export const updateCategoryDogController = async (req, res) => {
   
 };
+
+export const getDog = async (req, res) => {
+  try {
+    const dogs = await Pet.find({ classify: "Chó cảnh" })
+      .populate('category') // Sử dụng populate để join CategoryDog
+      .exec();
+
+    // Lấy tên danh mục từ bảng CategoryDog
+    const dogsWithCategoryNames = dogs.map((dog) => ({
+      name: dog.name,
+      status: dog.status,
+      classify: dog.classify,
+      category: dog.category.name, // Lấy tên danh mục từ bảng CategoryDog
+      sex: dog.sex,
+      created_at: dog.created_at,
+    }));
+    console.log(dogsWithCategoryNames)
+
+    res.json(dogsWithCategoryNames);
+  } catch (error) {
+    console.error('Lỗi lấy dữ liệu:', error);
+    res.status(500).json({ error: 'Đã xảy ra lỗi khi tải dữ liệu' });
+  }
+};
+
+
+
 
 // export const deleteCategoryDog = async (req, res) => {
 //   const itemId = req.params.id;

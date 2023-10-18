@@ -6,6 +6,7 @@ const routes = (app) => {
     app.use('/admin/danh-muc-cho-canh', dogRouter)
     app.use('/admin/danh-muc-meo-canh', catRouter)
     app.use('/admin/them-thu-cung-moi', petRouter)
+    app.use('/admin/danh-sach-thu-cung', petRouter)
 }
 
 export default routes;

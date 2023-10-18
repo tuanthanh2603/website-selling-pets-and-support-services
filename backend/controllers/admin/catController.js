@@ -2,6 +2,7 @@ import { CategoryCat } from "../../models/admin/categoryCatModel.js";
 
 import fs from "fs";
 import path from "path";
+import { Pet } from "../../models/admin/petModel.js";
 
 
 
@@ -73,5 +74,15 @@ export const deleteCategoryCat = async (req, res) => {
   } catch {
     console.error("Lỗi khi xóa dữ liệu:", error);
     res.status(500).json({ message: "Lỗi khi xóa dữ liệu." });
+  }
+};
+
+export const getCat = async (req, res) => {
+  try {
+    const cats = await Pet.find({ classify: "Mèo cảnh" }).exec();
+    res.json(cats);
+  } catch (error) {
+    console.error('Lỗi lấy dữ liệu:', error);
+    res.status(500).json({ error: 'Đã xảy ra lỗi khi tải dữ liệu' });
   }
 };

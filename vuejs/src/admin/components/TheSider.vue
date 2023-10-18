@@ -59,6 +59,11 @@
                             <span>Thêm thú cưng mới</span>
                         </router-link>
                 </a-menu-item>
+                <a-menu-item key="10">
+                        <router-link to="danh-sach-thu-cung">
+                            <span>Danh sách thú cưng</span>
+                        </router-link>
+                </a-menu-item>
                 
                    
 
@@ -69,7 +74,7 @@
                 
             </a-sub-menu>
             
-            <a-menu-item key="10">
+            <a-menu-item key="11">
                 <file-outlined />
                 <span>File</span>
             </a-menu-item>

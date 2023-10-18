@@ -55,6 +55,10 @@ const router = createRouter({
             path: '/them-thu-cung-moi',
             component: () => import('../admin/views/quan-ly-thu-cung/them-thu-cung-moi.vue')
         },
+        {
+            path: '/danh-sach-thu-cung',
+            component: () => import('../admin/views/quan-ly-thu-cung/danh-sach-thu-cung.vue')
+        },
         
         
        
