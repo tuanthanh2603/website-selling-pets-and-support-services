@@ -26,6 +26,9 @@ Check 'antd.css' in 'node_modules/ant-design-vue/dist/antd.css' ---> v√†o ib r·ª
 # Install Axios
 npm install axios
 
+# Install Noty
+npm i noty
+
 ------------
 # Backend
 1. new Terminal

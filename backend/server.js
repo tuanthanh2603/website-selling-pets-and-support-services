@@ -39,16 +39,8 @@ mongoose.connect(process.env.URI_MONGODB, { useNewUrlParser: true, useUnifiedTop
 
 
 
-
-
-
 import routes from "./routes/index.js";
 routes(app);
-
-
-
-
-
 
 
 app.listen(PORT, () => {
