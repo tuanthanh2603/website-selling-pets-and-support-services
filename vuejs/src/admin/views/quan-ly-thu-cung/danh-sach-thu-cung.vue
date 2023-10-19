@@ -10,13 +10,101 @@
 
                     <div class="container">
                         <a-tabs v-model:activeKey="activeKey">
-                            <a-tab-pane key="1" tab="Danh sách chó cảnh" @click="loadTabContent('1')">
-                                <a-table :columns="columns" :data-source="data1" @change="onChange" >
-                                    
+                            <a-tab-pane key="1" tab="Danh sách chó cảnh" @click="loadTabContentDog('1')">
+                                <a-table :columns="columnsDog" :data-source="dataDog" @change="onChange" >
+                                    <template #headerCell="{ column }">
+                                        <template v-if="column.key === 'name'">
+                                            <span>
+                                                Tên chó
+                                            </span>
+                                        </template>
+                                    </template>
+                                    <template #bodyCell="{ column, record }">
+                                        <template v-if="column.key === 'name'">
+                                            
+                                                {{ record.name }}
+                                            
+                                        </template>
+                                        <template v-else-if="column.key === 'price'">
+                                            
+                                                22
+                                            
+                                        </template>
+                                        <template v-else-if="column.key === 'category'">
+                                           
+                                                {{ record.category }}
+                                            
+                                        </template>
+                                        <template v-else-if="column.key === 'sex'">
+                                            
+                                                {{ record.sex }}
+                                            
+                                        </template>
+                                        <template v-else-if="column.key === 'status'">
+                                            
+                                                {{ record.status }}
+                                            
+                                        </template>
+                                        <template v-else-if="column.key === 'images'">
+                                            <img :src="`http://localhost:3000/uploads/${record.images[0].name}`" :alt="`${record.images[0]._id}`" height="80" width="80">
+                                            <!-- {{ record.images[0].name }} -->
+                                        </template>
+                                        <template v-else-if="column.key === 'stt'">
+                                            
+                                        </template>
+                                        <template v-else-if="column.key === 'setting'">
+                                            {{ record.id }}
+                                        </template>
+                                    </template>
                                 </a-table>
                             </a-tab-pane>
-                            <a-tab-pane key="2" tab="Danh sách mèo cảnh" force-render @click="loadTabContent('2')">
-                                <a-table :columns="columns" :data-source="data2" @change="onChange" />
+                            <a-tab-pane key="2" tab="Danh sách mèo cảnh" @click="loadTabContentCat('2')">
+                                <a-table :columns="columnsCat" :data-source="dataCat" @change="onChange" >
+                                    <template #headerCell="{ column }">
+                                        <template v-if="column.key === 'name'">
+                                            <span>
+                                                Tên mèo
+                                            </span>
+                                        </template>
+                                    </template>
+                                    <template #bodyCell="{ column, record }">
+                                        <template v-if="column.key === 'name'">
+                                            
+                                                {{ record.name }}
+                                            
+                                        </template>
+                                        <template v-else-if="column.key === 'price'">
+                                            
+                                                22
+                                            
+                                        </template>
+                                        <template v-else-if="column.key === 'category'">
+                                           
+                                                {{ record.category }}
+                                            
+                                        </template>
+                                        <template v-else-if="column.key === 'sex'">
+                                            
+                                                {{ record.sex }}
+                                            
+                                        </template>
+                                        <template v-else-if="column.key === 'status'">
+                                            
+                                                {{ record.status }}
+                                            
+                                        </template>
+                                        <template v-else-if="column.key === 'images'">
+                                            <img :src="`http://localhost:3000/uploads/${record.images[0].name}`" :alt="`${record.images[0]._id}`" height="80" width="80">
+                                            <!-- {{ record.images[0].name }} -->
+                                        </template>
+                                        <template v-else-if="column.key === 'stt'">
+                                            
+                                        </template>
+                                        <template v-else-if="column.key === 'setting'">
+                                            {{ record.id }}
+                                        </template>
+                                    </template>
+                                </a-table>
                             </a-tab-pane>
 
                         </a-tabs>
@@ -32,10 +120,11 @@
 import TheSider from '../../components/TheSider.vue';
 import { defineComponent, ref, onMounted } from 'vue';
 let categoryFilters = ref([]); 
-let sttCounter = 1;
-const columns = [
+
+const columnsDog = [
     {
         title: 'STT',
+        key: 'stt',
         customRender: (text, record, index) => {
             const stt = text.renderIndex;
             // console.log(stt + 1);
@@ -44,30 +133,32 @@ const columns = [
         },
     },
     {
+        key: 'images',
+        dataIndex: '',
         title: 'Hình ảnh',
-        customRender: (text, record, index) => {
-            const firstImageName = text.text.images[0].name;
-            const imageSrc = `http://localhost:3000/uploads/${firstImageName}`;
-            return '<img src="`${imageSrc}`" alt="Hình ảnh" width="50" height="50" />';
-        },
+        // customRender: (text, record, index) => {
+        //     const firstImageName = text.text.images[0].name;
+        //     // const imageSrc = `http://localhost:3000/uploads/${firstImageName}`;
+        //     return firstImageName;
+        // },
         
-    }
-,
-    {
-        title: 'Tên chó',
-        dataIndex: 'name',
-        sorter: (a, b) => a.name.localeCompare(b.name), // Sắp xếp dựa trên tên chó
-        sortDirections: ['descend', 'ascend'],
-        
-
     },
     {
+        key: 'name',
+        title: 'Tên chó',
+        dataIndex: 'name',
+        sorter: (a, b) => a.name.localeCompare(b.name), 
+        sortDirections: ['descend', 'ascend'],
+    },
+    {
+        key: 'price',
         title: 'Giá',
         dataIndex: '',
         defaultSortOrder: 'descend',
         sorter: (a, b) => a.age - b.age,
     },
     {
+        key: 'category',
         title: 'Giống chó',
         dataIndex: 'category',
         filters: [], 
@@ -76,6 +167,7 @@ const columns = [
         
     },
     {
+        key: 'sex',
         title: 'Giới tính',
         dataIndex: 'sex',
         filters: [
@@ -95,6 +187,7 @@ const columns = [
     },
 
     {
+        key: 'status',
         title: 'Trạng thái',
         dataIndex: 'status',
         filters: [
@@ -113,15 +206,106 @@ const columns = [
         sortDirections: ['descend', 'ascend'],
     },
     {
+        key: 'setting',
+        title: 'Tùy chọn',
+        
+    }
+];
+const columnsCat = [
+{
+        title: 'STT',
+        key: 'stt',
+        customRender: (text, record, index) => {
+            const stt = text.renderIndex;
+            // console.log(stt + 1);
+            const STT = stt + 1;
+            return STT
+        },
+    },
+    {
+        key: 'images',
+        dataIndex: '',
+        title: 'Hình ảnh',
+        // customRender: (text, record, index) => {
+        //     const firstImageName = text.text.images[0].name;
+        //     // const imageSrc = `http://localhost:3000/uploads/${firstImageName}`;
+        //     return firstImageName;
+        // },
+        
+    },
+    {
+        key: 'name',
+        title: 'Tên mèo',
+        dataIndex: 'name',
+        sorter: (a, b) => a.name.localeCompare(b.name), 
+        sortDirections: ['descend', 'ascend'],
+    },
+    {
+        key: 'price',
+        title: 'Giá',
+        dataIndex: '',
+        defaultSortOrder: 'descend',
+        sorter: (a, b) => a.age - b.age,
+    },
+    {
+        key: 'category',
+        title: 'Giống mèo',
+        dataIndex: 'category',
+        filters: [], 
+        filterMultiple: false,
+        onFilter: (value, record) => record.category === value,
+        
+    },
+    {
+        key: 'sex',
+        title: 'Giới tính',
+        dataIndex: 'sex',
+        filters: [
+            {
+                text: 'Đực',
+                value: 'Đực',
+            },
+            {
+                text: 'Cái',
+                value: 'Cái',
+            },
+        ],
+        filterMultiple: false,
+        onFilter: (value, record) => record.sex === value,
+        sorter: (a, b) => a.sex.localeCompare(b.sex), 
+        sortDirections: ['descend', 'ascend'],
+    },
+
+    {
+        key: 'status',
+        title: 'Trạng thái',
+        dataIndex: 'status',
+        filters: [
+            {
+                text: 'Hiện',
+                value: 'Hiện',
+            },
+            {
+                text: 'Ẩn',
+                value: 'Ẩn',
+            },
+        ],
+        filterMultiple: false,
+        onFilter: (value, record) => record.status === value, 
+        sorter: (a, b) => a.status.localeCompare(b.status), 
+        sortDirections: ['descend', 'ascend'],
+    },
+    {
+        key: 'setting',
         title: 'Tùy chọn',
         
     }
 ];
 
 
-const data1 = ref([]);
+const dataDog = ref([]);
 
-const data2 = [];
+const dataCat = ref([]);
 
 export default defineComponent({
     components: {
@@ -133,16 +317,13 @@ export default defineComponent({
             const serverUrl = 'http://localhost:3000/admin/danh-sach-thu-cung/getDog';
             axios.get(serverUrl)
                 .then((response) => {
-                    
                     const dataWithSTT = response.data.map((item, index) => ({
                         ...item,
                         
                         stt: index + 1,
                         originalIndex: index
                     }));
-                    
-                    
-                    data1.value = dataWithSTT;
+                    dataDog.value = dataWithSTT;
                     console.log(dataWithSTT);
 
                     const uniqueCategories = [...new Set(dataWithSTT.map(item => item.category))];
@@ -150,22 +331,18 @@ export default defineComponent({
                         text: category,
                         value: category,
                     }));
-
-                    const categoryColumn = columns.find(col => col.dataIndex === 'category');
+                    const categoryColumn = columnsDog.find(col => col.dataIndex === 'category');
                     // console.log(categoryColumn);
                     if (categoryColumn) {
                         categoryColumn.filters = categoryFilters.value;
                     }
-
                     dataWithSTT.forEach(item => {
-                        console.log(`Thông tin hình ảnh cho đối tượng ${item.id}:`);
+                        console.log(`Thông tin hình ảnh chó ${item.id}:`);
                         item.images.forEach(image => {
                             console.log('Tên ảnh:', image.name);
                             console.log('petid:', image.petid);
                         });
-                    });
-
-                    
+                    });  
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -176,22 +353,49 @@ export default defineComponent({
             const serverUrl = 'http://localhost:3000/admin/danh-sach-thu-cung/getCat';
             axios.get(serverUrl)
                 .then((response) => {
-                    breedList.value = response.data;
-                    console.log(response.data)
+                    const dataWithSTT = response.data.map((item, index) => ({
+                        ...item,
+                        
+                        stt: index + 1,
+                        originalIndex: index
+                    }));
+                    dataCat.value = dataWithSTT;
+                    console.log(dataWithSTT);
+
+                    const uniqueCategories = [...new Set(dataWithSTT.map(item => item.category))];
+                    categoryFilters.value = uniqueCategories.map(category => ({
+                        text: category,
+                        value: category,
+                    }));
+                    const categoryColumn = columnsCat.find(col => col.dataIndex === 'category');
+                    // console.log(categoryColumn);
+                    if (categoryColumn) {
+                        categoryColumn.filters = categoryFilters.value;
+                    }
+                    dataWithSTT.forEach(item => {
+                        console.log(`Thông tin hình ảnh mèo ${item.id}:`);
+                        item.images.forEach(image => {
+                            console.log('Tên ảnh:', image.name);
+                            console.log('petid:', image.petid);
+                        });
+                    });  
                 })
                 .catch((error) => {
                     console.error('Error:', error);
                 })
         }
-        const loadTabContent = (activeKey) => {
-            if (activeKey === "1") {
-                getDogAPI();
-            } else if (activeKey === "2") {
-                getCatAPI();
-            }
+        const loadTabContentDog = () => {
+            console.log('chó')
+            getDogAPI();
+        }
+        const loadTabContentCat = () => {
+            console.log('mèo')
+            getCatAPI();
         }
         onMounted(() => {
-            loadTabContent(activeKey.value);
+            loadTabContentDog();
+            loadTabContentCat();
+            console.log(activeKey.value)
         })
 
         const onChange = (pagination, filters, sorter) => {
@@ -200,11 +404,13 @@ export default defineComponent({
         const activeKey = ref('1');
         return {
             activeKey,
-            data1,
-            data2,
-            columns,
+            dataDog,
+            dataCat,
+            columnsDog,
+            columnsCat,
             onChange,
-            loadTabContent,
+            loadTabContentDog,
+            loadTabContentCat,
             categoryFilters
             
         }

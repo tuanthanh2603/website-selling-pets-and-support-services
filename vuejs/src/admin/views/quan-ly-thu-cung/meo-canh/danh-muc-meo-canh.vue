@@ -192,6 +192,7 @@ export default defineComponent({
                     name: formEdit.value.user.editName,
                     status: formEdit.value.user.editStatus,
                     images: uploadedImage,
+                    
                 }
                 console.log(updateCategoryCat)
             }
@@ -259,6 +260,7 @@ export default defineComponent({
                     name: formState.value.user.name,
                     status: formState.value.user.status,
                     images: uploadedImage,
+                    classify: "Mèo",
                 };
                 console.log('Dữ liệu để gửi đi:', newCategoryData);
                 console.log('Tên tệp ảnh:', uploadedImage.name);

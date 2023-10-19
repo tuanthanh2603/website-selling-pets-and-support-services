@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-const categoryCatSchema = new Schema({
+const categoryPetSchema = new Schema({
     name: {
         type: String,
         required: true,
@@ -14,6 +14,10 @@ const categoryCatSchema = new Schema({
         type: String,
         required: true,
     },
+    classify: {
+        type: String,
+        required: true,
+    },
     created_at: {
         type: Date,
         default: Date.now, 
@@ -21,4 +25,4 @@ const categoryCatSchema = new Schema({
     
 });
 
-export const CategoryCat = mongoose.model("CategoryCat", categoryCatSchema, "CategoryCat");
+export const CategoryPet = mongoose.model("CategoryPet", categoryPetSchema, "CategoryPet");

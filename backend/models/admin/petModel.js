@@ -17,7 +17,7 @@ const petSchema = new Schema({
     },
     category: {
         type: Schema.Types.ObjectId,
-        ref: 'CategoryDog',
+        ref: 'CategoryPet',
         required: true,
     },
     sex: {

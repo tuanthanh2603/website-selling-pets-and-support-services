@@ -25,7 +25,8 @@
 //       }
 // }
 
-import { CategoryDog } from "../../models/admin/categoryDogModel.js";
+
+import { CategoryPet } from "../../models/admin/categoryPetModel.js"
 import { google } from "googleapis";
 import fs from "fs";
 import path from "path";
@@ -38,26 +39,26 @@ import { ImagesPet } from "../../models/admin/imagesPetModel.js";
 
 dotenv.config();
 
-const CLIENT_ID = process.env.CLIENT_ID;
-const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const REDIRECT_URI = process.env.REDIRECT_URI;
-const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
-const oauth2Client = new google.auth.OAuth2(
-  CLIENT_ID,
-  CLIENT_SECRET,
-  REDIRECT_URI
-);
-oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
-const drive = google.drive({
-  version: "v3",
-  auth: oauth2Client,
-});
+// const CLIENT_ID = process.env.CLIENT_ID;
+// const CLIENT_SECRET = process.env.CLIENT_SECRET;
+// const REDIRECT_URI = process.env.REDIRECT_URI;
+// const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+// const oauth2Client = new google.auth.OAuth2(
+//   CLIENT_ID,
+//   CLIENT_SECRET,
+//   REDIRECT_URI
+// );
+// oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+// const drive = google.drive({
+//   version: "v3",
+//   auth: oauth2Client,
+// });
 
 export const createCategoryDogController = async (req, res) => {
   console.log(req.files[0].filename);
 
-  const { name, status } = req.body;
-  const existingCategoryDog = await CategoryDog.findOne({ name });
+  const { name, status, classify } = req.body;
+  const existingCategoryDog = await CategoryPet.findOne({ name });
   if (existingCategoryDog) {
     console.log("Tên danh mục đã tồn tại");
     return res.status(400).json({ message: "Tên danh mục đã tồn tại" });
@@ -67,10 +68,11 @@ export const createCategoryDogController = async (req, res) => {
     const images2 = baseImagePath + req.files[0].filename;
     console.log(images2);
     const images = req.files[0].filename;
-    const newCategoryDog = await CategoryDog.create({
+    const newCategoryDog = await CategoryPet.create({
       name: name,
       status: status,
       images: images,
+      classify: classify,
     });
     console.log(newCategoryDog);
     res.status(201).json(newCategoryDog);
@@ -174,7 +176,7 @@ export const createCategoryDogController = async (req, res) => {
 
 export const getCategoryDog = async (req, res) => {
   try {
-    const categoryDogs = await CategoryDog.find();
+    const categoryDogs = await CategoryPet.find({ classify: "Chó" });
     res.status(200).json(categoryDogs);
   } catch {
     console.error("Error retrieving data:", error);
@@ -187,7 +189,7 @@ export const deleteCategoryDog = async (req, res) => {
   console.log("id: " + itemId);
 
   try {
-    const categoryDog = await CategoryDog.findById(itemId);
+    const categoryDog = await CategoryPet.findById(itemId);
     console.log(categoryDog.images);
     if (categoryDog) {
       const imagePathToDelete = path.join(
@@ -207,7 +209,7 @@ export const deleteCategoryDog = async (req, res) => {
       console.log("Chưa truy xuất được ảnh");
     }
 
-    await CategoryDog.findByIdAndRemove(itemId);
+    await CategoryPet.findByIdAndRemove(itemId);
     console.log("Xóa danh mục thành công");
     res.status(200).json({ message: "Xóa thành công" });
   } catch {
@@ -255,7 +257,7 @@ export const getDog = async (req, res) => {
 
 export const getCategoryDogToSelect = async (req, res) => {
   try{
-      const categoriesDog = await CategoryDog.find();
+      const categoriesDog = await CategoryPet.find({ classify: "Chó" });
       res.status(200).json(categoriesDog);
 
   } catch {

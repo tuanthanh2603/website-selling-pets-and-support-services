@@ -1,21 +1,11 @@
-import { CategoryCat } from "../../models/admin/categoryCatModel.js";
-import { CategoryDog } from "../../models/admin/categoryDogModel.js";
+import { CategoryPet } from "../../models/admin/categoryPetModel.js";
 import { Pet } from "../../models/admin/petModel.js";
 import { ImagesPet } from "../../models/admin/imagesPetModel.js";
 import multer from "multer";
 
 
 
-export const getCategoryCat = async (req, res) => {
-    try{
-        const categoriesCat = await CategoryCat.find();
-        res.status(200).json(categoriesCat);
 
-    } catch {
-        console.error("Lỗi khi lấy danh mục:", error);
-        res.status(500).json({ error: "Lỗi khi lấy danh mục" });
-    }
-}; 
 export const createPetController = async (req, res) => {
     try {
         
@@ -44,10 +34,7 @@ export const createPetController = async (req, res) => {
                 })
             }
         }
-        console.log("Thêm dữ liệu thành công")
-        
-
-        
+        console.log("Thêm dữ liệu thành công")   
         res.status(200).json({ message: 'Dữ liệu đã được xử lý thành công.' });
     } catch (error) {
         console.error('Lỗi khi xử lý dữ liệu:', error);

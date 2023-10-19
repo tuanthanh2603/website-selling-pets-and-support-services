@@ -269,6 +269,7 @@ export default defineComponent({
                     name: formState.value.user.name,
                     status: formState.value.user.status,
                     images: uploadedImage,
+                    classify: "Chó",
                 };
                 console.log('Dữ liệu để gửi đi:', newCategoryData);
                 console.log('Tên tệp ảnh:', uploadedImage.name);
