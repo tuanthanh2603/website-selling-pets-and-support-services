@@ -112,7 +112,7 @@ export default defineComponent({
             }
         };
         const callDogAPI = () => {
-            const serverUrlDog = 'http://localhost:3000/admin/them-thu-cung-moi/geCategorytDog';
+            const serverUrlDog = 'http://localhost:3000/admin/them-thu-cung-moi/getCategorytDog';
             axios.get(serverUrlDog)
             .then((response) => {
                 breedList.value = response.data;

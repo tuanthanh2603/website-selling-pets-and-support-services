@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { createPetController, getCategoryCat, getCategoryDog } from "../../controllers/admin/petController.js";
+import { createPetController, getCategoryCat } from "../../controllers/admin/petController.js";
 import upload from "../../controllers/admin/uploadController.js";
-import { getDog } from "../../controllers/admin/dogController.js";
+import { getCategoryDogToSelect, getDog } from "../../controllers/admin/dogController.js";
 import { getCat } from "../../controllers/admin/catController.js";
 
 const router = Router();
 
-router.get("/getCategoryDog", getCategoryDog)
+router.get("/getCategorytDog", getCategoryDogToSelect)
 router.get("/getCategoryCat", getCategoryCat)
 router.post("/createPet", upload.any(), createPetController);
 router.get("/getDog", getDog);

@@ -34,6 +34,7 @@ import * as dotenv from "dotenv";
 import multer from "multer";
 import upload from "./uploadController.js";
 import { Pet } from "../../models/admin/petModel.js";
+import { ImagesPet } from "../../models/admin/imagesPetModel.js";
 
 dotenv.config();
 
@@ -220,6 +221,7 @@ export const updateCategoryDogController = async (req, res) => {
   
 };
 
+
 export const getDog = async (req, res) => {
   try {
     const dogs = await Pet.find({ classify: "Chó cảnh" })
@@ -227,15 +229,21 @@ export const getDog = async (req, res) => {
       .exec();
 
     // Lấy tên danh mục từ bảng CategoryDog
-    const dogsWithCategoryNames = dogs.map((dog) => ({
-      name: dog.name,
-      status: dog.status,
-      classify: dog.classify,
-      category: dog.category.name, // Lấy tên danh mục từ bảng CategoryDog
-      sex: dog.sex,
-      created_at: dog.created_at,
+    const dogsWithCategoryNames = await Promise.all(dogs.map(async (dog) => {
+      const images = await ImagesPet.find({ petid: dog.id }).exec();
+      return {
+        id: dog.id,
+        name: dog.name,
+        status: dog.status,
+        classify: dog.classify,
+        category: dog.category.name, // Lấy tên danh mục từ bảng CategoryDog
+        sex: dog.sex,
+        created_at: dog.created_at,
+        images, // Include images associated with the pet
+      };
     }));
-    console.log(dogsWithCategoryNames)
+
+    console.log(dogsWithCategoryNames);
 
     res.json(dogsWithCategoryNames);
   } catch (error) {
@@ -243,6 +251,18 @@ export const getDog = async (req, res) => {
     res.status(500).json({ error: 'Đã xảy ra lỗi khi tải dữ liệu' });
   }
 };
+
+
+export const getCategoryDogToSelect = async (req, res) => {
+  try{
+      const categoriesDog = await CategoryDog.find();
+      res.status(200).json(categoriesDog);
+
+  } catch {
+      console.error("Lỗi khi lấy danh mục:", error);
+      res.status(500).json({ error: "Lỗi khi lấy danh mục" });
+  }
+}; 
 
 
 

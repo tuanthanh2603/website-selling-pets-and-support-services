@@ -11,7 +11,9 @@
                     <div class="container">
                         <a-tabs v-model:activeKey="activeKey">
                             <a-tab-pane key="1" tab="Danh sách chó cảnh" @click="loadTabContent('1')">
-                                <a-table :columns="columns" :data-source="data1" @change="onChange" />
+                                <a-table :columns="columns" :data-source="data1" @change="onChange" >
+                                    
+                                </a-table>
                             </a-tab-pane>
                             <a-tab-pane key="2" tab="Danh sách mèo cảnh" force-render @click="loadTabContent('2')">
                                 <a-table :columns="columns" :data-source="data2" @change="onChange" />
@@ -36,16 +38,21 @@ const columns = [
         title: 'STT',
         customRender: (text, record, index) => {
             const stt = text.renderIndex;
-            console.log(stt + 1);
+            // console.log(stt + 1);
             const STT = stt + 1;
             return STT
         },
     },
     {
         title: 'Hình ảnh',
-        dataIndex: 'age',
-
-    },
+        customRender: (text, record, index) => {
+            const firstImageName = text.text.images[0].name;
+            const imageSrc = `http://localhost:3000/uploads/${firstImageName}`;
+            return '<img src="`${imageSrc}`" alt="Hình ảnh" width="50" height="50" />';
+        },
+        
+    }
+,
     {
         title: 'Tên chó',
         dataIndex: 'name',
@@ -56,7 +63,7 @@ const columns = [
     },
     {
         title: 'Giá',
-        dataIndex: 'age',
+        dataIndex: '',
         defaultSortOrder: 'descend',
         sorter: (a, b) => a.age - b.age,
     },
@@ -104,6 +111,10 @@ const columns = [
         onFilter: (value, record) => record.status === value, 
         sorter: (a, b) => a.status.localeCompare(b.status), 
         sortDirections: ['descend', 'ascend'],
+    },
+    {
+        title: 'Tùy chọn',
+        
     }
 ];
 
@@ -131,7 +142,6 @@ export default defineComponent({
                     }));
                     
                     
-
                     data1.value = dataWithSTT;
                     console.log(dataWithSTT);
 
@@ -142,11 +152,19 @@ export default defineComponent({
                     }));
 
                     const categoryColumn = columns.find(col => col.dataIndex === 'category');
-                    console.log(categoryColumn);
+                    // console.log(categoryColumn);
                     if (categoryColumn) {
                         categoryColumn.filters = categoryFilters.value;
                     }
-                    
+
+                    dataWithSTT.forEach(item => {
+                        console.log(`Thông tin hình ảnh cho đối tượng ${item.id}:`);
+                        item.images.forEach(image => {
+                            console.log('Tên ảnh:', image.name);
+                            console.log('petid:', image.petid);
+                        });
+                    });
+
                     
                 })
                 .catch((error) => {

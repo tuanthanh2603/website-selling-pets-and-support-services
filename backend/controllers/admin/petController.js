@@ -5,16 +5,7 @@ import { ImagesPet } from "../../models/admin/imagesPetModel.js";
 import multer from "multer";
 
 
-export const getCategoryDog = async (req, res) => {
-    try{
-        const categoriesDog = await CategoryDog.find();
-        res.status(200).json(categoriesDog);
 
-    } catch {
-        console.error("Lỗi khi lấy danh mục:", error);
-        res.status(500).json({ error: "Lỗi khi lấy danh mục" });
-    }
-}; 
 export const getCategoryCat = async (req, res) => {
     try{
         const categoriesCat = await CategoryCat.find();
