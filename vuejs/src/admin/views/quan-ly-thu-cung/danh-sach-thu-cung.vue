@@ -53,7 +53,13 @@
                                             
                                         </template>
                                         <template v-else-if="column.key === 'setting'">
-                                            {{ record.id }}
+                                            <span>
+                                                <a-button @click="deleteData(record.id)"><delete-two-tone /></a-button>
+                                                &nbsp;
+                                                <a-button ><edit-two-tone /></a-button>
+                                            </span>
+                                            
+                                           
                                         </template>
                                     </template>
                                 </a-table>
@@ -101,7 +107,11 @@
                                             
                                         </template>
                                         <template v-else-if="column.key === 'setting'">
-                                            {{ record.id }}
+                                            <span>
+                                                <a-button @click="deleteData(record.id)"><delete-two-tone /></a-button>
+                                                &nbsp;
+                                                <a-button ><edit-two-tone /></a-button>
+                                            </span>
                                         </template>
                                     </template>
                                 </a-table>
@@ -119,6 +129,7 @@
 <script>
 import TheSider from '../../components/TheSider.vue';
 import { defineComponent, ref, onMounted } from 'vue';
+import { DeleteTwoTone, EditTwoTone } from '@ant-design/icons-vue';
 let categoryFilters = ref([]); 
 
 const columnsDog = [
@@ -309,9 +320,41 @@ const dataCat = ref([]);
 
 export default defineComponent({
     components: {
-        TheSider
+        TheSider,
+        DeleteTwoTone,
+        EditTwoTone
     },
     setup() {
+        const deleteData = (id) => {
+            console.log("Xóa: " + id);
+            const serverUrl = `http://localhost:3000/admin/danh-sach-thu-cung/deletePet/${id}`;
+            axios.delete(serverUrl)
+            .then(response => {
+                console.log('Xóa dữ liệu thành công!')
+                if(response.data.message == "Xóa thành công") {
+                    new Noty({
+                            text: 'Xóa thú cưng thành công!',
+                            type: 'success',
+                            layout: 'topRight',
+                            theme: 'mint', 
+                            timeout: 3000,
+                            callbacks: {
+                                afterShow: function() {
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    }, 2000); // Sau 3 giây
+                                }
+                            }
+                 }).show();
+                } else {
+                    console.error("Server trả về thông báo không hợp lệ.");
+                }
+            })
+            .catch((error) => {
+                console.error("Lỗi khi xóa dữ liệu:", error)
+            });
+        };
+        
         
         const getDogAPI = () => {
             const serverUrl = 'http://localhost:3000/admin/danh-sach-thu-cung/getDog';
@@ -411,7 +454,9 @@ export default defineComponent({
             onChange,
             loadTabContentDog,
             loadTabContentCat,
-            categoryFilters
+            categoryFilters,
+            deleteData,
+            
             
         }
     }

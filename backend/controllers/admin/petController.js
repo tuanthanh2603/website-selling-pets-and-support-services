@@ -41,3 +41,14 @@ export const createPetController = async (req, res) => {
         res.status(500).json({ error: 'Có lỗi xảy ra khi xử lý dữ liệu.' });
     }
 };
+
+export const deletePet = async (req, res) => {
+    const itemId = req.params.id;
+    console.log("id: " + itemId);
+    try {
+        
+    } catch {
+        console.error('Lỗi khi xóa dữ liệu:', error);
+        res.status(500).json({ error: 'Có lỗi xảy ra khi xóa dữ liệu.' });
+    }
+}
