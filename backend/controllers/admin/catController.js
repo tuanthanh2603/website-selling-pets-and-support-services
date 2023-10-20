@@ -119,3 +119,27 @@ export const getCategoryCatToSelect = async (req, res) => {
       res.status(500).json({ error: "Lỗi khi lấy danh mục" });
   }
 }; 
+
+export const updateCategoryCatController = async (req, res) => {
+  const updateCategoryCat = req.body;
+  const { id, name, status } = updateCategoryCat;
+
+  try {
+    const categoryCat = await CategoryPet.findById(id);
+    if (!categoryCat) {
+      return res.status(404).json({ message: 'Không tìm thấy danh mục.' });
+    } else {
+      categoryCat.name = name;
+      categoryCat.status = status;
+      if (req.files && req.files[0]) {
+        const newImages = req.files[0].filename;
+        categoryCat.images = newImages;
+      }
+      await categoryCat.save();
+      return res.status(200).json({ message: 'Cập nhật danh mục thành công.' });
+    }
+  } catch (error) {
+    console.error('Lỗi khi cập nhật danh mục:', error);
+    return res.status(500).json({ error: 'Có lỗi xảy ra khi cập nhật danh mục.' });
+  }
+};
