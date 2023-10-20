@@ -130,6 +130,10 @@
 import TheSider from '../../components/TheSider.vue';
 import { defineComponent, ref, onMounted } from 'vue';
 import { DeleteTwoTone, EditTwoTone } from '@ant-design/icons-vue';
+import Noty from "noty"
+import 'noty/lib/themes/mint.css'
+import 'noty/lib/noty.css'
+import 'noty/lib/noty.js'
 let categoryFilters = ref([]); 
 
 const columnsDog = [

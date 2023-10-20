@@ -86,6 +86,10 @@ import TheSider from '../../components/TheSider.vue';
 import { UploadOutlined } from '@ant-design/icons-vue';
 import { defineComponent, ref, reactive, watch  } from 'vue';
 import axios from "axios";
+import Noty from "noty"
+import 'noty/lib/themes/mint.css'
+import 'noty/lib/noty.css'
+import 'noty/lib/noty.js'
 export default defineComponent({
     components: {
         TheSider,
@@ -164,7 +168,22 @@ export default defineComponent({
             })
             .then((response) => {
                 console.log('Phản hồi từ server:', response.data);
-                console.log('Thêm danh mục thành công!');
+                console.log('Thêm thú cưng thành công!');
+                new Noty({
+                            text: 'Thêm thú cưng thành công!',
+                            type: 'success',
+                            layout: 'topRight',
+                            theme: 'mint', 
+                            timeout: 3000,
+                            callbacks: {
+                                afterShow: function() {
+                                    // Reload lại trang sau khi Noty hiện xong
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    }, 2000); // Sau 3 giây
+                                }
+                            }
+                        }).show();
             })
             .catch((error) => {
                 console.error('Không kết nối được đến máy chủ');

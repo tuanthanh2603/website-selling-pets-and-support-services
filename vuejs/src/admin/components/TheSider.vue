@@ -16,6 +16,7 @@
                     <span>
                         <user-outlined />
                         
+                        
                         <span>Quản lý nhân viên</span>
                     </span>
                 </template>
@@ -39,8 +40,7 @@
             <a-sub-menu key="sub2">
                 <template #title>
                     <span>
-                        <user-outlined />
-                        
+                        <github-outlined />  
                         <span>Quản lý thú cưng</span>
                     </span>
                 </template>
@@ -63,14 +63,20 @@
                         <router-link to="danh-sach-thu-cung">
                             <span>Danh sách thú cưng</span>
                         </router-link>
+                </a-menu-item>  
+            </a-sub-menu>
+            <a-sub-menu key="sub3">
+                <template #title>
+                    <span>
+                        <team-outlined />  
+                        <span>Quản lý khách hàng</span>
+                    </span>
+                </template>
+                <a-menu-item key="11">
+                        <router-link to="danh-sach-khach-hang">
+                            <span>Danh sách khách hàng</span>
+                        </router-link>
                 </a-menu-item>
-                
-                   
-
-                    
-                
-                
-                
                 
             </a-sub-menu>
             
@@ -83,7 +89,7 @@
     </ul>
 </template>
 <script>
-import { PieChartOutlined, DesktopOutlined, UserOutlined, TeamOutlined, FileOutlined } from '@ant-design/icons-vue';
+import { PieChartOutlined, DesktopOutlined, UserOutlined, TeamOutlined, FileOutlined, GithubOutlined } from '@ant-design/icons-vue';
 import { defineComponent, ref } from 'vue';
 export default defineComponent({
   components: {
@@ -92,6 +98,7 @@ export default defineComponent({
     UserOutlined,
     TeamOutlined,
     FileOutlined,
+    GithubOutlined
   },
   data() {
     return {

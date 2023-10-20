@@ -61,9 +61,9 @@
                                     </template>
                                     <template v-else-if="column.key === 'setting'">
                                         <span>
-                                            <a-button @click="deleteData(record.id)"><delete-two-tone /></a-button>
-                                            &nbsp;
-                                            <a-button @click="showModal(record.id)"><edit-two-tone /></a-button>
+                                            <a-button @click="deleteData(record.id)" style="margin: 5px;"><delete-two-tone /></a-button>
+                                            
+                                            <a-button @click="showModal(record.id)" style="margin: 5px;"><edit-two-tone /></a-button>
                                             
 
                                         </span>
@@ -86,7 +86,7 @@
     <a-modal v-model:visible="modalVisible" title="Chỉnh sửa thông tin" @ok="handleOk()" @cancel="handleCancel" :closable="false">
         <a-form :model="formState" v-bind="layout2" name="nest-messages"
             :validate-messages="validateMessages" @finish="onFinish2">
-            <a-form-item :name="['user', 'editName']" label="Tên danh mục" :rules="[{ required: true }]">
+            <a-form-item :name="['user', 'editName']" label="Tên danh mục" >
                 <a-input v-model:value="formEdit.user.editName" />
             </a-form-item>
             
@@ -191,24 +191,55 @@ export default defineComponent({
         const handleOk = () => {
             const uploadedImage = fileListEdit.value[0];
             if(uploadedImage){
-                const updateImage = fileListEdit.value[0];
-                
-                
                 console.log(uploadedImage);
                 const updateCategoryDog = {
                     id: formEdit.value.user.editId,
                     name: formEdit.value.user.editName,
                     status: formEdit.value.user.editStatus,
-                    images: updateImage,
+                    images: uploadedImage,
                 }
                 console.log('Dữ liệu gửi đi: ', updateCategoryDog);
                 const serverUrl = `http://localhost:3000/admin/danh-muc-cho-canh/updateCategoryDog`;
-                axios.put(serverUrl, updateCategoryDog)
+                axios.put(serverUrl, updateCategoryDog, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
                     .then((response) => {
                         console.log('Cập nhật thành công');
+                        new Noty({
+                            text: 'Cập nhật thành công!',
+                            type: 'success',
+                            layout: 'topRight',
+                            theme: 'mint', 
+                            timeout: 3000,
+                            callbacks: {
+                                afterShow: function() {
+                                    // Reload lại trang sau khi Noty hiện xong
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    }, 2000); // Sau 3 giây
+                                }
+                            }
+                        }).show();
                     })
                     .catch((error) => {
                         console.log('Lỗi khi cập nhật:', error);
+                        new Noty({
+                            text: 'Cập nhật thất bại!',
+                            type: 'error',
+                            layout: 'topRight',
+                            theme: 'mint', 
+                            timeout: 3000,
+                            callbacks: {
+                                afterShow: function() {
+                                    // Reload lại trang sau khi Noty hiện xong
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    }, 2000); // Sau 3 giây
+                                }
+                            }
+                        }).show();
                     });
             } else {
                 console.log('Chưa tải ảnh');
@@ -301,8 +332,8 @@ export default defineComponent({
                                 afterShow: function() {
                                     // Reload lại trang sau khi Noty hiện xong
                                     setTimeout(() => {
-                                        // window.location.reload();
-                                    }, 3000); // Sau 3 giây
+                                        window.location.reload();
+                                    }, 2000); // Sau 3 giây
                                 }
                             }
                         }).show();

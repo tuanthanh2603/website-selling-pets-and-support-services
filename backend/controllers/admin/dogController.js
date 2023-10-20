@@ -220,8 +220,29 @@ export const deleteCategoryDog = async (req, res) => {
 
 
 export const updateCategoryDogController = async (req, res) => {
-  
+  const updateCategoryDog = req.body;
+  const { id, name, status } = updateCategoryDog;
+
+  try {
+    const categoryDog = await CategoryPet.findById(id);
+    if (!categoryDog) {
+      return res.status(404).json({ message: 'Không tìm thấy danh mục.' });
+    } else {
+      categoryDog.name = name;
+      categoryDog.status = status;
+      if (req.files && req.files[0]) {
+        const newImages = req.files[0].filename;
+        categoryDog.images = newImages;
+      }
+      await categoryDog.save();
+      return res.status(200).json({ message: 'Cập nhật danh mục thành công.' });
+    }
+  } catch (error) {
+    console.error('Lỗi khi cập nhật danh mục:', error);
+    return res.status(500).json({ error: 'Có lỗi xảy ra khi cập nhật danh mục.' });
+  }
 };
+
 
 
 export const getDog = async (req, res) => {
