@@ -33,22 +33,13 @@ npm i noty
 # Backend
 1. new Terminal
 2. cd backend
-
-npm install express multer cloudinary cors datauri dotenv
-
-npm install --save-dev nodemon
-
-npm install mongoose
-
-npm install multer --save
-
-npm i dotenv
-
-npm i googleapis
-
-
 3. npm start
 4. npm run server
+
+
+
+
+
 
 
 -------------
