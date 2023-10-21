@@ -146,7 +146,7 @@
               <a-input-password v-model:value="formRegister.passwordRegister" />
             </a-form-item>
             <a-form-item :wrapper-col="{ offset: 6, span: 16 }">
-              <a-button type="primary" html-type="submit" class="btn">Đăng ký</a-button>
+              <a-button type="primary" html-type="submit" class="btn">gĐăng ký</a-button>
             </a-form-item>
           </a-form>
 
