@@ -2,13 +2,13 @@
   <a-menu v-model:selectedKeys="current" mode="horizontal" class="centered-menu">
     <a-menu-item key="home">
       <router-link to="/" tag="a" class="menu-item">
-      <span style="font-weight: 700;">Trang chủ</span>
+        <span style="font-weight: 700;">Trang chủ</span>
       </router-link>
     </a-menu-item>
 
     <a-sub-menu key="pet-category">
       <template #title><span style="font-weight: 700;">Thú cưng</span></template>
-      
+
       <a-sub-menu key="cho-canh" title="Chó cảnh">
         <a-menu-item key="11">Afghan Hound</a-menu-item>
         <a-menu-item key="12">Akita Inu</a-menu-item>
@@ -22,7 +22,7 @@
         <a-menu-item key="18">Mỹ Lông Ngắn</a-menu-item>
         <a-menu-item key="19">Rừng Na Uy</a-menu-item>
       </a-sub-menu>
-      
+
     </a-sub-menu>
     <a-sub-menu key="service-category">
       <template #title><span style="font-weight: 700;">Dịch vụ</span></template>
@@ -82,22 +82,83 @@
       <heart-outlined />
       Yêu thích
     </a-menu-item>
-    <a-menu-item key="dang-nhap" @click="showModal">
+    <a-menu-item key="dang-nhap" data-bs-toggle="modal" data-bs-target="#modal-login">
       <user-outlined />
-      Đăng nhập
+      <span>Đăng nhập</span>
+      
     </a-menu-item>
-
-
-
-
-
   </a-menu>
 
+<!-- Model Login -->
+  <div class="modal fade" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="modal-login"
+    aria-hidden="true" >
+    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-5">
+          <div class="">
+            <div class="card-header pb-0 text-center mb-4">
+              <h3 class="font-weight-bolder text-info text-gradient">Đăng nhập</h3>
+            </div>
+          </div>
+          <a-form :model="formLogin" name="basic" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }" autocomplete="off"
+            @finish="onFinish" @finishFailed="onFinishFailed">
+            <a-form-item label="Số điện thoại" name="phoneLogin"
+              :rules="[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]">
+              <a-input v-model:value="formLogin.phoneLogin" />
+            </a-form-item>
+            <a-form-item label="Mật khẩu" name="passwordLogin"
+              :rules="[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]">
+              <a-input-password v-model:value="formLogin.passwordLogin" />
+            </a-form-item>
+            <a-form-item :wrapper-col="{ offset: 6, span: 16 }">
+              <a-button type="primary" html-type="submit" class="btn">Đăng nhập</a-button>
+            </a-form-item>
+          </a-form>
 
-  <a-modal v-model:visible="visible" title="Đăng nhập" :confirm-loading="confirmLoading" @ok="handleOk">
-    <p>{{ modalText }}</p>
-  </a-modal>
+          <div class="card-footer text-center pt-0 px-lg-2 px-1">
+              Chưa có tài khoản?
+              <a href="javascript:;" class="text-info text-gradient "  data-bs-toggle="modal" data-bs-target="#modal-register" >Đăng ký ngay</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- ----- -->
+<!-- Modal Register -->
+  <div class="modal fade" id="modal-register" tabindex="-1" role="dialog" aria-labelledby="modal-register"
+     >
+    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-5">
+          <div class="">
+            <div class="card-header pb-0 text-center mb-4">
+              <h3 class="font-weight-bolder text-info text-gradient">Đăng ký</h3>
+            </div>
+          </div>
+          <a-form :model="formRegister" name="basic" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }" autocomplete="off"
+            @finish="onFinish" @finishFailed="onFinishFailed">
+            <a-form-item label="Số điện thoại" name="phone"
+              :rules="[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]">
+              <a-input v-model:value="formRegister.phoneRegister" />
+            </a-form-item>
+            <a-form-item label="Mật khẩu" name="password"
+              :rules="[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]">
+              <a-input-password v-model:value="formRegister.passwordRegister" />
+            </a-form-item>
+            <a-form-item :wrapper-col="{ offset: 6, span: 16 }">
+              <a-button type="primary" html-type="submit" class="btn">Đăng ký</a-button>
+            </a-form-item>
+          </a-form>
 
+          <div class="card-footer text-center pt-0 px-lg-2 px-1">
+              Đã có tài khoản?
+              <a href="javascript:;" class="text-info text-gradient" data-bs-dismiss="modal" aria-label="Close">Đăng nhập ngay</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- ----- -->
 </template>
 <style scoped>
 .centered-menu {
@@ -109,7 +170,7 @@
 }
 </style>
 <script>
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, reactive } from 'vue';
 import { SearchOutlined, UserOutlined, ShoppingOutlined, HeartOutlined } from '@ant-design/icons-vue';
 export default defineComponent({
   components: {
@@ -126,22 +187,58 @@ export default defineComponent({
     const showModal = () => {
       visible.value = true;
     };
-    const handleOk = () => {
-      modalText.value = 'The modal will';
-      confirmLoading.value = true;
-      setTimeout(() => {
-        visible.value = false;
-        confirmLoading.value = false;
-      }, 2000);
+
+    const formLogin = reactive({
+      phoneLogin: '',
+      passwordLogin: '',
+    });
+    const formRegister = reactive({
+      phoneRegister: '',
+      passwordRegister: '',
+    })
+    const onFinish = values => {
+      console.log('Success:', values);
+    }
+    const onFinishFailed = errorInfo => {
+      console.log('Failed:', errorInfo);
     };
+  
+    
+
+
     return {
       current,
       modalText,
       visible,
       confirmLoading,
-      showModal,
-      handleOk
+      formLogin,
+      onFinish,
+      onFinishFailed,
+      formRegister,
+      
+      
+      
+
+
+
+
     };
   },
 });
 </script>
+<style scoped>
+.btn {
+  width: 100%;
+  margin-top: 15px;
+  border-radius: 1.875rem;
+  box-shadow: 0 4px 7px -1px rgba(0, 0, 0, .11), 0 2px 4px -1px rgba(0, 0, 0, .07);
+  background-size: 150%;
+  background-position-x: 25%;
+  background-image: linear-gradient(310deg, #2152ff, #21d4fd);
+  text-align: center;
+  font-weight: 600;
+  line-height: 1.4;
+  padding: 0.6rem 2rem;
+  height: 100%;
+}
+</style>
