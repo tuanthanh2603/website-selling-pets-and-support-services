@@ -85,13 +85,12 @@
     <a-menu-item key="dang-nhap" data-bs-toggle="modal" data-bs-target="#modal-login">
       <user-outlined />
       <span>Đăng nhập</span>
-      
+
     </a-menu-item>
   </a-menu>
 
-<!-- Model Login -->
-  <div class="modal fade" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="modal-login"
-    aria-hidden="true" >
+  <!-- Model Login -->
+  <div class="modal fade" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="modal-login" aria-hidden="true">
     <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
       <div class="modal-content">
         <div class="modal-body p-5">
@@ -116,17 +115,17 @@
           </a-form>
 
           <div class="card-footer text-center pt-0 px-lg-2 px-1">
-              Chưa có tài khoản?
-              <a href="javascript:;" class="text-info text-gradient "  data-bs-toggle="modal" data-bs-target="#modal-register" >Đăng ký ngay</a>
+            Chưa có tài khoản?
+            <a href="javascript:;" class="text-info text-gradient " data-bs-toggle="modal"
+              data-bs-target="#modal-register">Đăng ký ngay</a>
           </div>
         </div>
       </div>
     </div>
   </div>
-<!-- ----- -->
-<!-- Modal Register -->
-  <div class="modal fade" id="modal-register" tabindex="-1" role="dialog" aria-labelledby="modal-register"
-     >
+  <!-- ----- -->
+  <!-- Modal Register -->
+  <div class="modal fade" id="modal-register" tabindex="-1" role="dialog" aria-labelledby="modal-register">
     <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
       <div class="modal-content">
         <div class="modal-body p-5">
@@ -135,30 +134,33 @@
               <h3 class="font-weight-bolder text-info text-gradient">Đăng ký</h3>
             </div>
           </div>
-          <a-form :model="formRegister" name="basic" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }" autocomplete="off"
-            @finish="onFinish" @finishFailed="onFinishFailed">
-            <a-form-item label="Số điện thoại" name="phone"
-              :rules="[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]">
-              <a-input v-model:value="formRegister.phoneRegister" />
+          <a-form ref="formRef" name="custom-validation" :model="formRegister" :rules="rules" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }"
+            @finish="handleFinish" @validate="handleValidate" @finishFailed="handleFinishFailed">
+            <a-form-item has-feedback label="Số điện thoại" name="phone"  >
+              <a-input v-model:value="formRegister.phone"  autocomplete="off"/>
             </a-form-item>
-            <a-form-item label="Mật khẩu" name="password"
-              :rules="[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]">
-              <a-input-password v-model:value="formRegister.passwordRegister" />
+            <a-form-item has-feedback label="Mật khẩu" name="pass">
+              <a-input-password v-model:value="formRegister.pass"  autocomplete="off" />
             </a-form-item>
+            <a-form-item has-feedback label="Xác nhận" name="checkPass">
+              <a-input-password v-model:value="formRegister.checkPass"  autocomplete="off" />
+            </a-form-item>
+           
             <a-form-item :wrapper-col="{ offset: 6, span: 16 }">
-              <a-button type="primary" html-type="submit" class="btn">gĐăng ký</a-button>
+              <a-button type="primary" html-type="submit" class="btn">Đăng ký</a-button>
             </a-form-item>
           </a-form>
 
           <div class="card-footer text-center pt-0 px-lg-2 px-1">
-              Đã có tài khoản?
-              <a href="javascript:;" class="text-info text-gradient" data-bs-dismiss="modal" aria-label="Close">Đăng nhập ngay</a>
+            Đã có tài khoản?
+            <a href="javascript:;" class="text-info text-gradient" data-bs-dismiss="modal" aria-label="Close">Đăng nhập
+              ngay</a>
           </div>
         </div>
       </div>
     </div>
   </div>
-<!-- ----- -->
+  <!-- ----- -->
 </template>
 <style scoped>
 .centered-menu {
@@ -172,6 +174,7 @@
 <script>
 import { defineComponent, ref, reactive } from 'vue';
 import { SearchOutlined, UserOutlined, ShoppingOutlined, HeartOutlined } from '@ant-design/icons-vue';
+import axios from 'axios';
 export default defineComponent({
   components: {
     SearchOutlined,
@@ -180,48 +183,124 @@ export default defineComponent({
     HeartOutlined
   },
   setup() {
-    const current = ref(['mail']);
-    const modalText = ref('Connect');
-    const visible = ref(false);
-    const confirmLoading = ref(false);
-    const showModal = () => {
-      visible.value = true;
-    };
+
+
 
     const formLogin = reactive({
       phoneLogin: '',
       passwordLogin: '',
     });
-    const formRegister = reactive({
-      phoneRegister: '',
-      passwordRegister: '',
-    })
+
     const onFinish = values => {
       console.log('Success:', values);
     }
     const onFinishFailed = errorInfo => {
       console.log('Failed:', errorInfo);
     };
-  
+
+    const formRef = ref();
+    const formRegister = reactive({
+      phone: '',
+      pass: '',
+      checkPass: '',
+      
+    });
+
+    let validatePhone = async (_rule, value) => {
+      if (value === ''){
+        return Promise.reject('Vui lòng nhập số điện thoại!');
+      } else if(!/^[0-9]{10}$/.test(value)){
+        return Promise.reject('Số điện thoại không chính xác!');
+      } else if(value.length != 10){
+        return Promise.reject('Số điện thoại không chính xác!');
+      } else {
+        return Promise.resolve();
+      }
+    }
+    let validatePass = async (_rule, value) => {
+      if (value === '') {
+        return Promise.reject('Vui lòng nhập mật khẩu!');
+      } else if(value.length < 8) {
+        return Promise.reject('Mật khẩu phải có ít nhất 8 ký tự!');
+      } else if(/[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(value)){
+        return Promise.reject('Mật khẩu không được chứa ký tự đặc biệt!');
+      } else {
+        if (formRegister.checkPass !== '') {
+          formRef.value.validateFields('checkPass');
+        }
+        return Promise.resolve();
+      }
+    };
+    let validatePass2 = async (_rule, value) => {
+      if (value === '') {
+        return Promise.reject('Vui lòng xác nhận mật khẩu!');
+      } else if (value !== formRegister.pass) {
+        return Promise.reject("Xác nhận mật khẩu không chính xác!");
+      } else {
+        return Promise.resolve();
+      }
+    };
+    const rules = {
+      phone: [{
+        required: true,
+        validator: validatePhone,
+        trigger: 'change',
+      }],
+      pass: [{
+        required: true,
+        validator: validatePass,
+        trigger: 'change',
+      }],
+      checkPass: [{
+        validator: validatePass2,
+        trigger: 'change',
+      }],
+      
+    };
+    const handleFinish = values => {
+      console.log(values, formRegister);
+      
+      console.log("Dữ liệu gửi đi: "+ values)
+      const serverUrl = 'http://localhost:3000/client/auth/addUserAccount';
+      axios.post(serverUrl, values)
+      .then((response) => {
+        console.log('Phản hồi từ server:', response.data)
+        
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 400 && error.response.data.message === "Số điện thoại đã tồn tại.") {
+          console.log("Số điện thoại đã tồn tại.");
+        } else {
+          console.log('Lỗi:', error);
+        }
+      })
+    };
+    const handleFinishFailed = errors => {
+      console.log(errors);
+      
+
+    };
     
+    const handleValidate = (...args) => {
+      
+    };
+
+
+
+
 
 
     return {
-      current,
-      modalText,
-      visible,
-      confirmLoading,
       formLogin,
       onFinish,
       onFinishFailed,
+
       formRegister,
-      
-      
-      
-
-
-
-
+      formRef,
+      rules,
+      handleFinishFailed,
+      handleFinish,
+      handleValidate,
     };
   },
 });

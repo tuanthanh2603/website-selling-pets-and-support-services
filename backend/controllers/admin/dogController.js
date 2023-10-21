@@ -60,8 +60,8 @@ export const createCategoryDogController = async (req, res) => {
   const { name, status, classify } = req.body;
   const existingCategoryDog = await CategoryPet.findOne({ name });
   if (existingCategoryDog) {
-    console.log("Tên danh mục đã tồn tại");
-    return res.status(400).json({ message: "Tên danh mục đã tồn tại" });
+    console.log("Tên danh mục đã tồn tại.");
+    return res.status(400).json({ message: "Tên danh mục đã tồn tại." });
   }
   try {
     const baseImagePath = "http://localhost:3000/public/uploads/";
