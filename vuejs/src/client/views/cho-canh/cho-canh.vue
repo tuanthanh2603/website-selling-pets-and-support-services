@@ -75,17 +75,10 @@
                         <a href="#" class="image">
                             <img src="https://azpet.com.vn/wp-content/uploads/2021/06/Alaska.jpg">
                         </a>
-                        <span class="product-discount-label">Phổ biến</span>
-                        <ul class="product-links">
-                            <li><a href="#"><search-outlined /></a></li>
-                            <li><a href="#"><heart-outlined /></a></li>
-                            <li><a href="#"><export-outlined /></a></li>
-                        </ul>
-                        <!-- <a href="" class="add-to-cart">Xem</a> -->
                     </div>
                     <div class="product-content">
-                        <h3 class="title"><a href="#">Alaska</a></h3>
-                        <!-- <div class="price">1.800.000đ <span>2.000.000đ</span></div> -->
+                        <!-- <h3 class="title"><a href="#">Alaska</a></h3> -->
+                        <h3 class="price">1.800.000</h3>
                     </div>
                 </div>
             </div>
