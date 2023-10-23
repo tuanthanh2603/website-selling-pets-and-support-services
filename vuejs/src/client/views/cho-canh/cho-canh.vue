@@ -71,11 +71,14 @@
         <div class="row g-5">
             <div class="col-md-3 col-sm-6">
                 <div class="product-grid">
-                    <div class="cat-face">
-                        <div class="circle">
+                    <div class="card-container">
+                        <div class="cat-face">
+                            <div class="circle">
+                                <img src="https://azpet.com.vn/wp-content/uploads/2021/06/Alaska.jpg">
+                            </div>
                             <div class="cat-info">
-                            <div class="cat-name">British Shorthair</div>
-                            <div class="cat-price">15.000.000</div>
+                                <div class="cat-name">British Shorthair</div>
+                                <div class="cat-price">15.000.000</div>
                             </div>
                         </div>
                     </div>
