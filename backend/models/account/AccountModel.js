@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-const accountClientSchema = new Schema({
+const accountSchema = new Schema({
     name: {
         type: String,
         required: false,
@@ -25,8 +25,11 @@ const accountClientSchema = new Schema({
     created_at: {
         type: Date,
         default: Date.now, 
+    },
+    classify: {
+        type: String,
     }
     
 });
 
-export const AccountClient = mongoose.model("AccountClient", accountClientSchema, "AccountClient");
+export const Account = mongoose.model("Account", accountSchema, "Account");

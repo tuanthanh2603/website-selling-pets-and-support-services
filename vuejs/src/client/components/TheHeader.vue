@@ -1,5 +1,5 @@
 <template>
-  <a-menu v-model:selectedKeys="current" mode="horizontal" class="centered-menu">
+  <a-menu  mode="horizontal" class="centered-menu">
     <a-menu-item key="home">
       <router-link to="/" tag="a" class="menu-item">
         <span style="font-weight: 700;">Trang chủ</span>
@@ -148,13 +148,19 @@
            
             <a-form-item :wrapper-col="{ offset: 6, span: 16 }">
               <a-button type="primary" html-type="submit" class="btn">Đăng ký</a-button>
+              
             </a-form-item>
+            <a-form-item :wrapper-col="{ offset: 6, span: 16 }">
+              <a-alert v-if="successAlert" message="Đăng ký tài khoản thành công" type="success" show-icon />
+              <a-alert v-if="warningAlert" message="Số điện thoại đã tồn tại" type="warning" show-icon />
+              <a-alert v-if="errorAlert" message="Đăng ký tài khoản thất bại" type="error" show-icon />
+            </a-form-item>
+            
           </a-form>
 
           <div class="card-footer text-center pt-0 px-lg-2 px-1">
             Đã có tài khoản?
-            <a href="javascript:;" class="text-info text-gradient" data-bs-dismiss="modal" aria-label="Close">Đăng nhập
-              ngay</a>
+            <a href="javascript:;" class="text-info text-gradient" data-bs-dismiss="modal" aria-label="Close">Đăng nhập ngay</a>
           </div>
         </div>
       </div>
@@ -174,6 +180,7 @@
 <script>
 import { defineComponent, ref, reactive } from 'vue';
 import { SearchOutlined, UserOutlined, ShoppingOutlined, HeartOutlined } from '@ant-design/icons-vue';
+
 import axios from 'axios';
 export default defineComponent({
   components: {
@@ -183,7 +190,10 @@ export default defineComponent({
     HeartOutlined
   },
   setup() {
-
+    const successAlert = ref(false);
+    const warningAlert = ref(false);
+    const errorAlert = ref(false);
+    
 
 
     const formLogin = reactive({
@@ -192,12 +202,19 @@ export default defineComponent({
     });
 
     const onFinish = values => {
+      const serverUrl = 'http://localhost:3000/auth/loginUserAccount';
+      axios.post(serverUrl, values)
+      .then((response) => {
+        console.log('Phản hồi từ server:', response.data)
+      })
+      .catch((error) => {
+        console.log('Lỗi:', error);
+      })
       console.log('Success:', values);
     }
     const onFinishFailed = errorInfo => {
       console.log('Failed:', errorInfo);
     };
-
     const formRef = ref();
     const formRegister = reactive({
       phone: '',
@@ -205,7 +222,6 @@ export default defineComponent({
       checkPass: '',
       
     });
-
     let validatePhone = async (_rule, value) => {
       if (value === ''){
         return Promise.reject('Vui lòng nhập số điện thoại!');
@@ -261,24 +277,25 @@ export default defineComponent({
       console.log(values, formRegister);
       
       console.log("Dữ liệu gửi đi: "+ values)
-      const serverUrl = 'http://localhost:3000/client/auth/addUserAccount';
+      const serverUrl = 'http://localhost:3000/auth/addUserAccount';
       axios.post(serverUrl, values)
       .then((response) => {
         console.log('Phản hồi từ server:', response.data)
+        successAlert.value = true;
         
       })
       .catch((error) => {
         if (error.response && error.response.status === 400 && error.response.data.message === "Số điện thoại đã tồn tại.") {
           console.log("Số điện thoại đã tồn tại.");
+          warningAlert.value = true;
         } else {
           console.log('Lỗi:', error);
+          errorAlert.value = true;
         }
       })
     };
     const handleFinishFailed = errors => {
       console.log(errors);
-      
-
     };
     
     const handleValidate = (...args) => {
@@ -301,6 +318,10 @@ export default defineComponent({
       handleFinishFailed,
       handleFinish,
       handleValidate,
+      successAlert,
+      warningAlert,
+      errorAlert,
+      
     };
   },
 });
