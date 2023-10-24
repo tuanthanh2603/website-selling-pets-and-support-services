@@ -109,7 +109,6 @@
               <router-link to="/dashboard" tag="a" class="menu-item">
                 <span>Dashboard</span>
               </router-link>
-              
             </a-menu-item>
 
             <a-menu-item @click="logout">
@@ -207,6 +206,10 @@
     </div>
   </div>
   <!-- ----- -->
+
+
+  <a-back-top />
+  
 </template>
 <style scoped>
 .centered-menu {
@@ -241,7 +244,7 @@ export default defineComponent({
       return !!localStorage.getItem('user_id');
     });
     const selectedKeys = computed(() => {
-      return hasLocalStorageUser.value ? ['user'] : ['dang-nhap'] ;
+      return hasLocalStorageUser.value ? ['user'] : ['dang-nhap'];
     });
     const localStorageUserName = localStorage.getItem('user_name');
     const localStorageClassify = localStorage.getItem('user_classify');
@@ -274,9 +277,9 @@ export default defineComponent({
           }
 
 
-          // setTimeout(() => {
-          //   window.location.reload();
-          // }, 2000);
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
         })
         .catch((error) => {
           if (error.response && error.response.status === 401) {
