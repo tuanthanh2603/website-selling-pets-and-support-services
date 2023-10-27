@@ -61,6 +61,10 @@ const router = createRouter({
             path: '/danh-sach-thu-cung',
             component: () => import('../admin/views/quan-ly-thu-cung/danh-sach-thu-cung.vue')
         },
+        {
+            path: '/danh-sach-khach-hang',
+            component: () => import('../admin/views/quan-ly-khach-hang/danh-sach-khach-hang.vue')
+        },
         
     ]
 });
