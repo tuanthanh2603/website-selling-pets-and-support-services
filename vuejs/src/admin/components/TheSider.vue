@@ -34,15 +34,11 @@
                     </span>
                 </template>
                 <a-menu-item key="7">
-                        <router-link to="danh-muc-cho-canh">
-                            <span>Danh mục chó cảnh</span>
+                        <router-link to="danh-muc-thu-cung">
+                            <span>Danh mục thú cưng</span>
                         </router-link>
                 </a-menu-item>
-                <a-menu-item key="8">
-                        <router-link to="danh-muc-meo-canh">
-                            <span>Danh mục mèo cảnh</span>
-                        </router-link>
-                </a-menu-item>
+                
                 <a-menu-item key="9">
                         <router-link to="them-thu-cung-moi">
                             <span>Thêm thú cưng mới</span>

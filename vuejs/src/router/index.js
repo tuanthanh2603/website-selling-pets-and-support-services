@@ -9,6 +9,7 @@ const router = createRouter({
             name: 'client',
             component: () => import('../client/views/trang-chu/trang-chu.vue')
         },
+        
       
         {
             path: '/cho-canh',
@@ -44,6 +45,10 @@ const router = createRouter({
         {
             path: '/danh-sach-nhan-vien',
             component: () => import('../admin/views/quan-ly-nhan-vien/danh-sach-nhan-vien.vue')
+        },
+        {
+            path: '/danh-muc-thu-cung',
+            component: () => import('../admin/views/quan-ly-thu-cung/danh-muc-thu-cung.vue')
         },
         {
             path: '/danh-muc-cho-canh',
