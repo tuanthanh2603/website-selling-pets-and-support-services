@@ -1,6 +1,6 @@
 <!-- Client -->  
 <template>
-  <a-layout class="layout">
+  <a-layout class="layout" >
     <a-layout-header style="padding-inline: 0px;" >
       <TheHeader/>
     </a-layout-header>

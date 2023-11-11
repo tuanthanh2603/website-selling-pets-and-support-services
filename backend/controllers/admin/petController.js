@@ -5,6 +5,12 @@ import multer from "multer";
 import fs from "fs";
 import path from "path";
 
+
+
+export const addCategoryPet = async (req, res) => {
+
+}
+
 export const createPetController = async (req, res) => {
   try {
     const petData = req.body;

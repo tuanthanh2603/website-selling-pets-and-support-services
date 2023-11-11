@@ -9,6 +9,7 @@ const router = createRouter({
             name: 'client',
             component: () => import('../client/views/trang-chu/trang-chu.vue')
         },
+        
       
         {
             path: '/cho-canh',
@@ -33,15 +34,21 @@ const router = createRouter({
         // Admin
         {
             path: '/dashboard',
-            component: () => import('../admin/views/dashboard/dashboard.vue')
+            component: () => import('../admin/views/dashboard/dashboard.vue'),
+            // meta: {requiresDashboard: true },
         },
         {
             path: '/them-nhan-vien-moi',
-            component: () => import('../admin/views/quan-ly-nhan-vien/them-nhan-vien-moi.vue')
+            component: () => import('../admin/views/quan-ly-nhan-vien/them-nhan-vien-moi.vue'),
+            // meta: {requiresDashboard: true },
         },
         {
             path: '/danh-sach-nhan-vien',
             component: () => import('../admin/views/quan-ly-nhan-vien/danh-sach-nhan-vien.vue')
+        },
+        {
+            path: '/danh-muc-thu-cung',
+            component: () => import('../admin/views/quan-ly-thu-cung/danh-muc-thu-cung.vue')
         },
         {
             path: '/danh-muc-cho-canh',
@@ -59,11 +66,32 @@ const router = createRouter({
             path: '/danh-sach-thu-cung',
             component: () => import('../admin/views/quan-ly-thu-cung/danh-sach-thu-cung.vue')
         },
+        {
+            path: '/danh-sach-khach-hang',
+            component: () => import('../admin/views/quan-ly-khach-hang/danh-sach-khach-hang.vue')
+        },
         
-        
-       
-
     ]
-})
+});
+router.beforeEach((to, from, next) => {
+    const localStorageClassify = localStorage.getItem('user_classify');
+    if(to.matched.some((record) => record.meta.requiresDashboard)) {
+        if(localStorageClassify !== 'Admin' || localStorageClassify !== 'Nhân viên') {
+            alert('Bạn không có quyền truy cập vào trang này.');
+            next('/');
+        } else {
+            next();
+        }
+    } else if(to.matched.some((record) => record.meta.requiresAdmin)) {
+        if(localStorageClassify !== 'Admin') {
+            alert('Bạn không có quyền truy cập vào trang này.');
+            next('/dashboard');
+        } else {
+            next();
+        }
+    } else {
+        next();
+    }
+});
 
 export default router

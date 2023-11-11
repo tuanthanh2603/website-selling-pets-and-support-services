@@ -1,5 +1,5 @@
 <template>
-  <a-menu  mode="horizontal" class="centered-menu">
+  <a-menu mode="horizontal" class="centered-menu" :selected-keys="selectedKeys">
     <a-menu-item key="home">
       <router-link to="/" tag="a" class="menu-item">
         <span style="font-weight: 700;">Trang chủ</span>
@@ -82,11 +82,45 @@
       <heart-outlined />
       Yêu thích
     </a-menu-item>
-    <a-menu-item key="dang-nhap" data-bs-toggle="modal" data-bs-target="#modal-login">
+
+    <a-menu-item key="dang-nhap" data-bs-toggle="modal" data-bs-target="#modal-login" v-if="!hasLocalStorageUser">
       <user-outlined />
       <span>Đăng nhập</span>
 
     </a-menu-item>
+
+    <a-menu-item key="user" v-else>
+      <user-outlined />
+      <a-dropdown>
+        <a class="ant-dropdown-link" @click.prevent> {{ localStorageUserName }}</a>
+        <template #overlay>
+          <a-menu>
+            <a-menu-item v-if="localStorageClassify === 'Khách hàng'">
+              <a href="javascript:;">Thông tin tài khoản</a>
+            </a-menu-item>
+            <a-menu-item v-if="localStorageClassify === 'Khách hàng'">
+              <a href="javascript:;">Yêu thích</a>
+            </a-menu-item>
+            <a-menu-item v-if="localStorageClassify === 'Khách hàng'">
+              <a href="javascript:;">Giỏ hàng</a>
+            </a-menu-item>
+
+            <a-menu-item v-if="localStorageClassify === 'Admin'">
+              <router-link to="/dashboard" tag="a" class="menu-item">
+                <span>Dashboard</span>
+              </router-link>
+            </a-menu-item>
+
+            <a-menu-item @click="logout">
+              <a href="javascript:;">Đăng xuất</a>
+            </a-menu-item>
+          </a-menu>
+        </template>
+      </a-dropdown>
+    </a-menu-item>
+
+    
+
   </a-menu>
 
   <!-- Model Login -->
@@ -101,16 +135,20 @@
           </div>
           <a-form :model="formLogin" name="basic" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }" autocomplete="off"
             @finish="onFinish" @finishFailed="onFinishFailed">
-            <a-form-item label="Số điện thoại" name="phoneLogin"
+            <a-form-item label="Số điện thoại" name="phone"
               :rules="[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]">
-              <a-input v-model:value="formLogin.phoneLogin" />
+              <a-input v-model:value="formLogin.phone" />
             </a-form-item>
-            <a-form-item label="Mật khẩu" name="passwordLogin"
+            <a-form-item label="Mật khẩu" name="password"
               :rules="[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]">
-              <a-input-password v-model:value="formLogin.passwordLogin" />
+              <a-input-password v-model:value="formLogin.password" />
             </a-form-item>
             <a-form-item :wrapper-col="{ offset: 6, span: 16 }">
               <a-button type="primary" html-type="submit" class="btn">Đăng nhập</a-button>
+            </a-form-item>
+            <a-form-item :wrapper-col="{ offset: 6, span: 16 }">
+              <a-alert v-if="alertMessageLogin" :message="alertMessageLogin.message" :type="alertMessageLogin.type"
+                show-icon />
             </a-form-item>
           </a-form>
 
@@ -134,39 +172,44 @@
               <h3 class="font-weight-bolder text-info text-gradient">Đăng ký</h3>
             </div>
           </div>
-          <a-form ref="formRef" name="custom-validation" :model="formRegister" :rules="rules" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }"
-            @finish="handleFinish" @validate="handleValidate" @finishFailed="handleFinishFailed">
-            <a-form-item has-feedback label="Số điện thoại" name="phone"  >
-              <a-input v-model:value="formRegister.phone"  autocomplete="off"/>
+          <a-form ref="formRef" name="custom-validation" :model="formRegister" :rules="rules" :label-col="{ span: 6 }"
+            :wrapper-col="{ span: 16 }" @finish="handleFinish" @validate="handleValidate"
+            @finishFailed="handleFinishFailed">
+            <a-form-item has-feedback label="Số điện thoại" name="phone">
+              <a-input v-model:value="formRegister.phone" autocomplete="off" />
             </a-form-item>
             <a-form-item has-feedback label="Mật khẩu" name="pass">
-              <a-input-password v-model:value="formRegister.pass"  autocomplete="off" />
+              <a-input-password v-model:value="formRegister.pass" autocomplete="off" />
             </a-form-item>
             <a-form-item has-feedback label="Xác nhận" name="checkPass">
-              <a-input-password v-model:value="formRegister.checkPass"  autocomplete="off" />
+              <a-input-password v-model:value="formRegister.checkPass" autocomplete="off" />
             </a-form-item>
-           
+
             <a-form-item :wrapper-col="{ offset: 6, span: 16 }">
               <a-button type="primary" html-type="submit" class="btn">Đăng ký</a-button>
-              
+
             </a-form-item>
             <a-form-item :wrapper-col="{ offset: 6, span: 16 }">
-              <a-alert v-if="successAlert" message="Đăng ký tài khoản thành công" type="success" show-icon />
-              <a-alert v-if="warningAlert" message="Số điện thoại đã tồn tại" type="warning" show-icon />
-              <a-alert v-if="errorAlert" message="Đăng ký tài khoản thất bại" type="error" show-icon />
+              <a-alert v-if="alertMessageRegister" :message="alertMessageRegister.message"
+                :type="alertMessageRegister.type" show-icon />
             </a-form-item>
-            
+
           </a-form>
 
           <div class="card-footer text-center pt-0 px-lg-2 px-1">
             Đã có tài khoản?
-            <a href="javascript:;" class="text-info text-gradient" data-bs-dismiss="modal" aria-label="Close">Đăng nhập ngay</a>
+            <a href="javascript:;" class="text-info text-gradient" data-bs-dismiss="modal" aria-label="Close">Đăng nhập
+              ngay</a>
           </div>
         </div>
       </div>
     </div>
   </div>
   <!-- ----- -->
+
+
+  <a-back-top />
+  
 </template>
 <style scoped>
 .centered-menu {
@@ -178,7 +221,7 @@
 }
 </style>
 <script>
-import { defineComponent, ref, reactive } from 'vue';
+import { defineComponent, ref, reactive, computed } from 'vue';
 import { SearchOutlined, UserOutlined, ShoppingOutlined, HeartOutlined } from '@ant-design/icons-vue';
 
 import axios from 'axios';
@@ -190,27 +233,63 @@ export default defineComponent({
     HeartOutlined
   },
   setup() {
-    const successAlert = ref(false);
-    const warningAlert = ref(false);
-    const errorAlert = ref(false);
-    
+    const logout = () => {
+      localStorage.removeItem('user_id');
+      localStorage.removeItem('user_name');
+      localStorage.removeItem('user_classify');
+      window.location.reload();
 
+    }
+    const hasLocalStorageUser = computed(() => {
+      return !!localStorage.getItem('user_id');
+    });
+    const selectedKeys = computed(() => {
+      return hasLocalStorageUser.value ? ['user'] : ['dang-nhap'];
+    });
+    const localStorageUserName = localStorage.getItem('user_name');
+    const localStorageClassify = localStorage.getItem('user_classify');
+
+
+
+    const alertMessageLogin = ref({ message: 'Nhập thông tin đăng nhập', type: 'info' });
+    const alertMessageRegister = ref({ message: 'Nhập thông tin đăng ký', type: 'info' });
 
     const formLogin = reactive({
-      phoneLogin: '',
-      passwordLogin: '',
+      phone: '',
+      password: '',
     });
 
     const onFinish = values => {
       const serverUrl = 'http://localhost:3000/auth/loginUserAccount';
       axios.post(serverUrl, values)
-      .then((response) => {
-        console.log('Phản hồi từ server:', response.data)
-      })
-      .catch((error) => {
-        console.log('Lỗi:', error);
-      })
-      console.log('Success:', values);
+        .then((response) => {
+          console.log('Phản hồi từ server:', response.data)
+          if (response.status === 200) {
+            localStorage.setItem('user_id', response.data.id);
+            localStorage.setItem('user_name', response.data.name);
+            localStorage.setItem('user_classify', response.data.classify);
+
+            console.log('ID: ' + localStorage.getItem('user_id'));
+            console.log('Name: ' + localStorage.getItem('user_name'));
+            console.log('Classify: ' + localStorage.getItem('user_classify'));
+
+            alertMessageLogin.value = { message: "Đăng nhập thành công", type: "success" };
+          }
+
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 401) {
+            alertMessageLogin.value = { message: "Số điện thoại không chính xác", type: "warning" };
+          } else if (error.response && error.response.status === 402) {
+            alertMessageLogin.value = { message: "Mật khẩu không chính xác", type: "warning" };
+          } else {
+            alertMessageLogin.value = { message: "Đăng nhập thất bại", type: "error" };
+          }
+        })
     }
     const onFinishFailed = errorInfo => {
       console.log('Failed:', errorInfo);
@@ -220,14 +299,14 @@ export default defineComponent({
       phone: '',
       pass: '',
       checkPass: '',
-      
+
     });
     let validatePhone = async (_rule, value) => {
-      if (value === ''){
+      if (value === '') {
         return Promise.reject('Vui lòng nhập số điện thoại!');
-      } else if(!/^[0-9]{10}$/.test(value)){
+      } else if (!/^[0-9]{10}$/.test(value)) {
         return Promise.reject('Số điện thoại không chính xác!');
-      } else if(value.length != 10){
+      } else if (value.length != 10) {
         return Promise.reject('Số điện thoại không chính xác!');
       } else {
         return Promise.resolve();
@@ -236,9 +315,9 @@ export default defineComponent({
     let validatePass = async (_rule, value) => {
       if (value === '') {
         return Promise.reject('Vui lòng nhập mật khẩu!');
-      } else if(value.length < 8) {
+      } else if (value.length < 8) {
         return Promise.reject('Mật khẩu phải có ít nhất 8 ký tự!');
-      } else if(/[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(value)){
+      } else if (/[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(value)) {
         return Promise.reject('Mật khẩu không được chứa ký tự đặc biệt!');
       } else {
         if (formRegister.checkPass !== '') {
@@ -271,40 +350,34 @@ export default defineComponent({
         validator: validatePass2,
         trigger: 'change',
       }],
-      
+
     };
     const handleFinish = values => {
       console.log(values, formRegister);
-      
-      console.log("Dữ liệu gửi đi: "+ values)
+
+      console.log("Dữ liệu gửi đi: " + values)
       const serverUrl = 'http://localhost:3000/auth/addUserAccount';
       axios.post(serverUrl, values)
-      .then((response) => {
-        console.log('Phản hồi từ server:', response.data)
-        successAlert.value = true;
-        
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 400 && error.response.data.message === "Số điện thoại đã tồn tại.") {
-          console.log("Số điện thoại đã tồn tại.");
-          warningAlert.value = true;
-        } else {
-          console.log('Lỗi:', error);
-          errorAlert.value = true;
-        }
-      })
+        .then((response) => {
+          console.log('Phản hồi từ server:', response.data)
+          alertMessageRegister.value = { message: "Đăng ký thành công", type: "success" };
+
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 400 && error.response.data.message === "Số điện thoại đã tồn tại.") {
+            alertMessageRegister.value = { message: "Số điện thoại đã tồn tài", type: "warning" };
+          } else {
+            alertMessageRegister.value = { message: "Đăng ký thất bại", type: "error" };
+          }
+        })
     };
     const handleFinishFailed = errors => {
       console.log(errors);
     };
-    
+
     const handleValidate = (...args) => {
-      
+
     };
-
-
-
-
 
 
     return {
@@ -318,10 +391,15 @@ export default defineComponent({
       handleFinishFailed,
       handleFinish,
       handleValidate,
-      successAlert,
-      warningAlert,
-      errorAlert,
-      
+      alertMessageRegister,
+      alertMessageLogin,
+      selectedKeys,
+      hasLocalStorageUser,
+      localStorageUserName,
+      logout,
+      localStorageClassify
+
+
     };
   },
 });
