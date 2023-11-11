@@ -76,16 +76,13 @@
                             <div class="circle">
                                 <img src="https://azpet.com.vn/wp-content/uploads/2021/06/Alaska.jpg">
                             </div>
-                            <div class="cat-info">
-                                <div class="cat-name">British Shorthair</div>
-                                <div class="cat-price">15.000.000</div>
-                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6">
+            <!-- <div class="col-md-3 col-sm-6">
                 <div class="product-grid">
                     <div class="product-image">
                         <a href="#" class="image">
@@ -101,7 +98,7 @@
                     </div>
                     <div class="product-content">
                         <h3 class="title"><a href="#">Chó</a></h3>
-                        <!-- <div class="price">1.800.000đ <span>2.000.000đ</span></div> -->
+                        <div class="price">1.800.000đ <span>2.000.000đ</span></div>
                     </div>
                 </div>
             </div>
@@ -122,7 +119,7 @@
                     </div>
                     <div class="product-content">
                         <h3 class="title"><a href="#">Chó</a></h3>
-                        <!-- <div class="price">1.800.000đ <span>2.000.000đ</span></div> -->
+                        <div class="price">1.800.000đ <span>2.000.000đ</span></div>
                     </div>
                 </div>
             </div>
@@ -143,7 +140,7 @@
                     </div>
                     <div class="product-content">
                         <h3 class="title"><a href="#">Chó</a></h3>
-                        <!-- <div class="price">1.800.000đ <span>2.000.000đ</span></div> -->
+                        <div class="price">1.800.000đ <span>2.000.000đ</span></div>
                     </div>
                 </div>
             </div>
@@ -164,7 +161,7 @@
                     </div>
                     <div class="product-content">
                         <h3 class="title"><a href="#">Chó</a></h3>
-                        <!-- <div class="price">1.800.000đ <span>2.000.000đ</span></div> -->
+                        <div class="price">1.800.000đ <span>2.000.000đ</span></div>
                     </div>
                 </div>
             </div>
@@ -185,7 +182,7 @@
                     </div>
                     <div class="product-content">
                         <h3 class="title"><a href="#">Chó</a></h3>
-                        <!-- <div class="price">1.800.000đ <span>2.000.000đ</span></div> -->
+                        <div class="price">1.800.000đ <span>2.000.000đ</span></div>
                     </div>
                 </div>
             </div>
@@ -206,10 +203,10 @@
                     </div>
                     <div class="product-content">
                         <h3 class="title"><a href="#">Chó</a></h3>
-                        <!-- <div class="price">1.800.000đ <span>2.000.000đ</span></div> -->
+                        <div class="price">1.800.000đ <span>2.000.000đ</span></div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
         </div>
     </div>
