@@ -12,7 +12,7 @@ const categoryPetSchema = new Schema({
     },
     images: {
         type: String,
-        required: true,
+        required: false,
     },
     classify: {
         type: String,

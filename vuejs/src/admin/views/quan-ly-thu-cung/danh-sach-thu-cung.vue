@@ -363,7 +363,7 @@ export default defineComponent({
         
         
         const getDogAPI = () => {
-            const serverUrl = 'http://localhost:3000/admin/danh-sach-thu-cung/getDog';
+            const serverUrl = 'http://localhost:3000/admin/quan-ly-thu-cung/getAllDog';
             axios.get(serverUrl)
                 .then((response) => {
                     const dataWithSTT = response.data.map((item, index) => ({
@@ -399,7 +399,7 @@ export default defineComponent({
         }
         
         const getCatAPI = () => {
-            const serverUrl = 'http://localhost:3000/admin/danh-sach-thu-cung/getCat';
+            const serverUrl = 'http://localhost:3000/admin/quan-ly-thu-cung/getAllCat';
             axios.get(serverUrl)
                 .then((response) => {
                     const dataWithSTT = response.data.map((item, index) => ({

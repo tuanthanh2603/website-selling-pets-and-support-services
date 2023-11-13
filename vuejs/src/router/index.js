@@ -51,14 +51,6 @@ const router = createRouter({
             component: () => import('../admin/views/quan-ly-thu-cung/danh-muc-thu-cung.vue')
         },
         {
-            path: '/danh-muc-cho-canh',
-            component: () => import('../admin/views/quan-ly-thu-cung/cho-canh/danh-muc-cho-canh.vue')
-        },
-        {
-            path: '/danh-muc-meo-canh',
-            component: () => import('../admin/views/quan-ly-thu-cung/meo-canh/danh-muc-meo-canh.vue')
-        },
-        {
             path: '/them-thu-cung-moi',
             component: () => import('../admin/views/quan-ly-thu-cung/them-thu-cung-moi.vue')
         },
