@@ -37,7 +37,7 @@ export const addCategoryPet = async (req, res) => {
   try {
      console.log(req.body.name);
      console.log(req.body.status);
-     console.log(req.body.classify);
+     console.log(req.body.classify)
      
      // Rest of your code
 
