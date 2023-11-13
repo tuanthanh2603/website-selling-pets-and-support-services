@@ -3,6 +3,7 @@ import catRouter from "./admin/catRouter.js";
 import petRouter from "./admin/petRouter.js";
 import authRouter from "./auth/authRouter.js";
 import clientRouter from "./admin/clientRouter.js";
+import petRouterCL from "./client/petRouterCL.js"
 
 const routes = (app) => {
     // app.use('/admin/danh-muc-cho-canh', dogRouter)
@@ -19,6 +20,7 @@ const routes = (app) => {
     // app.use('/admin/quan-ly-don-hang', )
     // app.use('/admin/quan-ly-dich-vu', )
     // ---
+    app.use('/client/xem-trang-chu', petRouterCL)
 }
 
 export default routes;

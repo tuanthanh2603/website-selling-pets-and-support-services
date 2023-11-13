@@ -237,6 +237,7 @@
         </div>
       </div>
 
+
       <div class="col-md-3 col-sm-6">
         <div class="product-grid">
           <div class="product-image">
@@ -258,6 +259,21 @@
         </div>
       </div>
 
+
+
+      <div>
+        <div v-for="(category, index) in petCategories" :key="index" class="col-md-3 col-sm-6">
+          <div class="product-grid">
+            <div class="product-image">
+            </div>
+            <div class="product-content">
+              <h3 class="title"><a href="#">{{ category.name }}</a></h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
     </div>
   </div>
 
@@ -272,15 +288,29 @@
   </a-affix>
 </template>
 <script>
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref ,onMounted} from 'vue';
 import { HeartOutlined, SearchOutlined, ExportOutlined, MessageTwoTone } from '@ant-design/icons-vue';
+import axios from 'axios';
+
 export default defineComponent({
   components: {
     HeartOutlined, SearchOutlined, ExportOutlined, MessageTwoTone
   },
   setup() {
     const bottom = ref(10);
+    const petCategories = ref([]);
+    onMounted(()=>{
+      const severURL='http://localhost:3000/client/xem-trang-chu/showCategoryPet';
+      axios.get(severURL)
+           .then((response)=>{
+            petCategories.value = response.data;
+              console.log(response.data)
+           }).catch((error)=>{
+            console.log('Error:',error)
+           })
+    })
     return {
+      petCategories,
       bottom
     }
   }
