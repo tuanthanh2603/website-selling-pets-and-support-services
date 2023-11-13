@@ -66,8 +66,8 @@
             <a-form-item name="phone" label="Số điện thoại" :rules="[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]">
                 <a-input v-model:value="formAddUser.phone" />
             </a-form-item>
-            <a-form-item name="password" label="Mật khẩu" :rules="[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]">
-                <a-input v-model:value="formAddUser.password" />
+            <a-form-item name="pass" label="Mật khẩu" :rules="[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]">
+                <a-input v-model:value="formAddUser.pass" />
             </a-form-item>
             <a-form-item name="email" label="Email" >
                 <a-input v-model:value="formAddUser.email" />
@@ -172,8 +172,14 @@ export default defineComponent({
             classify: ''
         });
         const addUser = (values) => {
-            const serverUrl = ''
-
+            const serverUrl = 'http://localhost:3000/admin/quan-ly-nhan-vien/addUser';
+            axios.post(serverUrl, values)
+            .then((response) => {
+                console.log('Phản hồi từ server:', response.data);
+            })
+            .catch((error) => {
+                console.log('Không kết nối được đến máy chủ', error);
+            })
             console.log('Thông tin người dùng:', values);
             // setTimeout(() => {
             //     loading.value = false;
