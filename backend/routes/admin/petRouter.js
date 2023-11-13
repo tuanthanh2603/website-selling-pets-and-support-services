@@ -7,7 +7,8 @@ import { addCategoryPet,
     getCategoryDogToSelect, 
     addPet,
     getAllCat,
-    getAllDog
+    getAllDog,
+    deletePet
 } from "../../controllers/admin/petController.js";
 import upload from "../../controllers/admin/uploadController.js";
 
@@ -31,5 +32,6 @@ router.get("/getCategoryCatToSelect", getCategoryCatToSelect);
 router.post("/addPet", upload.any(), addPet);
 router.get("/getAllDog", getAllDog);
 router.get("/getAllCat", getAllCat);
+router.delete("/deletePet/:id", deletePet);
 
 export default router;

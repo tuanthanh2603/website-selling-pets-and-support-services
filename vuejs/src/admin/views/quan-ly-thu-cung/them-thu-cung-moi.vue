@@ -13,7 +13,7 @@
                     <a-form :model="formAddPet" name="basic" :label-col="{ span: 8 }" :wrapper-col="{ span: 18 }"
                         @finish="addPet">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-4">
                                 <a-form-item label="Tên thú cưng" name="name"
                                     :rules="[{ required: true, message: 'Vui lòng nhập tên thú cưng!' }]">
                                     <a-input v-model:value="formAddPet.name" />
@@ -28,15 +28,22 @@
                                     </a-select>
                                 </a-form-item>
                             </div>
-
-                        </div>
-                        <div class="row">
+                            
                             <div class="col-md-4">
                                 <a-form-item name="category" label="Giống thú" has-feedback
                                     :rules="[{ required: true, message: 'Vui lòng chọn giống thú cưng!' }]">
                                     <a-select v-model:value="formAddPet.category" placeholder="Chọn giống thú cưng">
                                         <a-select-option v-for="breed in breedList" :key="breed._id" :value="breed._id">{{ breed.name }}</a-select-option>
                                     </a-select>
+                                </a-form-item>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <a-form-item name="price" label="Giá" has-feedback
+                                    :rules="[{ required: true, message: 'Vui lòng nhập giá!' }]">
+                                    <a-input v-model:value="formAddPet.price" />
                                 </a-form-item>
                             </div>
                             <div class="col-md-4">
@@ -68,12 +75,7 @@
                                     </a-upload>
                                 </a-form-item>
                             </div>
-                            <div class="col-md-4">
-                                <a-form-item name="price" label="Giá" has-feedback
-                                    :rules="[{ required: true, message: 'Vui lòng nhập giá!' }]">
-                                    <a-input v-model:value="formAddPet.price" />
-                                </a-form-item>
-                            </div>
+                            
                         </div>
                         <br>
 

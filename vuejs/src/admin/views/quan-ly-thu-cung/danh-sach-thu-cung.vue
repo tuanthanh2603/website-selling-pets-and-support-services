@@ -28,7 +28,7 @@
                                         </template>
                                         <template v-else-if="column.key === 'price'">
                                             
-                                                22
+                                                {{ record.price }}
                                             
                                         </template>
                                         <template v-else-if="column.key === 'category'">
@@ -82,7 +82,7 @@
                                         </template>
                                         <template v-else-if="column.key === 'price'">
                                             
-                                                22
+                                                {{ record.price }}
                                             
                                         </template>
                                         <template v-else-if="column.key === 'category'">
@@ -109,7 +109,7 @@
                                         </template>
                                         <template v-else-if="column.key === 'setting'">
                                             <span>
-                                                <a-button @click="deleteData(record.id)"><delete-two-tone /></a-button>
+                                                <a-button @click="deletePet(record.id)"><delete-two-tone /></a-button>
                                                 &nbsp;
                                                 <a-button ><edit-two-tone /></a-button>
                                             </span>
@@ -170,7 +170,7 @@ const columnsDog = [
     {
         key: 'price',
         title: 'Giá',
-        dataIndex: '',
+        dataIndex: 'price',
         defaultSortOrder: 'descend',
         sorter: (a, b) => a.age - b.age,
     },
@@ -260,7 +260,7 @@ const columnsCat = [
     {
         key: 'price',
         title: 'Giá',
-        dataIndex: '',
+        dataIndex: 'price',
         defaultSortOrder: 'descend',
         sorter: (a, b) => a.age - b.age,
     },
@@ -331,9 +331,9 @@ export default defineComponent({
         EditTwoTone
     },
     setup() {
-        const deleteData = (id) => {
+        const deletePet = (id) => {
             console.log("Xóa: " + id);
-            const serverUrl = `http://localhost:3000/admin/danh-sach-thu-cung/deletePet/${id}`;
+            const serverUrl = `http://localhost:3000/admin/quan-ly-thu-cung/deletePet/${id}`;
             axios.delete(serverUrl)
             .then(response => {
                 console.log('Xóa dữ liệu thành công!')
@@ -461,7 +461,7 @@ export default defineComponent({
             loadTabContentDog,
             loadTabContentCat,
             categoryFilters,
-            deleteData,
+            deletePet,
             
             
         }

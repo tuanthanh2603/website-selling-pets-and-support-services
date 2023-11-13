@@ -165,6 +165,7 @@ export const getAllDog = async (req, res) => {
         category: dog.category.name, // Lấy tên danh mục từ bảng CategoryDog
         sex: dog.sex,
         created_at: dog.created_at,
+        price: dog.price,
         images, // Include images associated with the pet
       };
     }));
@@ -184,7 +185,7 @@ export const getAllCat = async (req, res) => {
       .populate('category') // Sử dụng populate để join CategoryCat
       .exec();
 
-    // Lấy tên danh mục từ bảng CategoryDog
+
     const catsWithCategoryNames = await Promise.all(cats.map(async (cat) => {
       const images = await ImagesPet.find({ petid: cat.id }).exec();
       return {
@@ -192,9 +193,10 @@ export const getAllCat = async (req, res) => {
         name: cat.name,
         status: cat.status,
         classify: cat.classify,
-        category: cat.category.name, // Lấy tên danh mục từ bảng CategoryDog
+        category: cat.category.name, 
         sex: cat.sex,
         created_at: cat.created_at,
+        price: cat.price,
         images, // Include images associated with the pet
       };
     }));
