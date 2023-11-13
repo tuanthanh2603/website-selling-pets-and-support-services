@@ -7,9 +7,47 @@ import path from "path";
 
 
 
+// export const addCategoryPet = async (req, res) => {
+//   console.log(req.body.name);
+//   console.log(req.body.status);
+//   console.log(req.body.classify);
+//   // console.log(req.files[0].filename);
+//   // const { name, classify, status } = req.body;
+//   // const existingCategory = await CategoryPet.findOne({ name });
+//   // if(existingCategory){
+//   //   return res.status(400).json({ message: "Tên danh mục đã tồn tại." });
+//   // }
+//   // try {
+//   //   const images = req.files[0].name
+//   //   const newCategoryPet = await CategoryPet.create({
+//   //     name: name,
+//   //     status: status,
+//   //     images: images,
+//   //     classify: classify,
+      
+//   //   })
+//   //   console.log("newCategoryPet: ", newCategoryPet);
+//   //   res.status(201).json(newCategoryPet);
+//   // } catch {
+//   //   console.error("Lỗi trong quá trình xử lý request:", error);
+//   //   res.status(500).json({ msg: "Lỗi nội bộ của máy chủ" });
+//   // }
+// };
 export const addCategoryPet = async (req, res) => {
+  try {
+     console.log(req.body.name);
+     console.log(req.body.status);
+     console.log(req.body.classify);
+     
+     // Rest of your code
 
-}
+     res.status(200).json({ success: true });
+  } catch (error) {
+     console.error("Error processing request:", error);
+     res.status(500).json({ msg: "Internal Server Error" });
+  }
+};
+
 
 export const createPetController = async (req, res) => {
   try {

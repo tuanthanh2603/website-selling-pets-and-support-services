@@ -76,19 +76,24 @@ export default defineComponent({
         });
        
         
-        const addCategoryPet = values => {
-            console.log("Dữ liệu gửi đi: ", values);
+        const addCategoryPet = () => {
+            const newCategoryData = {
+                name: formAddCategory.name,
+                classify: formAddCategory.classify,
+                status: formAddCategory.status,
+                images: formAddCategory.images,
+            }
+            console.log("Dữ liệu gửi đi: ", newCategoryData);
             const serverUrl = 'http://localhost:3000/admin/quan-ly-thu-cung/addCategoryPet';
-            axios.post(serverUrl, values, {
+            axios.post(serverUrl, newCategoryData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
             })
             .then((response) => {
                 console.log('Phản hồi từ server:', response.data);
-                alert('Thêm thành công');
             }).catch((error) =>{
-                console.error('Không kết nối được đến máy chủ');
+                console.log('Không kết nối được đến máy chủ', error);
             })
             
         };
