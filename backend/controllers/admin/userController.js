@@ -15,4 +15,14 @@ export const addUser = async (req, res) => {
         console.error("Error processing request:", error);
         res.status(500).json({ msg: "Internal Server Error" });
     }
+};
+
+export const getListUser = async (req, res) => {
+    try{
+        const users = await Account.find();
+        res.status(200).send(users);
+    } catch(error){
+        console.error('Lỗi lấy dữ liệu:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi tải dữ liệu' });
+    }
 }

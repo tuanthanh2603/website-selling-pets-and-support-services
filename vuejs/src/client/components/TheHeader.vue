@@ -365,7 +365,7 @@ export default defineComponent({
         })
         .catch((error) => {
           if (error.response && error.response.status === 400 && error.response.data.message === "Số điện thoại đã tồn tại.") {
-            alertMessageRegister.value = { message: "Số điện thoại đã tồn tài", type: "warning" };
+            alertMessageRegister.value = { message: "Số điện thoại đã tồn tại", type: "warning" };
           } else {
             alertMessageRegister.value = { message: "Đăng ký thất bại", type: "error" };
           }

@@ -41,14 +41,12 @@
                             <template v-else-if="column.key === 'sex'">
                                 {{ record.sex }}
                             </template>
-                            <template v-else-if="column.key === 'status'">
-                                {{ record.status }}
-                            </template>
+                            
                             <template v-else-if="column.key === 'stt'">
 
                             </template>
                             <template v-else-if="column.key === 'setting'">
-
+                                <a-button type="primary" @click="showModalUpdateUser"><setting-outlined /></a-button>
                             </template>
                         </template>
                     </a-table>
@@ -92,6 +90,10 @@
             </a-form-item>
             <a-form-item :wrapper-col="{ span: 14, offset: 8 }">
                 <div class="row">
+                    <a-alert v-if="alertInfoUser" :message="alertInfoUser.message"
+                :type="alertInfoUser.type" show-icon />
+                </div>
+                <div class="row mt-3">
                     <div class="col-md-4">
                         <a-button type="back" @click="exitModalAddUser">Thoát</a-button>
                     </div>
@@ -109,11 +111,65 @@
             
         </template>
     </a-modal>
+    <a-modal v-model:visible="modalUpdateUser" title="Chỉnh sửa thông tin" :closable="false" style="top: 20px;">
+        
+        <a-form :model="formUpdateUser" v-bind="layoutFormAddUser" name="nest-messages" @finish="updateUser">
+            <a-form-item name="name" label="Tên nhân viên" :rules="[{ required: true, message: 'Vui lòng nhập tên nhân viên!' }]">
+                <a-input v-model:value="formUpdateUser.name" />
+            </a-form-item>
+            
+            <a-form-item name="phone" label="Số điện thoại" :rules="[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]">
+                <a-input v-model:value="formUpdateUser.phone" />
+            </a-form-item>
+            <a-form-item name="pass" label="Mật khẩu" :rules="[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]">
+                <a-input v-model:value="formUpdateUser.pass" />
+            </a-form-item>
+            <a-form-item name="email" label="Email" >
+                <a-input v-model:value="formUpdateUser.email" />
+            </a-form-item>
+            <a-form-item name="classify" label="Vai trò">
+                <a-radio-group v-model:value="formUpdateUser.classify">
+                    <a-radio value="Admin">Admin</a-radio>
+                    <a-radio value="Nhân viên">Nhân viên</a-radio>
+                    <a-radio value="Bác sĩ">Bác sĩ</a-radio>
+                </a-radio-group>
+            </a-form-item>
+
+            <a-form-item name="sex" label="Giới tính">
+                <a-radio-group v-model:value="formUpdateUser.sex">
+                    <a-radio value="Nam">Nam</a-radio>
+                    <a-radio value="Nữ">Nữ</a-radio>
+                    <a-radio value="Khác">Khác</a-radio>
+                </a-radio-group>
+            </a-form-item>
+            <a-form-item name="address" label="Địa chỉ">
+                <a-textarea v-model:value="formUpdateUser.address" />
+            </a-form-item>
+            <a-form-item :wrapper-col="{ span: 14, offset: 8 }">
+                <div class="row mt-3">
+                    <div class="col-md-4">
+                        <a-button type="back" @click="exitModalAddUser">Thoát</a-button>
+                    </div>
+                    <div class="col-md-6">
+                        <a-button type="primary" html-type="submit">Cập nhật thông tin</a-button>
+                    </div>
+                </div>
+            </a-form-item>
+        </a-form>
+        <template #footer>
+            
+        </template>
+    </a-modal>
 </template>
 <script>
 import TheSider from '../../components/TheSider.vue';
-import { defineComponent, ref } from 'vue';
+import { SettingOutlined } from '@ant-design/icons-vue';
+import { defineComponent, ref, onMounted } from 'vue';
 import axios from 'axios';
+import Noty from 'noty';
+import 'noty/lib/themes/mint.css'
+import 'noty/lib/noty.css'
+import 'noty/lib/noty.js'
 
 const columnsUser = [
     {
@@ -145,11 +201,7 @@ const columnsUser = [
         title: 'Vai trò',
         key: 'classify',
         dataIndex: 'classify',
-    }, {
-        title: 'Trạng thái',
-        key: 'status',
-        dataIndex: 'status',
-    }, {
+    },  {
         title: 'Tuỳ chọn',
         key: 'setting',
     }
@@ -157,8 +209,32 @@ const columnsUser = [
 export default defineComponent({
     components: {
         TheSider,
+        SettingOutlined
     },
     setup() {
+        const dataUser = ref([])
+        onMounted(() => {
+            const serverUrl = 'http://localhost:3000/admin/quan-ly-nhan-vien/getListUser';
+            axios.get(serverUrl)
+                .then((response)=>{
+                    dataUser.value = response.data.map((item, index) => ({
+                        key: index + 1,
+                        name: item.name,
+                        phone: item.phone,
+                        email: item.email,
+                        sex: item.sex,
+                        classify: item.classify,
+                        
+                        id: item._id.toString(),
+
+                    }))
+                    console.log(response.data)
+                })
+                .catch((error) => {
+                    console.log("Error:", error);
+                })
+            
+        })
         const modalAddUser = ref(false)
         const loading = ref(false)
         const showModalAddUser = () => {
@@ -171,14 +247,40 @@ export default defineComponent({
             sex: '',
             classify: ''
         });
+        const alertInfoUser = ref({ message: 'Nhập thông tin nhân viên', type: 'info' });
         const addUser = (values) => {
             const serverUrl = 'http://localhost:3000/admin/quan-ly-nhan-vien/addUser';
             axios.post(serverUrl, values)
             .then((response) => {
                 console.log('Phản hồi từ server:', response.data);
+                if(response.data.success){
+                    new Noty({
+                        text: 'Thêm nhân viên thành công!',
+                        type: 'success',
+                        layout: 'topRight',
+                        theme: 'mint',
+                        timeout: 3000,
+                        callbacks: {
+                            afterShow: function () {
+                                // Reload lại trang sau khi Noty hiện xong
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 2000); // Sau 3 giây
+                            }
+                        }
+                    }).show();
+                } else {
+                    console.log(response.data.message)
+                }
+
             })
             .catch((error) => {
-                console.log('Không kết nối được đến máy chủ', error);
+                if(error.response && error.response.status === 400){
+                    alertInfoUser.value = { message: "Thông tin nhân viên đã tồn tại", type: "warning"}
+                } else {
+                    alertInfoUser.value = { message: "Lỗi kết nối đến server", type: "error" };
+                }
+                
             })
             console.log('Thông tin người dùng:', values);
             // setTimeout(() => {
@@ -189,8 +291,6 @@ export default defineComponent({
         const exitModalAddUser = () => {
             modalAddUser.value = false
         }
-        const dataUser = ref([])
-        
         const layoutFormAddUser = {
             labelCol: {
                 span: 7,
@@ -198,6 +298,16 @@ export default defineComponent({
             wrapperCol: {
                 span: 16,
             },
+        }
+        const showModalUpdateUser = () => {
+            modalUpdateUser.value = true
+        }
+        const modalUpdateUser = ref(false)
+        const formUpdateUser = ref({
+
+        })
+        const updateUser = (values) => {
+
         }
         return {
             columnsUser,
@@ -208,7 +318,12 @@ export default defineComponent({
             addUser,
             exitModalAddUser,
             formAddUser,
-            layoutFormAddUser
+            layoutFormAddUser,
+            alertInfoUser,
+            showModalUpdateUser,
+            modalUpdateUser,
+            formUpdateUser,
+            updateUser
         }
     }
 })
