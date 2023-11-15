@@ -15,11 +15,7 @@
                         <span>Quản lý nhân viên</span>
                     </span>
                 </template>
-                    <a-menu-item key="3">
-                        <router-link to="them-nhan-vien-moi">
-                            <span>Thêm nhân viên mới</span>
-                        </router-link>
-                    </a-menu-item>
+                    
                     <a-menu-item key="4">
                         <router-link to="danh-sach-nhan-vien">
                             <span>Danh sách nhân viên</span>

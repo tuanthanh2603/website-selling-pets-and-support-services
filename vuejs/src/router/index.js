@@ -37,11 +37,7 @@ const router = createRouter({
             component: () => import('../admin/views/dashboard/dashboard.vue'),
             // meta: {requiresDashboard: true },
         },
-        {
-            path: '/them-nhan-vien-moi',
-            component: () => import('../admin/views/quan-ly-nhan-vien/them-nhan-vien-moi.vue'),
-            // meta: {requiresDashboard: true },
-        },
+        
         {
             path: '/danh-sach-nhan-vien',
             component: () => import('../admin/views/quan-ly-nhan-vien/danh-sach-nhan-vien.vue')

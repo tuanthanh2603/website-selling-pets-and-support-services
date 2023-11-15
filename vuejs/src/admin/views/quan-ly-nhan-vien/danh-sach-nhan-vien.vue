@@ -46,7 +46,7 @@
 
                             </template>
                             <template v-else-if="column.key === 'setting'">
-                                <a-button type="primary" @click="showModalUpdateUser"><setting-outlined /></a-button>
+                                <a-button type="primary" @click="showModalUpdateUser(record.id)"><setting-outlined /></a-button>
                             </template>
                         </template>
                     </a-table>
@@ -88,22 +88,14 @@
             <a-form-item name="address" label="Địa chỉ">
                 <a-textarea v-model:value="formAddUser.address" />
             </a-form-item>
+            
             <a-form-item :wrapper-col="{ span: 14, offset: 8 }">
-                <div class="row">
-                    <a-alert v-if="alertInfoUser" :message="alertInfoUser.message"
+                <a-alert style="margin-bottom: 20px;" v-if="alertInfoUser" :message="alertInfoUser.message"
                 :type="alertInfoUser.type" show-icon />
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-4">
-                        <a-button type="back" @click="exitModalAddUser">Thoát</a-button>
-                    </div>
-                    <div class="col-md-6">
-                        <a-button type="primary" html-type="submit">Thêm nhân viên</a-button>
-                    </div>
-                </div>
-                
-                
 
+                <a-button block type="primary" html-type="submit" style="margin-bottom: 10px;">Thêm nhân viên</a-button>
+
+                <a-button block @click="exitModalAddUser">Thoát</a-button>
             </a-form-item>
 
         </a-form>
@@ -146,14 +138,9 @@
                 <a-textarea v-model:value="formUpdateUser.address" />
             </a-form-item>
             <a-form-item :wrapper-col="{ span: 14, offset: 8 }">
-                <div class="row mt-3">
-                    <div class="col-md-4">
-                        <a-button type="back" @click="exitModalAddUser">Thoát</a-button>
-                    </div>
-                    <div class="col-md-6">
-                        <a-button type="primary" html-type="submit">Cập nhật thông tin</a-button>
-                    </div>
-                </div>
+                <a-button block type="primary" html-type="submit" style="margin-bottom: 10px;">Cập nhật thông tin</a-button>
+                <a-button danger block @click="deleteUser(formUpdateUser.id)" style="margin-bottom: 10px;">Xoá nhân viên</a-button>
+                <a-button block @click="exitModalUpdateUser">Thoát</a-button>
             </a-form-item>
         </a-form>
         <template #footer>
@@ -164,7 +151,7 @@
 <script>
 import TheSider from '../../components/TheSider.vue';
 import { SettingOutlined } from '@ant-design/icons-vue';
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted,  reactive} from 'vue';
 import axios from 'axios';
 import Noty from 'noty';
 import 'noty/lib/themes/mint.css'
@@ -222,6 +209,7 @@ export default defineComponent({
                         name: item.name,
                         phone: item.phone,
                         email: item.email,
+                        pass: item.pass,
                         sex: item.sex,
                         classify: item.classify,
                         
@@ -245,7 +233,8 @@ export default defineComponent({
             phone: '',
             email: '',
             sex: '',
-            classify: ''
+            classify: '',
+            pass: ''
         });
         const alertInfoUser = ref({ message: 'Nhập thông tin nhân viên', type: 'info' });
         const addUser = (values) => {
@@ -299,15 +288,88 @@ export default defineComponent({
                 span: 16,
             },
         }
-        const showModalUpdateUser = () => {
+        const idToUpdate = ref(null);
+        const showModalUpdateUser = (id) => {
             modalUpdateUser.value = true
+            console.log(id)
+            const selectedUser = dataUser.value.find(item => item.id === id)
+            formUpdateUser.name = selectedUser.name
+            formUpdateUser.phone = selectedUser.phone
+            formUpdateUser.pass = selectedUser.pass
+            formUpdateUser.email = selectedUser.email
+            formUpdateUser.address = selectedUser.address
+            formUpdateUser.id = selectedUser.id
+            // console.log(selectedUser)
+            formUpdateUser.classify = selectedUser.classify
+            formUpdateUser.sex = selectedUser.sex   
+            idToUpdate.value = id;
         }
         const modalUpdateUser = ref(false)
-        const formUpdateUser = ref({
-
+        const formUpdateUser = reactive({
+           
         })
         const updateUser = (values) => {
+            const id = idToUpdate.value
+            console.log('ID update:', id)
+            console.log('Values:', values)
+            const serverUrl = `http://localhost:3000/admin/quan-ly-nhan-vien/updateUser/${id}`
+            axios.put(serverUrl, values)
+            .then((response) => {
+                console.log('Update success');
+                new Noty({
+                            text: 'Cập nhật thông tin thành công!',
+                            type: 'success',
+                            layout: 'topRight',
+                            theme: 'mint',
+                            timeout: 3000,
+                            callbacks: {
+                                afterShow: function () {
+                                    // Reload lại trang sau khi Noty hiện xong
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    }, 2000); // Sau 3 giây
+                                }
+                            }
+                        }).show();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            })
 
+        }
+        const exitModalUpdateUser = () => {
+            modalUpdateUser.value = false
+        }
+        const deleteUser = (id) => {
+            console.log("Delete ID: ", id)
+            const serverUrl = `http://localhost:3000/admin/quan-ly-nhan-vien/deleteUser/${id}`;
+            axios.delete(serverUrl)
+            .then((response) => {
+                if(response.status === 200){
+                    console.log('Delete success');
+                    new Noty({
+                            text: 'Xóa nhân viên thành công!',
+                            type: 'success',
+                            layout: 'topRight',
+                            theme: 'mint',
+                            timeout: 3000,
+                            callbacks: {
+                                afterShow: function () {
+                                    // Reload lại trang sau khi Noty hiện xong
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    }, 2000); // Sau 3 giây
+                                }
+                            }
+                        }).show();
+                } else {
+                    console.log("Delete faild")
+                }
+                
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            })
         }
         return {
             columnsUser,
@@ -323,7 +385,10 @@ export default defineComponent({
             showModalUpdateUser,
             modalUpdateUser,
             formUpdateUser,
-            updateUser
+            updateUser,
+            exitModalUpdateUser,
+            idToUpdate,
+            deleteUser
         }
     }
 })

@@ -313,7 +313,21 @@ export default defineComponent({
             const serverUrl = 'http://localhost:3000/admin/quan-ly-khach-hang/updateInfoClient'
             axios.put(serverUrl, values)
             .then((response) => {
-                console.log('ok');
+                new Noty({
+                        text: 'Cập nhật thành công!',
+                        type: 'success',
+                        layout: 'topRight',
+                        theme: 'mint',
+                        timeout: 3000,
+                        callbacks: {
+                            afterShow: function () {
+                                // Reload lại trang sau khi Noty hiện xong
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 2000); // Sau 3 giây
+                            }
+                        }
+                    }).show();
             })
             .catch((error) => {
                 console.error('Error:', error);
