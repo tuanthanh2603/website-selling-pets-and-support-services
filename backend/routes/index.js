@@ -15,7 +15,7 @@ const routes = (app) => {
 
     // --- Router hoàn thiện !
     app.use('/admin/quan-ly-khach-hang', clientRouter)
-    app.use('/admin/quan-ly-thu-cung', petRouter)
+    app.use('/admin/quan-ly-san-pham', petRouter)
     app.use('/admin/quan-ly-nhan-vien', userRouter)
     // app.use('/admin/quan-ly-don-hang', )
     // app.use('/admin/quan-ly-dich-vu', )

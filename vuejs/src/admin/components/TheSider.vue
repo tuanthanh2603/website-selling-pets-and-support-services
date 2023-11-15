@@ -26,7 +26,7 @@
                 <template #title>
                     <span>
                         <github-outlined />  
-                        <span>Quản lý thú cưng</span>
+                        <span>Quản lý sản phẩm</span>
                     </span>
                 </template>
                 <a-menu-item key="7">

@@ -126,7 +126,7 @@ export default defineComponent({
             }
         };
         const callDogAPI = () => {
-            const serverUrlDog = 'http://localhost:3000/admin/quan-ly-thu-cung/getCategoryDogToSelect';
+            const serverUrlDog = 'http://localhost:3000/admin/quan-ly-san-pham/getCategoryDogToSelect';
             axios.get(serverUrlDog)
             .then((response) => {
                 breedList.value = response.data;
@@ -137,7 +137,7 @@ export default defineComponent({
             })
         }
         const callCatAPI = () => {
-            const serverUrlCat = 'http://localhost:3000/admin/quan-ly-thu-cung/getCategoryCatToSelect';
+            const serverUrlCat = 'http://localhost:3000/admin/quan-ly-san-pham/getCategoryCatToSelect';
             axios.get(serverUrlCat)
             .then((response) => {
                 breedList.value = response.data;
@@ -171,7 +171,7 @@ export default defineComponent({
 
             }
             console.log('Dữ liệu gửi đi:', formData);
-            const serverUrl = 'http://localhost:3000/admin/quan-ly-thu-cung/addPet';
+            const serverUrl = 'http://localhost:3000/admin/quan-ly-san-pham/addPet';
             axios.post(serverUrl, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',

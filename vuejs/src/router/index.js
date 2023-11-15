@@ -44,15 +44,15 @@ const router = createRouter({
         },
         {
             path: '/danh-muc-thu-cung',
-            component: () => import('../admin/views/quan-ly-thu-cung/danh-muc-thu-cung.vue')
+            component: () => import('../admin/views/quan-ly-san-pham/danh-muc-thu-cung.vue')
         },
         {
             path: '/them-thu-cung-moi',
-            component: () => import('../admin/views/quan-ly-thu-cung/them-thu-cung-moi.vue')
+            component: () => import('../admin/views/quan-ly-san-pham/them-thu-cung-moi.vue')
         },
         {
             path: '/danh-sach-thu-cung',
-            component: () => import('../admin/views/quan-ly-thu-cung/danh-sach-thu-cung.vue')
+            component: () => import('../admin/views/quan-ly-san-pham/danh-sach-thu-cung.vue')
         },
         {
             path: '/danh-sach-khach-hang',

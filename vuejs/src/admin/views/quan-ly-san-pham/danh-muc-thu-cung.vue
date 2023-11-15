@@ -212,7 +212,7 @@ export default defineComponent({
                 images: formAddCategory.images,
             }
             console.log("Dữ liệu gửi đi: ", newCategoryData);
-            const serverUrl = 'http://localhost:3000/admin/quan-ly-thu-cung/addCategoryPet';
+            const serverUrl = 'http://localhost:3000/admin/quan-ly-san-pham/addCategoryPet';
             axios.post(serverUrl, newCategoryData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
@@ -227,7 +227,7 @@ export default defineComponent({
         };
         const dataCategoryPet = ref([]);
         onMounted(() => {
-            const serverUrl = 'http://localhost:3000/admin/quan-ly-thu-cung/getCategoryPet';
+            const serverUrl = 'http://localhost:3000/admin/quan-ly-san-pham/getCategoryPet';
             axios.get(serverUrl)
                 .then((response) => {
                     dataCategoryPet.value = response.data.map((item, index) => ({
@@ -247,7 +247,7 @@ export default defineComponent({
 
         const deleteCategoryPet = (id) => {
             console.log(id);
-            const serverUrl = `http://localhost:3000/admin/quan-ly-thu-cung/deleteCategoryPet/${id}`;
+            const serverUrl = `http://localhost:3000/admin/quan-ly-san-pham/deleteCategoryPet/${id}`;
             axios.delete(serverUrl)
                 .then(response => {
                     console.log('Xóa dữ liệu thành công!')
@@ -317,7 +317,7 @@ export default defineComponent({
                     images: uploadImage
                 }
                 console.log("Dữ liệu gửi đi: ", updateCategoryPet);
-                const serverUrl = `http://localhost:3000/admin/quan-ly-thu-cung/updateCategoryPet`;
+                const serverUrl = `http://localhost:3000/admin/quan-ly-san-pham/updateCategoryPet`;
                 axios.put(serverUrl, updateCategoryPet, {
                     headers: {
                         'Content-Type': 'multipart/form-data',

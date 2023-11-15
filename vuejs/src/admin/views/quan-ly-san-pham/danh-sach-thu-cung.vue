@@ -333,7 +333,7 @@ export default defineComponent({
     setup() {
         const deletePet = (id) => {
             console.log("Xóa: " + id);
-            const serverUrl = `http://localhost:3000/admin/quan-ly-thu-cung/deletePet/${id}`;
+            const serverUrl = `http://localhost:3000/admin/quan-ly-san-pham/deletePet/${id}`;
             axios.delete(serverUrl)
             .then(response => {
                 console.log('Xóa dữ liệu thành công!')
@@ -363,7 +363,7 @@ export default defineComponent({
         
         
         const getDogAPI = () => {
-            const serverUrl = 'http://localhost:3000/admin/quan-ly-thu-cung/getAllDog';
+            const serverUrl = 'http://localhost:3000/admin/quan-ly-san-pham/getAllDog';
             axios.get(serverUrl)
                 .then((response) => {
                     const dataWithSTT = response.data.map((item, index) => ({
@@ -399,7 +399,7 @@ export default defineComponent({
         }
         
         const getCatAPI = () => {
-            const serverUrl = 'http://localhost:3000/admin/quan-ly-thu-cung/getAllCat';
+            const serverUrl = 'http://localhost:3000/admin/quan-ly-san-pham/getAllCat';
             axios.get(serverUrl)
                 .then((response) => {
                     const dataWithSTT = response.data.map((item, index) => ({
