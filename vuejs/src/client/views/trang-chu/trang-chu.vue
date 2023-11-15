@@ -272,6 +272,7 @@
           </div>
         </div>
       </div>
+      <div></div>
 
 
     </div>
@@ -284,9 +285,10 @@
       style="margin-left: 20px; margin-bottom: 50px; border-radius: 50%; width: 50px; height: 50px; background-color: transparent;  border: none; position: relative; padding: 7px;">
       <message-two-tone style=" font-size: 30px; width: 100%; height: 100%;" />
     </a-button>
-
   </a-affix>
+  
 </template>
+
 <script>
 import { defineComponent, ref ,onMounted} from 'vue';
 import { HeartOutlined, SearchOutlined, ExportOutlined, MessageTwoTone } from '@ant-design/icons-vue';
@@ -307,6 +309,7 @@ export default defineComponent({
               console.log(response.data)
            }).catch((error)=>{
             console.log('Error:',error)
+            
            })
     })
     return {
