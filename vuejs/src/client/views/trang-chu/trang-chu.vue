@@ -260,12 +260,11 @@
       </div>
 
 
-
       <div>
         <div v-for="(category, index) in petCategories" :key="index" class="col-md-3 col-sm-6">
           <div class="product-grid">
             <div class="product-image">
-              <img src="category.images[0][1].url"/>
+              <img v-if="category.images && category.images.length > 0" :src="'http://localhost:3000/uploads/' + category.images[0].name" alt="Pet Image" />
             </div>
             <div class="product-content">
               <h3 class="title"><a href="#">{{ category.name }}</a></h3>
