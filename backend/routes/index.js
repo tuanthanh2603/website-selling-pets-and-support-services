@@ -22,6 +22,7 @@ const routes = (app) => {
   // app.use('/admin/quan-ly-dich-vu', )
   // ---
   app.use("/client/xem-trang-chu", petRouterCL);
+  
   app.use("/admin/quan-ly-dich-vu", serviceRouter);
 };
 

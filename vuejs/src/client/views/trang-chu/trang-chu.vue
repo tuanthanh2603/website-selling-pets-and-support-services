@@ -265,6 +265,7 @@
         <div v-for="(category, index) in petCategories" :key="index" class="col-md-3 col-sm-6">
           <div class="product-grid">
             <div class="product-image">
+              <img src="category.images[0][1].url"/>
             </div>
             <div class="product-content">
               <h3 class="title"><a href="#">{{ category.name }}</a></h3>
@@ -272,7 +273,6 @@
           </div>
         </div>
       </div>
-      <div></div>
 
 
     </div>
@@ -306,7 +306,7 @@ export default defineComponent({
       axios.get(severURL)
            .then((response)=>{
             petCategories.value = response.data;
-              console.log(response.data)
+              console.log(response.data)    
            }).catch((error)=>{
             console.log('Error:',error)
             
