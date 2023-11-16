@@ -44,6 +44,11 @@
             <span>Danh sách thú cưng</span>
           </router-link>
         </a-menu-item>
+        <a-menu-item key="17">
+          <router-link to="/phu-kien">
+            <span>Phụ kiện</span>
+          </router-link>
+        </a-menu-item>
       </a-sub-menu>
       <a-sub-menu key="sub3">
         <template #title>
@@ -101,7 +106,7 @@
             <span>Tạo chính sách mới</span>
           </router-link>
         </a-menu-item>
-        <a-menu-item key="15">
+        <a-menu-item key="16">
           <router-link to="">
             <span>Danh sách chính sách</span>
           </router-link>
@@ -119,7 +124,7 @@
             <span>Tạo tin tức mới</span>
           </router-link>
         </a-menu-item>
-        <a-menu-item key="15">
+        <a-menu-item key="17">
           <router-link to="">
             <span>Danh sách tin tức</span>
           </router-link>
