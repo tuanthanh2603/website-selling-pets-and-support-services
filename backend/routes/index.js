@@ -4,6 +4,7 @@ import clientRouter from "./admin/clientRouter.js";
 import petRouterCL from "./client/petRouterCL.js";
 import userRouter from "./admin/userRouter.js";
 import serviceRouter from "./admin/serviceRouter.js";
+import accessoryRouter from "./admin/accessoryRouter.js"
 
 const routes = (app) => {
   // app.use('/admin/danh-muc-cho-canh', dogRouter)
@@ -17,6 +18,7 @@ const routes = (app) => {
   // --- Router hoàn thiện !
   app.use("/admin/quan-ly-khach-hang", clientRouter);
   app.use("/admin/quan-ly-san-pham", petRouter);
+  app.use("/admin/quan-ly-san-pham", accessoryRouter);
   app.use("/admin/quan-ly-nhan-vien", userRouter);
   // app.use('/admin/quan-ly-don-hang', )
   // app.use('/admin/quan-ly-dich-vu', )
