@@ -28,24 +28,14 @@
             <span>Quản lý sản phẩm</span>
           </span>
         </template>
-        <a-menu-item key="7">
-          <router-link to="danh-muc-thu-cung">
-            <span>Danh mục thú cưng</span>
+        
+        <a-menu-item key="18">
+          <router-link to="/admin-thu-cung">
+            <span>Thú cưng</span>
           </router-link>
         </a-menu-item>
-
-        <a-menu-item key="9">
-          <router-link to="them-thu-cung-moi">
-            <span>Thêm thú cưng mới</span>
-          </router-link>
-        </a-menu-item>
-        <a-menu-item key="10">
-          <router-link to="danh-sach-thu-cung">
-            <span>Danh sách thú cưng</span>
-          </router-link>
-        </a-menu-item>
-        <a-menu-item key="17">
-          <router-link to="/phu-kien">
+        <a-menu-item key="19">
+          <router-link to="/admin-phu-kien">
             <span>Phụ kiện</span>
           </router-link>
         </a-menu-item>
