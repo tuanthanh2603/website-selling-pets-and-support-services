@@ -77,7 +77,12 @@
                                 <img src="https://azpet.com.vn/wp-content/uploads/2021/06/Alaska.jpg" >
                             </div>
                         </div>
+                        <div class="info mt-4">
+                            <h6>alaskasadsadasdsadsadasdsadadas</h6>
+                            
+                        </div>
                     </div>
+                    
                 </div>
             </div>
 
@@ -122,18 +127,19 @@
 </template>
 <style scoped>
 .card {
-    width: 300px;
-    height: 400px;
+    width: 100%;
+    height: 390px;
     border-radius: 53px;
     background-color: #EE9CB2;
+    /* padding: 5px; */
 }
 .background-dog{
-    background-image: url(../../../../public/images/bg_dog.png);  
+    background-image: url(/images/bg_dog.png);  
     background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat; 
-    width: 89%;
-    height: 70%;
+    width: 82%;
+    height: 65%;
     margin: 0 auto;
 }
 .background-dog .image-dog {
