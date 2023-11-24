@@ -2,6 +2,7 @@ import petRouter from "./admin/petRouter.js";
 import authRouter from "./auth/authRouter.js";
 import clientRouter from "./admin/clientRouter.js";
 import petRouterCL from "./client/petRouterCL.js";
+import catRouterCL from "./client/catRouterCL.js"
 import userRouter from "./admin/userRouter.js";
 import serviceRouter from "./admin/serviceRouter.js";
 import accessoryRouter from "./admin/accessoryRouter.js"
@@ -24,6 +25,7 @@ const routes = (app) => {
   // app.use('/admin/quan-ly-dich-vu', )
   // ---
   app.use("/client/xem-trang-chu", petRouterCL);
+  app.use("/client/xem-trang-meo-canh", catRouterCL);
   
   app.use("/admin/quan-ly-dich-vu", serviceRouter);
 };
