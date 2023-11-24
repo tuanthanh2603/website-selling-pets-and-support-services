@@ -27,10 +27,9 @@
   <br>
 
   <div class="container">
-    <div class="row row-cols-2 g-3">
+    <div class="row row-cols-5 g-3">
 
-      <div class="col-md-3 " style="align-items: center; justify-content: center; ">
-
+      <div class="col " style="align-items: center; justify-content: center; ">
         <a href="/cho-canh">
           <figure class="bd-placeholder-img rounded-circle"
             style="height: 100px; width: 100px; background-color: #c94b4b; margin: auto ; cursor: pointer;">
@@ -39,7 +38,8 @@
           <h5 class="mt-2" style="text-align: center;  font-size: 18px; font-weight: 700;">Chó cảnh</h5>
         </a>
       </div>
-      <div class="col-md-3 ">
+
+      <div class="col">
         <a href="/meo-canh">
           <figure class="bd-placeholder-img rounded-circle"
             style="height: 100px; width: 100px; background-color: #fc4a1a; margin: auto; cursor: pointer;">
@@ -48,7 +48,18 @@
           <h5 class="mt-2" style="text-align: center;  font-size: 18px; font-weight: 700;">Mèo cảnh</h5>
         </a>
       </div>
-      <div class="col-md-3 ">
+
+      <div class="col ">
+        <a href="/trao-doi">
+          <figure class="bd-placeholder-img rounded-circle"
+            style="height: 100px; width: 100px; background-color: #fc4a1a; margin: auto; cursor: pointer;">
+            <img src="/images/trade.png" alt="" width="100%" style="padding: 20px;">
+          </figure>
+          <h5 class="mt-2" style="text-align: center;  font-size: 18px; font-weight: 700;">Trao đổi</h5>
+        </a>
+      </div>
+
+      <div class="col">
         <a href="/phu-kien-thu-cung">
           <figure class="bd-placeholder-img rounded-circle"
             style="height: 100px; width: 100px; background-color: #009fff; margin: auto; cursor: pointer;">
@@ -57,7 +68,8 @@
           <h5 class="mt-2" style="text-align: center;  font-size: 18px; font-weight: 700;">Phụ kiện thú cưng</h5>
         </a>
       </div>
-      <div class="col-md-3 ">
+
+      <div class="col-md-2 ">
         <a href="/dich-vu-ho-tro">
           <figure class="bd-placeholder-img rounded-circle"
             style="height: 100px; width: 100px; background-color: #cb356b; margin: auto; cursor: pointer;">
@@ -66,6 +78,7 @@
           <h5 class="mt-2" style="text-align: center; font-size: 18px; font-weight: 700;">Dịch vụ hỗ trợ</h5>
         </a>
       </div>
+
     </div>
   </div>
   <br>

@@ -36,6 +36,12 @@
       </a-menu-item-group>
     </a-sub-menu>
 
+    <a-sub-menu key="trade-message">
+      <template #title><span style="font-weight: 700;">Trao đổi</span></template>
+      <a-menu-item key="20">Nhắn tin</a-menu-item>
+      <a-menu-item key="21">Trao đổi thú cưng</a-menu-item>
+    </a-sub-menu>
+
 
     <a-sub-menu key="accessory-category">
       <template #title><span style="font-weight: 700;">Phụ kiện</span></template>

@@ -28,6 +28,11 @@ const router = createRouter({
         import("../client/views/dich-vu-ho-tro/dich-vu-ho-tro.vue"),
     },
     {
+      path: "/trao-doi",
+      component: () =>
+        import("../client/views/trao-doi/nhan-tin-trao-doi.vue"),
+    },
+    {
       path: "/pho-bien-nhat",
       component: () =>
         import("../client/views/pho-bien-nhat/pho-bien-nhat.vue"),
