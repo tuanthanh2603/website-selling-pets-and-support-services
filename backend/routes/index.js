@@ -23,7 +23,7 @@ const routes = (app) => {
   app.use("/admin/quan-ly-san-pham", accessoryRouter);
   app.use("/admin/quan-ly-nhan-vien", userRouter);
   
-  app.use("/client/trang-cho-canh", petRouterClient);
+  app.use("/client/dog-page", petRouterClient);
   // app.use('/admin/quan-ly-don-hang', )
   // app.use('/admin/quan-ly-dich-vu', )
   // ---

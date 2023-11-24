@@ -69,12 +69,13 @@
             </div>
         </div> -->
         <div class="row g-5">
-            <div class="col-md-3 col-sm-6">
+
+            <div v-for="(dog, index) in dogsData" :key="index" class="col-md-3 col-sm-6" >
                 <div class="product-grid">
                     <div class="card">
                         <div class="background-dog">
                             <div class="image-dog">
-                                <img src="https://azpet.com.vn/wp-content/uploads/2021/06/Alaska.jpg" >
+                                <img :src="'http://localhost:3000/uploads/' + dog.image.name" alt="Pet Image">
                             </div>
                             <ul class="list-hidden">
                             <li><a href="#"><heart-outlined size="24"/></a></li>
@@ -82,8 +83,8 @@
                         </ul>
                         </div>
                         <div class="info mt-4">
-                            <h6>alaskasadsadasdsadsadasdsadadas</h6>
-                            <p>200000</p>
+                            <h6>{{ dog.name }}</h6>
+                            <p>{{ dog.price }}</p>
                         </div>
                     </div>
                     
@@ -181,16 +182,29 @@
 </style>
 
 <script>
-import { defineComponent, ref, watch, onMounted } from 'vue';
+import { defineComponent, ref, watch, onMounted, reactive } from 'vue';
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons-vue';
+import axios from 'axios';
 export default defineComponent({
     components: {
         HeartOutlined, ShoppingCartOutlined
     },
     setup() {
+        const dogsData = ref([]);
+        onMounted(() => {
+            const serverUrl = "http://localhost:3000/client/dog-page/getPetToDogPage";
+            axios.get(serverUrl)
+            .then(response => {
+                dogsData.value = response.data.listDogs;
+                console.log(response.data.listDogs)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        });
         
         return {
-            
+            dogsData
             
         }
     }
