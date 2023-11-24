@@ -5,7 +5,8 @@ import petRouterCL from "./client/petRouterCL.js";
 import catRouterCL from "./client/catRouterCL.js"
 import userRouter from "./admin/userRouter.js";
 import serviceRouter from "./admin/serviceRouter.js";
-import accessoryRouter from "./admin/accessoryRouter.js"
+import accessoryRouter from "./admin/accessoryRouter.js";
+import petRouterClient from "./client/petRouter.js"
 
 const routes = (app) => {
   // app.use('/admin/danh-muc-cho-canh', dogRouter)
@@ -21,6 +22,8 @@ const routes = (app) => {
   app.use("/admin/quan-ly-san-pham", petRouter);
   app.use("/admin/quan-ly-san-pham", accessoryRouter);
   app.use("/admin/quan-ly-nhan-vien", userRouter);
+  
+  app.use("/client/trang-cho-canh", petRouterClient);
   // app.use('/admin/quan-ly-don-hang', )
   // app.use('/admin/quan-ly-dich-vu', )
   // ---

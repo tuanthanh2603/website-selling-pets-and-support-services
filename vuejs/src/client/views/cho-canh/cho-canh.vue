@@ -76,57 +76,78 @@
                             <div class="image-dog">
                                 <img src="https://azpet.com.vn/wp-content/uploads/2021/06/Alaska.jpg" >
                             </div>
+                            <ul class="list-hidden">
+                            <li><a href="#"><heart-outlined size="24"/></a></li>
+                            <li><a href="#"><shopping-cart-outlined /></a></li>
+                        </ul>
                         </div>
                         <div class="info mt-4">
                             <h6>alaskasadsadasdsadsadasdsadadas</h6>
-                            
+                            <p>200000</p>
                         </div>
                     </div>
                     
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6">
-                <div class="product-grid">
-                    <div class="card">
-                        <div class="background-dog">
-                            <div class="image-dog">
-                                <img src="https://azpet.com.vn/wp-content/uploads/2021/06/Alaska.jpg" >
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6">
-                <div class="product-grid">
-                    <div class="card">
-                        <div class="background-dog">
-                            <div class="image-dog">
-                                <img src="https://azpet.com.vn/wp-content/uploads/2021/06/Alaska.jpg" >
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6">
-                <div class="product-grid">
-                    <div class="card">
-                        <div class="background-dog">
-                            <div class="image-dog">
-                                <img src="https://azpet.com.vn/wp-content/uploads/2021/06/Alaska.jpg" >
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
 
         </div>
     </div>
 </template>
 <style scoped>
-.card {
+.product-grid .card {
+    position: relative;
+    overflow: hidden;
+}
+
+.product-grid .card .background-dog {
+    position: relative;
+}
+
+.product-grid .card .background-dog ul {
+    display: flex;
+    padding: 0;
+    margin: 10px;
+    justify-content: space-around;
+    list-style: none;
+    text-align: center;
+    
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.product-grid .card:hover .background-dog ul {
+    opacity: 1;
+}
+
+.product-grid .card .background-dog ul li {
+    padding: 5px 5px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    margin-right: 10px;
+    height: 50px; 
+    width: 50px;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.product-grid .card .background-dog ul li:hover{
+    background-color: #f8c5d2;
+    transition: opacity 0.3s ease-in-out;
+}
+.product-grid .card .background-dog ul li a{
+    font-size: 20px;
+    line-height: 32px;
+    transition: all 0.3s;
+}
+
+
+.product-grid .card .background-dog ul li:last-child {
+    margin-right: 0;
+}
+
+    .card {
     width: 100%;
     height: 390px;
     border-radius: 53px;
@@ -160,11 +181,16 @@
 </style>
 
 <script>
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, ref, watch, onMounted } from 'vue';
+import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons-vue';
 export default defineComponent({
+    components: {
+        HeartOutlined, ShoppingCartOutlined
+    },
     setup() {
         
         return {
+            
             
         }
     }
