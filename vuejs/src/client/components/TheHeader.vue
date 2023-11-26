@@ -98,7 +98,7 @@
                 </template>
                 
                 <template #avatar>
-                  <a-avatar :src="'http://localhost:3000/uploads/' + item.petImages" />
+                  <a-avatar :src="'http://localhost:3000/uploads/' + item.petImages[0]" />
                 </template>
                 <template #description>
                   <p>{{ item.petPrice }}</p>

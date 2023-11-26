@@ -32,3 +32,15 @@ export const getPetToDogPage = async (req, res) => {
         res.status(500).json({ msg: 'Error retrieving data from DB' });
     }
 };
+export const getCategoryPetToSelectDogPage = async (req, res) => {
+    try {
+        const categoryPets = await CategoryPet.find({
+            classify: 'Chó cảnh',
+            status: 'Hiện'
+        });
+        res.status(200).json({ categoryPets })
+    } catch (error) {
+        console.error('Error retrieving data:', error);
+        res.status(500).json({ msg: 'Error retrieving data from DB' });
+    }
+}
