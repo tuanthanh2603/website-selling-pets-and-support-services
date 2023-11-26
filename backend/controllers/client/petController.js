@@ -11,10 +11,12 @@ export const getPetToDogPage = async (req, res) => {
                 dogs.map(async (dog) => {
                     const { id, name, price, sex } = dog;
                     const categoryName = dog.category.name;
+                    const categoryId = dog.category.id;
                     const image = await ImagesPet.findOne({ petid: dog.id }).exec();
                     return {
                         id,
                         name,
+                        categoryId,
                         categoryName,
                         price,
                         sex,

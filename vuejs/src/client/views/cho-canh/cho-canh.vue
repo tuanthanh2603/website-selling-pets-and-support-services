@@ -7,21 +7,25 @@
                 style="box-shadow: 0 3px 13px rgb(204, 204, 214); padding: 25px 30px; border-radius: 8px; background: #fff;">
                 <div class="row g-5">
                     <div class="col-md-4">
-                        <a-select v-model:value="value" style="width: 100%" :options="optionsCategoryPet" placeholder="Chọn giống chó">
-                            <a-select-option v-for="category in optionsCategoryPet" :key="category._id" :value="category._id">{{ category.name }}</a-select-option>
+                        <a-select ref="select"  style="width: 100%" :options="optionsCategoryPet" placeholder="Chọn giống chó"
+                             @change="filterByCategory">
                         </a-select>
-                    
+
                     </div>
-                    <!-- <div class="col-md-4">
-                        <a-select v-model:value="value" style="width: 100%" :options="" placeholder="Chọn giới tính"
-                            @change="">
+                    <div class="col-md-4">
+                        <a-select  style="width: 100%" placeholder="Chọn giới tính"
+                            @change="filterBySex">
+                            <a-select-option value="Đực">Đực</a-select-option>
+                            <a-select-option value="Cái">Cái</a-select-option>
                         </a-select>
                     </div>
                     <div class="col-md-4">
-                        <a-select v-model:value="value" style="width: 100%" :options="" placeholder="Xếp theo"
-                            @change="">
+                        <a-select  style="width: 100%" placeholder="Xếp theo"
+                            @change="filterByPrice">
+                            <a-select-option value="1">Giá tăng dần</a-select-option>
+                            <a-select-option value="2">Giá giảm dần</a-select-option>
                         </a-select>
-                    </div> -->
+                    </div>
 
 
                 </div>
@@ -148,6 +152,7 @@ import axios from 'axios';
 import Noty from 'noty';
 import 'noty/lib/themes/mint.css'
 import 'noty/lib/noty.css';
+import { toRaw } from 'vue';
 
 export default defineComponent({
     components: {
@@ -155,20 +160,14 @@ export default defineComponent({
     },
     setup() {
         const optionsCategoryPet = ref([]);
-        const value = ref(null);
+        let originalDogsData = [];
+        const filteredDogs = ref([]);
+        
         const dogsData = ref([]);
         onMounted(() => {
-
             fetchCategoryPets();
-            const serverUrl = "http://localhost:3000/client/dog-page/getPetToDogPage";
-            axios.get(serverUrl)
-                .then(response => {
-                    dogsData.value = response.data.listDogs;
-                    console.log(response.data.listDogs)
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
+            getPetToDogPage();
+            
         });
 
         const addToFavorites = (dog) => {
@@ -232,34 +231,78 @@ export default defineComponent({
 
             }
         }
-        
+        const getPetToDogPage = () => {
+            const serverUrl = "http://localhost:3000/client/dog-page/getPetToDogPage";
+            axios.get(serverUrl)
+                .then(response => {
+                    // dogsData.value = response.data.listDogs;
+                    console.log(response.data.listDogs)
+                    originalDogsData = response.data.listDogs;
+                    dogsData.value = [...originalDogsData];
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        }
         const fetchCategoryPets = () => {
             const serverUrl = "http://localhost:3000/client/dog-page/getCategoryPetToSelectDogPage";
             axios.get(serverUrl)
                 .then(response => {
-                    console.log(response.data)
-                    optionsCategoryPet.value = response.data.categoryPets
-                    console.log(optionsCategoryPet.value)
-                    
+                    console.log(response.data.categoryPets)
+                    // options1.value = response.data
+                    optionsCategoryPet.value = response.data.categoryPets.map(category => ({
+                        value: category._id,
+                        label: category.name
+                    }));
+                
                 })
                 .catch((error) => {
                     console.log('Error' + error);
                 })
         }
-        
-        const searchByCategory = value => {
-            console.log(`Category: ${value}`)
+
+        const filterByCategory = id => {
+            console.log(`Category: ${id}`)
+            if(id) {
+                // dogsData.value = dogsData.value.filter(dog => dog.categoryId === value1)
+                // console.log(dogsData.value)
+                dogsData.value = [...originalDogsData].filter(dog => dog.categoryId === id);
+                console.log(dogsData.value); 
+            } else {
+                dogsData.value = [...originalDogsData];
+            }
+        }
+        const filterBySex = value => {
+            console.log(value)
+            if(value === 'Đực' || value === 'Cái'){
+                dogsData.value = [...originalDogsData].filter(dog => dog.sex === value);
+            } else {
+                dogsData.value = [...originalDogsData];
+            }
+        }
+        const filterByPrice = value => {
+            if(value === '1'){
+                dogsData.value = [...originalDogsData].sort((a,b) => a.price - b.price);
+            } else if(value === '2'){
+                dogsData.value = [...originalDogsData].sort((a,b) => b.price - a.price);
+            } else {
+                dogsData.value = [...originalDogsData];
+            }
         }
 
         return {
             dogsData,
             addToFavorites,
             optionsCategoryPet,
-            searchByCategory,
-            value
-           
+            filterByCategory,
+            filterBySex,
+            filterByPrice
+
             
-        
+
+
+
+
 
         }
     }
