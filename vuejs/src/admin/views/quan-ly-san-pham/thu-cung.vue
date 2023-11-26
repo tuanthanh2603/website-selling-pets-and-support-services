@@ -741,6 +741,21 @@ export default defineComponent({
             })
                 .then((response) => {
                     console.log('Phản hồi từ server:', response.data);
+                    new Noty({
+                            text: 'Thêm danh mục thành công!',
+                            type: 'success',
+                            layout: 'topRight',
+                            theme: 'mint',
+                            timeout: 3000,
+                            callbacks: {
+                                afterShow: function () {
+                                    // Reload lại trang sau khi Noty hiện xong
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    }, 2000); // Sau 3 giây
+                                }
+                            }
+                        }).show();
                 }).catch((error) => {
                     console.log('Không kết nối được đến máy chủ', error);
                 })
