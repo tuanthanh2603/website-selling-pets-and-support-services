@@ -78,8 +78,8 @@
                                 <img :src="'http://localhost:3000/uploads/' + dog.image.name" alt="Pet Image">
                             </div>
                             <ul class="list-hidden">
-                            <li><a href="#"><heart-outlined size="24"/></a></li>
-                            <li><a href="#"><shopping-cart-outlined /></a></li>
+                            <li title="Yêu thích"><a href="#" @click="addToFavorites(dog)"><heart-outlined /></a></li>
+                            <li title="Thêm vào giỏ hàng"><a href="#"><shopping-cart-outlined /></a></li>
                         </ul>
                         </div>
                         <div class="info mt-4">
@@ -90,9 +90,6 @@
                     
                 </div>
             </div>
-
-            
-
         </div>
     </div>
 </template>
@@ -185,6 +182,10 @@
 import { defineComponent, ref, watch, onMounted, reactive } from 'vue';
 import { HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons-vue';
 import axios from 'axios';
+import Noty from 'noty';
+import 'noty/lib/themes/mint.css'
+import 'noty/lib/noty.css';
+
 export default defineComponent({
     components: {
         HeartOutlined, ShoppingCartOutlined
@@ -202,9 +203,72 @@ export default defineComponent({
                 console.log(error)
             })
         });
+
+        const addToFavorites =  (dog) => {
+            const userId = localStorage.getItem('user_id')
+            const productId = dog.id
+            const petName = dog.name
+            console.log('Dog ID: ', productId)
+            console.log('User ID: ', userId)
+            
+
+            if(!userId){
+                new Noty({
+                    text: 'Vui lòng đăng nhập!',
+                    type: 'warning',
+                    layout: 'topRight',
+                    theme: 'mint',
+                    timeout: 3000,
+                }).show();
+            } else if(userId && productId) {
+                const serverUrl = "http://localhost:3000/client/dog-page/addToFavorites";
+                const dataToSend = {
+                    userId: userId,
+                    productId: productId
+                };
+
+                axios.post(serverUrl, dataToSend)
+                .then(response => {
+                    if(response.status === 200){
+                        new Noty({
+                            text:  `Thêm ${petName} vào yêu thích thành công`,
+                            type: 'success',
+                            layout: 'topRight',
+                            theme: 'mint',
+                            timeout: 3000,
+                        }).show();
+                    } 
+                    console.log(response.data)
+                    
+                })
+                .catch((error) => {
+                    console.log(error.response.status)
+                    if(error.response.status === 400){
+                        new Noty({
+                            text: 'Sản phẩm đã được thêm vào yêu thích',
+                            type: 'info',
+                            layout: 'topRight',
+                            theme: 'mint',
+                            timeout: 3000,
+                        }).show();      
+                    } else{
+                        new Noty({
+                            text: 'Lỗi '+ error,
+                            type: 'error',
+                            layout: 'topRight',
+                            theme: 'mint',
+                            timeout: 3000,
+                        }).show();
+                    }
+                   
+                })
+                
+            } 
+        }
         
         return {
-            dogsData
+            dogsData,
+            addToFavorites
             
         }
     }

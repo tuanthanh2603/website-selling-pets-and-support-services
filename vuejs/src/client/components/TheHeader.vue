@@ -84,11 +84,41 @@
       <shopping-outlined />
       Giỏ hàng
     </a-menu-item>
-    <a-menu-item key="yeu-thich">
-      <heart-outlined />
-      Yêu thích
-    </a-menu-item>
 
+    <a-sub-menu key="yeu-thich">
+      <template #title><span ><heart-outlined /> Yêu thích</span></template>
+      <a-menu-item-group title="Sản phẩm yêu thích">
+        <a-list item-layout="horizontal" :data-source="dataFavourite">
+          <template #renderItem="{ item }">
+            <a-list-item>
+              <a-list-item-meta>
+                <template #title>
+                  <a href="#">{{ item.petName }}</a>
+                  
+                </template>
+                
+                <template #avatar>
+                  <a-avatar :src="'http://localhost:3000/uploads/' + item.petImages" />
+                </template>
+                <template #description>
+                  <p>{{ item.petPrice }}</p>
+                  <a style="margin-right: 20px;" title="Xoá khỏi yêu thích">
+                    <delete-outlined />
+                  </a>
+                  <a title="Thêm vào giỏ hàng">
+                    <shopping-cart-outlined />
+                  </a>
+                </template>
+                
+
+              </a-list-item-meta>
+            </a-list-item>
+          </template>
+        </a-list>
+        
+      </a-menu-item-group>
+    </a-sub-menu>
+    
     <a-menu-item key="dang-nhap" data-bs-toggle="modal" data-bs-target="#modal-login" v-if="!hasLocalStorageUser">
       <user-outlined />
       <span>Đăng nhập</span>
@@ -227,8 +257,8 @@
 }
 </style>
 <script>
-import { defineComponent, ref, reactive, computed } from 'vue';
-import { SearchOutlined, UserOutlined, ShoppingOutlined, HeartOutlined } from '@ant-design/icons-vue';
+import { defineComponent, ref, reactive, computed, onMounted } from 'vue';
+import { SearchOutlined, UserOutlined, ShoppingOutlined, HeartOutlined, DeleteOutlined, ShoppingCartOutlined } from '@ant-design/icons-vue';
 
 import axios from 'axios';
 export default defineComponent({
@@ -236,7 +266,9 @@ export default defineComponent({
     SearchOutlined,
     UserOutlined,
     ShoppingOutlined,
-    HeartOutlined
+    HeartOutlined,
+    DeleteOutlined,
+    ShoppingCartOutlined
   },
   setup() {
     const logout = () => {
@@ -385,6 +417,25 @@ export default defineComponent({
 
     };
 
+    const dataFavourite = ref([]);
+
+
+    onMounted(() => {
+      const userId = localStorage.getItem('user_id');
+      console.log('ID: ' + userId)
+      if(userId) {
+        const serverUrl = `http://localhost:3000/client/dog-page/getPetToFavourite/${userId}`
+        axios.get(serverUrl, userId)
+          .then(response => {
+            console.log("Yêu thích:" , response.data.result)
+            dataFavourite.value = response.data.result || [];
+          })
+          .catch(error => {
+            console.error('Error fetching favorite products:', error);
+          })
+      }
+    })
+
 
     return {
       formLogin,
@@ -403,7 +454,8 @@ export default defineComponent({
       hasLocalStorageUser,
       localStorageUserName,
       logout,
-      localStorageClassify
+      localStorageClassify,
+      dataFavourite
 
 
     };
