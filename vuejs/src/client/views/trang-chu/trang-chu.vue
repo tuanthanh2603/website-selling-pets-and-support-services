@@ -26,6 +26,7 @@
   <br>
   <br>
 
+ 
   <div class="container">
     <div class="row row-cols-5 g-3">
 
@@ -84,7 +85,12 @@
   <br>
   <br>
 
-
+  <div class="search">
+    <div class="col-md-3">
+      <a-input-search v-model:value="value" placeholder="Tìm kiếm..." enter-button @search="onSearch" />
+    </div>
+  </div>
+ 
 
 
   <div class="container">
@@ -332,9 +338,23 @@ export default defineComponent({
             console.log('Error:',error)        
            })
     })
+
+    const value = ref('');
+    const onSearch = searchValue => {
+    const severURL=`http://localhost:3000/client/tim-kiem-san-pham/searchPetName/${searchValue}`;
+    axios.post(severURL) 
+    .then((response)=>{
+      console.log('tra du lieu thanh cong',response.data)    
+      window.location.href="/tim-kiem"
+           }).catch((error)=>{
+            console.log('Error:',error)        
+           })
+    }
+
     return {
       petCategories,
-      bottom
+      onSearch,value,
+      bottom  
     }
   }
 
@@ -354,5 +374,13 @@ export default defineComponent({
 
 .ant-carousel :deep(.slick-slide h3) {
   color: #fff;
+}
+
+</style>
+
+<style scoped >
+.search{
+    margin-left: 290px;
+    margin-bottom: 40px;
 }
 </style>

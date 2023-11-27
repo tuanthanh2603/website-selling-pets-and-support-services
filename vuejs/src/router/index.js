@@ -8,7 +8,10 @@ const router = createRouter({
       name: "client",
       component: () => import("../client/views/trang-chu/trang-chu.vue"),
     },
-
+    {
+      path: "/tim-kiem",
+      component: () => import("../client/views/tim-kiem.vue"),
+    },
     {
       path: "/cho-canh",
       component: () => import("../client/views/cho-canh/cho-canh.vue"),
