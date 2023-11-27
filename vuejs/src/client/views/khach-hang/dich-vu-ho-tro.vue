@@ -16,36 +16,41 @@
                 <div class="container">
                     <div class="row mb-2">
                         <div class="col-md-2">
-                            <a-button type="primary" @click="showModalAddService">Thêm dịch vụ mới</a-button>
+                            <a-button type="primary" @click="showModal">Thêm dịch vụ</a-button>
+                            <a-modal v-model:visible="visible" width="1000px" title="Thêm dịch vụ" @ok="handleOk">
+                                
+                                <!-- Table Create Service -->
+                                <a-table :columns="columnsUser" :data-source="dataUser">
+                                    <template #headerCell="{ column }">
+                                        <template v-if="column.key === 'name'">
+                                            <span>
+                                                Họ và tên
+                                            </span>
+                                        </template>
+                                    </template>
+                                </a-table>
+                            </a-modal>
                         </div>
                     </div>
 
-        
+                    
             </div>
 
             <!-- Table -->
             <a-table :columns="columns" :data-source="data" class="components-table-demo-nested">
-                <template #bodyCell="{ column }">
-                <template v-if="column.key === 'operation'">
-                    <a>Publish</a>
-                </template>
-                </template>
                 <template #expandedRowRender>
-                <a-table :columns="innerColumns" :data-source="innerData" :pagination="false">
-                    <template #bodyCell="{ column }">
-                    <template v-if="column.key === 'state'">
-                        <span>
-                        <a-badge status="success" />
-                        Finished
-                        </span>
-                    </template>
-                    
-                    </template>
-                </a-table>
+                    <a-table :columns="innerColumns" :data-source="innerData" :pagination="false">
+                        <template #bodyCell="{ column }">
+                            <template v-if="column.key === 'state'">
+                                <span>
+                                    <a-badge status="success" />
+                                        Hoàn thành
+                                </span>
+                            </template>
+                        </template>
+                    </a-table>
                 </template>
             </a-table>
-
-
             </div>
         </div>
     </div>
@@ -54,17 +59,28 @@
 <script>
 import TheMenu from './TheMenu.vue';
 import { DownOutlined } from '@ant-design/icons-vue'
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 export default defineComponent({
     components:{
         TheMenu
     },
     setup() {
+        const visible = ref(false);
+        const showModal = () => {
+            visible.value = true;
+        };
+        const handleOk = e => {
+            console.log(e);
+            visible.value = false;
+        };
         return {
             data,
             columns,
             innerColumns,
             innerData,
+            visible,
+            showModal,
+            handleOk,
         };
     },
 })
@@ -108,7 +124,7 @@ for (let i = 0; i < 3; ++i) {
   });
 }
 const innerColumns = [{
-  title: 'Date',
+  title: 'Thời gian khởi tạo',
   dataIndex: 'date',
   key: 'date',
 }, {
@@ -116,7 +132,7 @@ const innerColumns = [{
   dataIndex: 'process',
   key: 'process',
 }, {
-  title: 'Status',
+  title: 'Tiến độ công việc',
   key: 'state',
 }];
 const innerData = [];
