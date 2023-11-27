@@ -47,7 +47,8 @@
                         </div>
                         <div class="info mt-4">
                             <h6>{{ dog.name }}</h6>
-                            <p>{{ dog.price }}</p>
+                            <p>{{ new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(dog.price) }}</p>
+
                         </div>
                     </div>
 

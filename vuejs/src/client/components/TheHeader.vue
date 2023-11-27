@@ -101,8 +101,10 @@
                   <a-avatar :src="'http://localhost:3000/uploads/' + item.petImages[0]" />
                 </template>
                 <template #description>
-                  <p>{{ item.petPrice }}</p>
-                  <a style="margin-right: 20px;" title="Xoá khỏi yêu thích">
+                  
+                  <p>{{ new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.petPrice) }}</p>
+
+                  <a style="margin-right: 20px;" title="Xoá khỏi yêu thích" @click="deleteFavourite(item.petId)">
                     <delete-outlined />
                   </a>
                   <a title="Thêm vào giỏ hàng">
@@ -261,6 +263,9 @@ import { defineComponent, ref, reactive, computed, onMounted } from 'vue';
 import { SearchOutlined, UserOutlined, ShoppingOutlined, HeartOutlined, DeleteOutlined, ShoppingCartOutlined } from '@ant-design/icons-vue';
 
 import axios from 'axios';
+import Noty from 'noty';
+import 'noty/lib/themes/mint.css'
+import 'noty/lib/noty.css'
 export default defineComponent({
   components: {
     SearchOutlined,
@@ -271,6 +276,9 @@ export default defineComponent({
     ShoppingCartOutlined
   },
   setup() {
+    onMounted(() => {
+      getPetToFavourite();
+    })
     const logout = () => {
       localStorage.removeItem('user_id');
       localStorage.removeItem('user_name');
@@ -420,7 +428,8 @@ export default defineComponent({
     const dataFavourite = ref([]);
 
 
-    onMounted(() => {
+    
+    const getPetToFavourite = () => {
       const userId = localStorage.getItem('user_id');
       console.log('ID: ' + userId)
       if(userId) {
@@ -434,7 +443,40 @@ export default defineComponent({
             console.error('Error fetching favorite products:', error);
           })
       }
-    })
+    }
+    const deleteFavourite = (id) => {
+      console.log(id)
+      const serverUrl = `http://localhost:3000/client/dog-page/deleteFavourite/${id}`;
+      axios.delete(serverUrl)
+      .then(response => {
+        new Noty({
+            text: response.data.message,
+            type: 'info',
+            layout: 'topRight',
+            theme: 'mint',
+            timeout: 3000,
+            callbacks: {
+                afterShow: function () {
+                    // Reload lại trang sau khi Noty hiện xong
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 2000); // Sau 3 giây
+                }
+            }
+        }).show();
+      })
+      .catch((error) => {
+        console.error('Error deleting favourite product:', error);
+        new Noty({
+            text: 'Xoá thất bại',
+            type: 'error',
+            layout: 'topRight',
+            theme: 'mint',
+            timeout: 3000,
+            
+        }).show();
+      })
+    }
 
 
     return {
@@ -455,7 +497,8 @@ export default defineComponent({
       localStorageUserName,
       logout,
       localStorageClassify,
-      dataFavourite
+      dataFavourite,
+      deleteFavourite
 
 
     };

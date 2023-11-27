@@ -47,3 +47,15 @@ export const getPetToFavourite = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 }
+export const deleteFavourite = async (req, res) => {
+    const id = req.params.id
+    console.log(id)
+    try{
+        await Favourite.findOneAndDelete({ productId: id });
+        res.status(200).json({ message: 'Xoá sản phẩm khỏi yêu thích!' });
+
+    } catch (error) {
+        console.error('Error deleting data:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
