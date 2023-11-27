@@ -8,8 +8,6 @@
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h6 class="h3 mb-0 text-gray-800" style="font-size: 24px;">Danh sách nhân viên</h6>
                 </div>
-
-
                 <div class="container">
                     <div class="row mb-2">
                         <div class="col-md-2">
@@ -54,8 +52,7 @@
             </div>
         </div>
     </div>
-    <a-modal v-model:visible="modalAddUser" title="Thêm nhân viên mới" :closable="false" style="top: 20px;">
-        
+    <a-modal v-model:visible="modalAddUser" title="Thêm nhân viên mới" :closable="false" style="top: 20px;">   
         <a-form :model="formAddUser" v-bind="layoutFormAddUser" name="nest-messages" @finish="addUser">
             <a-form-item name="name" label="Tên nhân viên" :rules="[{ required: true, message: 'Vui lòng nhập tên nhân viên!' }]">
                 <a-input v-model:value="formAddUser.name" />
