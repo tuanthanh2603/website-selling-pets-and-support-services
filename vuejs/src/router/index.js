@@ -73,6 +73,12 @@ const router = createRouter({
       component: () =>
         import("../admin/views/quan-ly-dich-vu/danh-sach-dich-vu.vue"),
     },
+    /// Khách hàng
+    {
+      path: "/thong-tin-tai-khoan",
+      component: () =>
+        import("../client/views/khach-hang/thong-tin-tai-khoan.vue"),
+    },
   ],
 });
 router.beforeEach((to, from, next) => {
