@@ -98,7 +98,7 @@ export default defineComponent({
         };
         const formNewAddress = ref([]);
         const newAddress = values => {
-            console.log('Values of form: ', values);
+            console.log('Values: ', values);
         }
 
         const initLoading = ref(true);
