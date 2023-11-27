@@ -433,7 +433,7 @@ export default defineComponent({
       const userId = localStorage.getItem('user_id');
       console.log('ID: ' + userId)
       if(userId) {
-        const serverUrl = `http://localhost:3000/client/dog-page/getPetToFavourite/${userId}`
+        const serverUrl = `http://localhost:3000/client/utilities/getPetToFavourite/${userId}`
         axios.get(serverUrl, userId)
           .then(response => {
             console.log("Yêu thích:" , response.data.result)
@@ -446,7 +446,7 @@ export default defineComponent({
     }
     const deleteFavourite = (id) => {
       console.log(id)
-      const serverUrl = `http://localhost:3000/client/dog-page/deleteFavourite/${id}`;
+      const serverUrl = `http://localhost:3000/client/utilities/deleteFavourite/${id}`;
       axios.delete(serverUrl)
       .then(response => {
         new Noty({

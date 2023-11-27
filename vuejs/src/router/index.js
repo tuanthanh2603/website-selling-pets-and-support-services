@@ -79,6 +79,16 @@ const router = createRouter({
       component: () =>
         import("../client/views/khach-hang/thong-tin-tai-khoan.vue"),
     },
+    {
+      path: "/so-dia-chi-nhan-hang",
+      component: () =>
+        import("../client/views/khach-hang/so-dia-chi-nhan-hang.vue"),
+    },
+    {
+      path: "/dang-ky-dich-vu-ho-tro",
+      component: () =>
+        import("../client/views/khach-hang/dich-vu-ho-tro.vue"),
+    },
   ],
 });
 router.beforeEach((to, from, next) => {

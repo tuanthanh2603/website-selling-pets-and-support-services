@@ -188,7 +188,7 @@ export default defineComponent({
                     timeout: 3000,
                 }).show();
             } else if (userId && productId) {
-                const serverUrl = "http://localhost:3000/client/dog-page/addToFavorites";
+                const serverUrl = "http://localhost:3000/client/utilities/addToFavorites";
                 const dataToSend = {
                     userId: userId,
                     productId: productId

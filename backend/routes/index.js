@@ -8,6 +8,7 @@ import userRouter from "./admin/userRouter.js";
 import serviceRouter from "./admin/serviceRouter.js";
 import accessoryRouter from "./admin/accessoryRouter.js";
 import petRouterClient from "./client/petRouter.js"
+import utilitiesRouter from "./client/utilitiesRouter.js"
 
 
 const routes = (app) => {
@@ -26,6 +27,7 @@ const routes = (app) => {
   app.use("/admin/quan-ly-nhan-vien", userRouter);
   
   app.use("/client/dog-page", petRouterClient);
+  app.use("/client/utilities", utilitiesRouter);
   // app.use('/admin/quan-ly-don-hang', )
   // app.use('/admin/quan-ly-dich-vu', )
   // ---

@@ -1,3 +1,4 @@
+import { Account } from "../../models/account/AccountModel.js";
 import { ImagesPet } from "../../models/admin/imagesPetModel.js";
 import { Pet } from "../../models/admin/petModel.js";
 import { Favourite } from "../../models/favouriteModel.js";
@@ -56,6 +57,38 @@ export const deleteFavourite = async (req, res) => {
 
     } catch (error) {
         console.error('Error deleting data:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+/// page mna client
+export const getInfoClient = async ( req, res) => {
+    const id = req.params.userId
+    // console.log(id)
+    try {
+        const info = await Account.findById(id);
+        if(!info){
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.status(200).json({ info });
+    } 
+    catch(error){
+        console.error('Error getting user data:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+export const updateInfoClient = async (req, res) => {
+    const id = req.params.userId;
+    console.log(id)
+    try{
+        const updatedInfo = req.body
+        const updateUser = await Account.findByIdAndUpdate(id, updatedInfo, {new: true})
+        if(!updateUser){
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.status(200).json({ updateUser });
+    } catch(error) {
+        console.error('Error updating user info:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 }
