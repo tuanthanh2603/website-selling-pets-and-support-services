@@ -137,7 +137,7 @@
               <a href="/thong-tin-tai-khoan">Thông tin tài khoản</a>
             </a-menu-item>
             <a-menu-item v-if="localStorageClassify === 'Khách hàng'">
-              <a href="javascript:;">Yêu thích</a>
+              <a href="/yeu-thich">Yêu thích</a>
             </a-menu-item>
             <a-menu-item v-if="localStorageClassify === 'Khách hàng'">
               <a href="javascript:;">Giỏ hàng</a>

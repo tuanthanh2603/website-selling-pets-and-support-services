@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-md-2 col-md-offset-2">
+            <div class="col-md-2">
                 <TheMenu />
             </div>
             <div class="col-md-10">

@@ -10,10 +10,13 @@
             </router-link>
         </a-menu-item>
         <a-menu-item key="2">
-            <template #icon>
+            <router-link to="/yeu-thich" tag="a" class="menu-item">
+                <template #icon>
 
-            </template>
-            Yêu thích
+                </template>
+            
+                Yêu thích
+            </router-link>
         </a-menu-item>
         <a-menu-item key="3">
             <template #icon>
