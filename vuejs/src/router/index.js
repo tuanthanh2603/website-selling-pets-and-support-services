@@ -9,6 +9,10 @@ const router = createRouter({
       component: () => import("../client/views/trang-chu/trang-chu.vue"),
     },
     {
+      path: "/gio-hang",
+      component: () => import("../client/views/gio-hang/gio-hang.vue"),
+    },
+    {
       path: "/tim-kiem",
       component: () => import("../client/views/tim-kiem.vue"),
     },

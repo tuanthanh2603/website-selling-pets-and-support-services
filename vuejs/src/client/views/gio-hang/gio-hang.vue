@@ -1,0 +1,3 @@
+<template>
+    Giỏ hàng
+</template>

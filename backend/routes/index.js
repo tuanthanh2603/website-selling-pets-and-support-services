@@ -3,12 +3,14 @@ import authRouter from "./auth/authRouter.js";
 import clientRouter from "./admin/clientRouter.js";
 import petRouterCL from "./client/petRouterCL.js";
 import searchRouterCL from "./client/searchRouterCL.js"
+// import cartRouterCL from "./client/cartRouterCL.js"
 import catRouterCL from "./client/catRouterCL.js"
 import userRouter from "./admin/userRouter.js";
 import serviceRouter from "./admin/serviceRouter.js";
 import accessoryRouter from "./admin/accessoryRouter.js";
 import petRouterClient from "./client/petRouter.js"
 import utilitiesRouter from "./client/utilitiesRouter.js"
+
 
 
 const routes = (app) => {
@@ -34,7 +36,7 @@ const routes = (app) => {
   app.use("/client/xem-trang-chu", petRouterCL);
   app.use("/client/tim-kiem-san-pham", searchRouterCL);
   app.use("/client/xem-trang-meo-canh", catRouterCL);
- 
+  // app.use("/client/them-vao-gio-hang", cartRouterCL);
 
   app.use("/admin/quan-ly-dich-vu", serviceRouter);
 };

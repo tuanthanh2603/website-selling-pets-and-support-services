@@ -1,7 +1,10 @@
 <template>
-  <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
-    <div class="col-md-4" style="display: flex;justify-content: center; align-items: center;">
-      <h1 class="display-4 font-italic">Best Place <br><span style="font-size: 40px;">for</span><br> Pet Lover</h1>
+  <div class="row" style="margin-top: 20px; margin-bottom: 20px">
+    <div class="col-md-4" style="display: flex; justify-content: center; align-items: center">
+      <h1 class="display-4 font-italic">
+        Best Place <br /><span style="font-size: 40px">for</span><br />
+        Pet Lover
+      </h1>
     </div>
     <div class="col-md-8">
       <a-carousel autoplay>
@@ -23,347 +26,257 @@
       </a-carousel>
     </div>
   </div>
-  <br>
-  <br>
+  <br />
+  <br />
 
- 
   <div class="container">
     <div class="row row-cols-5 g-3">
-
-      <div class="col " style="align-items: center; justify-content: center; ">
+      <div class="col" style="align-items: center; justify-content: center">
         <a href="/cho-canh">
-          <figure class="bd-placeholder-img rounded-circle"
-            style="height: 100px; width: 100px; background-color: #c94b4b; margin: auto ; cursor: pointer;">
-            <img src="/images/dog.png" alt="" width="100%" style="padding: 20px;">
+          <figure class="bd-placeholder-img rounded-circle" style="
+                height: 100px;
+                width: 100px;
+                background-color: #c94b4b;
+                margin: auto;
+                cursor: pointer;
+              ">
+            <img src="/images/dog.png" alt="" width="100%" style="padding: 20px" />
           </figure>
-          <h5 class="mt-2" style="text-align: center;  font-size: 18px; font-weight: 700;">Chó cảnh</h5>
+          <h5 class="mt-2" style="text-align: center; font-size: 18px; font-weight: 700">
+            Chó cảnh
+          </h5>
         </a>
       </div>
 
       <div class="col">
         <a href="/meo-canh">
-          <figure class="bd-placeholder-img rounded-circle"
-            style="height: 100px; width: 100px; background-color: #fc4a1a; margin: auto; cursor: pointer;">
-            <img src="/images/cat.png" alt="" width="100%" style="padding: 20px;">
+          <figure class="bd-placeholder-img rounded-circle" style="
+                height: 100px;
+                width: 100px;
+                background-color: #fc4a1a;
+                margin: auto;
+                cursor: pointer;
+              ">
+            <img src="/images/cat.png" alt="" width="100%" style="padding: 20px" />
           </figure>
-          <h5 class="mt-2" style="text-align: center;  font-size: 18px; font-weight: 700;">Mèo cảnh</h5>
+          <h5 class="mt-2" style="text-align: center; font-size: 18px; font-weight: 700">
+            Mèo cảnh
+          </h5>
         </a>
       </div>
 
-      <div class="col ">
+      <div class="col">
         <a href="/trao-doi">
-          <figure class="bd-placeholder-img rounded-circle"
-            style="height: 100px; width: 100px; background-color: #fc4a1a; margin: auto; cursor: pointer;">
-            <img src="/images/trade.png" alt="" width="100%" style="padding: 20px;">
+          <figure class="bd-placeholder-img rounded-circle" style="
+                height: 100px;
+                width: 100px;
+                background-color: #fc4a1a;
+                margin: auto;
+                cursor: pointer;
+              ">
+            <img src="/images/trade.png" alt="" width="100%" style="padding: 20px" />
           </figure>
-          <h5 class="mt-2" style="text-align: center;  font-size: 18px; font-weight: 700;">Trao đổi</h5>
+          <h5 class="mt-2" style="text-align: center; font-size: 18px; font-weight: 700">
+            Trao đổi
+          </h5>
         </a>
       </div>
 
       <div class="col">
         <a href="/phu-kien-thu-cung">
-          <figure class="bd-placeholder-img rounded-circle"
-            style="height: 100px; width: 100px; background-color: #009fff; margin: auto; cursor: pointer;">
-            <img src="/images/collar.png" alt="" width="100%" style="padding: 20px;">
+          <figure class="bd-placeholder-img rounded-circle" style="
+                height: 100px;
+                width: 100px;
+                background-color: #009fff;
+                margin: auto;
+                cursor: pointer;
+              ">
+            <img src="/images/collar.png" alt="" width="100%" style="padding: 20px" />
           </figure>
-          <h5 class="mt-2" style="text-align: center;  font-size: 18px; font-weight: 700;">Phụ kiện thú cưng</h5>
+          <h5 class="mt-2" style="text-align: center; font-size: 18px; font-weight: 700">
+            Phụ kiện thú cưng
+          </h5>
         </a>
       </div>
 
-      <div class="col-md-2 ">
+      <div class="col-md-2">
         <a href="/dich-vu-ho-tro">
-          <figure class="bd-placeholder-img rounded-circle"
-            style="height: 100px; width: 100px; background-color: #cb356b; margin: auto; cursor: pointer;">
-            <img src="/images/pet-grooming.png" alt="" width="100%" style="padding: 20px;">
+          <figure class="bd-placeholder-img rounded-circle" style="
+                height: 100px;
+                width: 100px;
+                background-color: #cb356b;
+                margin: auto;
+                cursor: pointer;
+              ">
+            <img src="/images/pet-grooming.png" alt="" width="100%" style="padding: 20px" />
           </figure>
-          <h5 class="mt-2" style="text-align: center; font-size: 18px; font-weight: 700;">Dịch vụ hỗ trợ</h5>
+          <h5 class="mt-2" style="text-align: center; font-size: 18px; font-weight: 700">
+            Dịch vụ hỗ trợ
+          </h5>
         </a>
       </div>
-
     </div>
   </div>
-  <br>
-  <br>
+  <br />
+  <br />
 
   <div class="search">
     <div class="col-md-3">
       <a-input-search v-model:value="value" placeholder="Tìm kiếm..." enter-button @search="onSearch" />
     </div>
   </div>
- 
-
 
   <div class="container">
-    <div class="row" style="justify-content: space-between;">
-      <h2 class="col-md-6" style="text-align: left;">Phổ biến nhất</h2>
-      <div class="col-md-6" style="text-align: right;"><a-button type="primary" danger><router-link
-            to="/pho-bien-nhat">Xem thêm >></router-link></a-button></div>
-    </div>
-    <div class="row g-5">
-      <div class="col-md-3 col-sm-6">
-        <div class="product-grid">
-          <div class="product-image">
-            <a href="#" class="image">
-              <img src="https://azpet.com.vn/wp-content/uploads/2021/06/Alaska.jpg">
-            </a>
-            <span class="product-discount-label">Phổ biến</span>
-            <ul class="product-links">
-              <li><a href="#"><search-outlined /></a></li>
-              <li><a href="#"><heart-outlined /></a></li>
-              <li><a href="#"><export-outlined /></a></li>
-            </ul>
-            <!-- <a href="" class="add-to-cart">Xem</a> -->
-          </div>
-          <div class="product-content">
-            <h3 class="title"><a href="#">Alaska</a></h3>
-            <!-- <div class="price">1.800.000đ <span>2.000.000đ</span></div> -->
-          </div>
-        </div>
+    <div class="row" style="justify-content: space-between">
+      <h2 class="col-md-6" style="text-align: left">Phổ biến nhất</h2>
+      <div class="col-md-6" style="text-align: right">
+        <a-button type="primary" danger><router-link to="/pho-bien-nhat">Xem thêm >></router-link></a-button>
       </div>
-
-      <div class="col-md-3 col-sm-6">
-        <div class="product-grid">
-          <div class="product-image">
-            <a href="#" class="image">
-              <img src="https://azpet.com.vn/wp-content/uploads/2021/06/Alaska.jpg">
-            </a>
-            <span class="product-discount-label">-23%</span>
-            <ul class="product-links">
-              <li><a href="#"><i class="fa fa-search"></i></a></li>
-              <li><a href="#"><i class="fa fa-heart"></i></a></li>
-              <li><a href="#"><i class="fa fa-random"></i></a></li>
-            </ul>
-            <a href="" class="add-to-cart">Thêm vào giỏ hàng</a>
-          </div>
-          <div class="product-content">
-            <h3 class="title"><a href="#">Chó</a></h3>
-            <!-- <div class="price">1.800.000đ <span>2.000.000đ</span></div> -->
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3 col-sm-6">
-        <div class="product-grid">
-          <div class="product-image">
-            <a href="#" class="image">
-              <img src="https://azpet.com.vn/wp-content/uploads/2021/06/Alaska.jpg">
-            </a>
-            <span class="product-discount-label">-3%</span>
-            <ul class="product-links">
-              <li><a href="#"><i class="fa fa-search"></i></a></li>
-              <li><a href="#"><i class="fa fa-heart"></i></a></li>
-              <li><a href="#"><i class="fa fa-random"></i></a></li>
-            </ul>
-            <a href="" class="add-to-cart">Thêm vào giỏ hàng</a>
-          </div>
-          <div class="product-content">
-            <h3 class="title"><a href="#">Chó</a></h3>
-            <!-- <div class="price">1.800.000đ <span>2.000.000đ</span></div> -->
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3 col-sm-6">
-        <div class="product-grid">
-          <div class="product-image">
-            <a href="#" class="image">
-              <img src="https://azpet.com.vn/wp-content/uploads/2021/06/Alaska.jpg">
-            </a>
-            <span class="product-discount-label">-0%</span>
-            <ul class="product-links">
-              <li><a href="#"><i class="fa fa-search"></i></a></li>
-              <li><a href="#"><i class="fa fa-heart"></i></a></li>
-              <li><a href="#"><i class="fa fa-random"></i></a></li>
-            </ul>
-            <a href="" class="add-to-cart">Thêm vào giỏ hàng</a>
-          </div>
-          <div class="product-content">
-            <h3 class="title"><a href="#">Chó</a></h3>
-            <!-- <div class="price">1.800.000đ <span>2.000.000đ</span></div> -->
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
 
   <div class="container mt-5">
-    <div class="d-flex" style="justify-content: space-between;">
-      <h2 style="text-align: right;">Mới nhất</h2>
-      <div style="text-align: left;"><a-button type="primary" danger>Xem thêm >></a-button></div>
+    <div class="d-flex" style="justify-content: space-between">
+      <h2 style="text-align: right">Mới nhất</h2>
+      <div style="text-align: left">
+        <a-button type="primary" danger>Xem thêm >></a-button>
+      </div>
     </div>
     <div class="row g-5">
-      <div class="col-md-3 col-sm-6">
+      <div v-for="(category, index) in petCategories" :key="index" class="col-md-3 col-sm-6">
         <div class="product-grid">
           <div class="product-image">
-            <a href="#" class="image">
-              <img src="https://azpet.com.vn/wp-content/uploads/2021/06/Alaska.jpg">
-            </a>
-            <span class="product-discount-label">Phổ biến</span>
-            <ul class="product-links">
-              <li><a href="#"><search-outlined /></a></li>
-              <li><a href="#"><heart-outlined /></a></li>
-              <li><a href="#"><export-outlined /></a></li>
-            </ul>
-            <!-- <a href="" class="add-to-cart">Xem</a> -->
-          </div>
-          <div class="product-content">
-            <h3 class="title"><a href="#">Alaska</a></h3>
-            <!-- <div class="price">1.800.000đ <span>2.000.000đ</span></div> -->
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3 col-sm-6">
-        <div class="product-grid">
-          <div class="product-image">
-            <a href="#" class="image">
-              <img src="https://azpet.com.vn/wp-content/uploads/2021/06/Alaska.jpg">
-            </a>
-            <span class="product-discount-label">-23%</span>
-            <ul class="product-links">
-              <li><a href="#"><i class="fa fa-search"></i></a></li>
-              <li><a href="#"><i class="fa fa-heart"></i></a></li>
-              <li><a href="#"><i class="fa fa-random"></i></a></li>
-            </ul>
-            <a href="" class="add-to-cart">Thêm vào giỏ hàng</a>
-          </div>
-          <div class="product-content">
-            <h3 class="title"><a href="#">Chó</a></h3>
-            <!-- <div class="price">1.800.000đ <span>2.000.000đ</span></div> -->
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3 col-sm-6">
-        <div class="product-grid">
-          <div class="product-image">
-            <a href="#" class="image">
-              <img src="https://azpet.com.vn/wp-content/uploads/2021/06/Alaska.jpg">
-            </a>
-            <span class="product-discount-label">-3%</span>
-            <ul class="product-links">
-              <li><a href="#"><i class="fa fa-search"></i></a></li>
-              <li><a href="#"><i class="fa fa-heart"></i></a></li>
-              <li><a href="#"><i class="fa fa-random"></i></a></li>
-            </ul>
-            <a href="" class="add-to-cart">Thêm vào giỏ hàng</a>
-          </div>
-          <div class="product-content">
-            <h3 class="title"><a href="#">Chó</a></h3>
-            <!-- <div class="price">1.800.000đ <span>2.000.000đ</span></div> -->
-          </div>
-        </div>
-      </div>
-
-
-      <div class="col-md-3 col-sm-6">
-        <div class="product-grid">
-          <div class="product-image">
-            <a href="#" class="image">
-              <img src="https://azpet.com.vn/wp-content/uploads/2021/06/Alaska.jpg">
+            <a href="" class="image">
+              <img v-if="category.images && category.images.length > 0" :src="
+                'http://localhost:3000/uploads/' + category.images[0].name
+              " alt="Pet Image" />
             </a>
             <span class="product-discount-label">-0%</span>
             <ul class="product-links">
-              <li><a href="#"><i class="fa fa-search"></i></a></li>
-              <li><a href="#"><i class="fa fa-heart"></i></a></li>
-              <li><a href="#"><i class="fa fa-random"></i></a></li>
+              <li>
+                <a href="#"><search-outlined /></a>
+              </li>
+              <li>
+                <a href="#"><heart-outlined /></a>
+              </li>
+              <li>
+                <a href="#"><export-outlined /></a>
+              </li>
             </ul>
-            <a href="" class="add-to-cart">Thêm vào giỏ hàng</a>
+            <a href="#" class="add-to-cart" enter-button @click="addToCart(category)">Thêm vào giỏ hàng</a>
           </div>
           <div class="product-content">
-            <h3 class="title"><a href="#">Chó</a></h3>
-            <!-- <div class="price">1.800.000đ <span>2.000.000đ</span></div> -->
+            <h3 class="title">
+              <a href="">{{ category.name }}</a>
+            </h3>
+            <div class="price">{{ category.price }}<span>2.000.000đ</span></div>
           </div>
+          
         </div>
+        
       </div>
-
-
-   
-        <div v-for="(category, index) in petCategories" :key="index" class="col-md-3 col-sm-6">
-          <div class="product-grid">
-            <div class="product-image"> 
-              <a href="" class="image">
-                <img v-if="category.images && category.images.length > 0" :src="'http://localhost:3000/uploads/' + category.images[0].name" alt="Pet Image" />
-              </a>
-              <span class="product-discount-label">-0%</span>
-              <ul class="product-links">
-                <li><a href="#"><search-outlined /></a></li>
-                <li><a href="#"><heart-outlined /></a></li>
-                <li><a href="#"><export-outlined /></a></li>
-              </ul>
-              <a href="" class="add-to-cart">Thêm vào giỏ hàng</a>
-            </div>
-            <div class="product-content">
-              <h3 class="title"><a href="">{{ category.name }}</a></h3>
-              <div class="price">{{ category.price }}<span>2.000.000đ</span></div>
-            </div>
-        </div> 
-      </div>
-
-
+      <button class="delete-storage" enter-button @click="clearLocalStorage">xóa starage</button>
     </div>
   </div>
 
-
-
   <a-affix :offset-bottom="bottom">
-    <a-button type="primary" @click="bottom"
-      style="margin-left: 20px; margin-bottom: 50px; border-radius: 50%; width: 50px; height: 50px; background-color: transparent;  border: none; position: relative; padding: 7px;">
-      <message-two-tone style=" font-size: 30px; width: 100%; height: 100%;" />
+    <a-button type="primary" @click="bottom" style="
+          margin-left: 20px;
+          margin-bottom: 50px;
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+          background-color: transparent;
+          border: none;
+          position: relative;
+          padding: 7px;
+        ">
+      <message-two-tone style="font-size: 30px; width: 100%; height: 100%" />
     </a-button>
   </a-affix>
-  
 </template>
 
 <script>
-import { defineComponent, ref ,onMounted} from 'vue';
-import { HeartOutlined, SearchOutlined, ExportOutlined, MessageTwoTone } from '@ant-design/icons-vue';
-import axios from 'axios';
+import { defineComponent, ref, onMounted } from "vue";
+import {
+  HeartOutlined,
+  SearchOutlined,
+  ExportOutlined,
+  MessageTwoTone,
+} from "@ant-design/icons-vue";
+import axios from "axios";
 
 export default defineComponent({
   components: {
-    HeartOutlined, SearchOutlined, ExportOutlined, MessageTwoTone
+    HeartOutlined,
+    SearchOutlined,
+    ExportOutlined,
+    MessageTwoTone,
   },
   setup() {
     const bottom = ref(10);
     const petCategories = ref([]);
-    onMounted(()=>{
-      const severURL='http://localhost:3000/client/xem-trang-chu/showPetData';
-      axios.get(severURL)
-           .then((response)=>{
-            petCategories.value = response.data;
-              console.log(response.data)    
-           }).catch((error)=>{
-            console.log('Error:',error)        
-           })
-    })
+    onMounted(() => {
+      const severURL = "http://localhost:3000/client/xem-trang-chu/showPetData";
+      axios
+        .get(severURL)
+        .then((response) => {
+          petCategories.value = response.data;
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log("Error:", error);
+        });
+    });
 
-    const value = ref('');
-    const onSearch = searchValue => {
-    const severURL=`http://localhost:3000/client/tim-kiem-san-pham/searchPetName/${searchValue}`;
-    axios.post(severURL) 
-    .then((response)=>{
-      console.log('tra du lieu thanh cong',response.data)    
-      window.location.href="/tim-kiem"
-           }).catch((error)=>{
-            console.log('Error:',error)        
-           })
-    }
+    const addToCart = (product) => {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const existingProduct = cart.find((item) => item.id === product.id);
+      if (existingProduct) {
+        console.log("Sản phẩm đã được thêm vào giỏ hàng!!!");
+      } else {
+        cart.push({
+          id: product.id,
+          quantity: 1,
+        });
+      }
+      localStorage.setItem("cart", JSON.stringify(cart));
+      const retrievedCart = JSON.parse(localStorage.getItem("cart"));
+      console.log("Dữ liệu trong local storage:", retrievedCart);
+    };
+
+    const value = ref("");
+    const onSearch = (searchValue) => {
+      const severURL = `http://localhost:3000/client/tim-kiem-san-pham/searchPetName/${searchValue}`;
+      axios
+        .post(severURL)
+        .then((response) => {
+          console.log("tra du lieu thanh cong", response.data);
+          window.location.href = "/tim-kiem";
+        })
+        .catch((error) => {
+          console.log("Error:", error);
+        });
+    };
+
+    const clearLocalStorage = () => {
+      localStorage.removeItem("cart");
+      console.log("Dữ liệu trong local storage đã được xóa.");
+    };
 
     return {
       petCategories,
-      onSearch,value,
-      bottom  
-    }
-  }
-
-})
+      onSearch,
+      value,
+      addToCart,
+      clearLocalStorage,
+      bottom,
+    };
+  },
+});
 </script>
-    
-    
-    
-<style scoped >
+
+<style scoped>
 .ant-carousel :deep(.slick-slide) {
   text-align: center;
   height: 450px;
@@ -375,12 +288,11 @@ export default defineComponent({
 .ant-carousel :deep(.slick-slide h3) {
   color: #fff;
 }
-
 </style>
 
-<style scoped >
-.search{
-    margin-left: 290px;
-    margin-bottom: 40px;
+<style scoped>
+.search {
+  margin-left: 290px;
+  margin-bottom: 40px;
 }
 </style>
