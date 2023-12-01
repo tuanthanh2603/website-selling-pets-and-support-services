@@ -147,8 +147,7 @@
         <div class="product-grid">
           <div class="product-image">
             <a href="" class="image">
-              <img v-if="category.images && category.images.length > 0" :src="'http://localhost:3000/uploads/' + category.images[0].name
-                " alt="Pet Image" />
+              <img v-if="category.images && category.images.length > 0" :src="'http://localhost:3000/uploads/' + category.images[0].name    " alt="Pet Image" />
             </a>
             <span class="product-discount-label">-0%</span>
             <ul class="product-links">
@@ -217,11 +216,11 @@ export default defineComponent({
       const idkhachHang = localStorage.getItem("user_id");
       if (!idkhachHang) {
         console.log("ID Khach Hang not found in localStorage");
-        return false
+        return false;
         // window.location.href = "/login";
       } else {
         console.log("ID Khach Hang found in localStorage:", idkhachHang);
-        return true
+        return true;
       }
     };
 
@@ -243,7 +242,7 @@ export default defineComponent({
     const addToCart = (product) => {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
       const existingProduct = cart.find((item) => item.id === product.id);
-      if (checkIdKhachHang()==false) {
+      if (checkIdKhachHang() == false) {
       } else {
         if (existingProduct) {
           console.log("Sản phẩm đã được thêm vào giỏ hàng!!!");
@@ -266,7 +265,7 @@ export default defineComponent({
         .post(severURL)
         .then((response) => {
           console.log("tra du lieu thanh cong", response.data);
-          window.location.href = "/tim-kiem";
+          // window.location.href = "/tim-kiem";
         })
         .catch((error) => {
           console.log("Error:", error);
