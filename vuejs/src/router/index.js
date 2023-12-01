@@ -24,6 +24,7 @@ const router = createRouter({
       path: "/meo-canh",
       component: () => import("../client/views/meo-canh/meo-canh.vue"),
     },
+    
     {
       path: "/phu-kien-thu-cung",
       component: () =>
