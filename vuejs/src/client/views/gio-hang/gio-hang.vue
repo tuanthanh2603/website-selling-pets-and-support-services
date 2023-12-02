@@ -16,30 +16,30 @@
         <tbody>
           <tr v-for="(category, index) in petCategories" :key="index">
             <td>{{ category.id }}</td>
-            <td><a href="" class="image">
-              <img v-if="category.images && category.images.length > 0" :src="'http://localhost:3000/uploads/' + category.images[0].name    " alt="Pet Image" />
-            </a></td>
+            <td>
+              <a href="" class="image">
+                <img
+                  v-if="category.images && category.images.length > 0"
+                  :src="
+                    'http://localhost:3000/uploads/' + category.images[0].name
+                  "
+                  alt="Pet Image"
+                />
+              </a>
+            </td>
             <td>{{ category.name }}</td>
             <td>{{ category.breed }}</td>
-            <td><input type="number"/></td>
+            <td><input type="number" /></td>
             <td>{{ category.price }}</td>
-            <td><button >Xóa</button></td>
+            <td><button>Xóa</button></td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
-
-
-
-  
 </template>
 
-
 <script>
-
-
-
 import { defineComponent, ref, onMounted } from "vue";
 import {
   HeartOutlined,
@@ -77,7 +77,7 @@ export default defineComponent({
         .post(serverURL)
         .then((response) => {
           console.log("tra du lieu thanh cong", response.data);
-         
+
           petCategories.value = response.data;
         })
         .catch((error) => {
@@ -85,12 +85,11 @@ export default defineComponent({
         });
       return {
         petCategories,
-        value
+        value,
       };
     });
   },
 });
-
 </script>
 
 <style>
@@ -128,4 +127,3 @@ thead th {
   background-color: aqua;
 }
 </style>
- 
