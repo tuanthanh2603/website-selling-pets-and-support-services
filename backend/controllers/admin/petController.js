@@ -150,11 +150,14 @@ export const addPet = async (req, res) => {
 
 export const getAllDog = async (req, res) => {
   try {
+    console.log('list dogs');
     const dogs = await Pet.find({ classify: "Chó cảnh" })
       .populate('category') // Sử dụng populate để join CategoryDog
       .exec();
 
-    // Lấy tên danh mục từ bảng CategoryDog
+      console.log(dogs);
+
+    // // Lấy tên danh mục từ bảng CategoryDog
     const dogsWithCategoryNames = await Promise.all(dogs.map(async (dog) => {
       const images = await ImagesPet.find({ petid: dog.id }).exec();
       return {
@@ -201,7 +204,7 @@ export const getAllCat = async (req, res) => {
       };
     }));
 
-    console.log(catsWithCategoryNames);
+    // console.log(catsWithCategoryNames);
 
     res.json(catsWithCategoryNames);
   } catch (error) {

@@ -81,8 +81,11 @@
       Tìm kiếm
     </a-menu-item>
     <a-menu-item key="gio-hang">
+      <router-link to="/gio-hang" tag="a" class="menu-item">
+
       <shopping-outlined />
       Giỏ hàng
+    </router-link>
     </a-menu-item>
 
     <a-sub-menu key="yeu-thich">

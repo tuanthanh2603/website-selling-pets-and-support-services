@@ -35,9 +35,11 @@
           <input type="number">
       </a-table-column>
 
-      <a-table-column key="soluong" title="Số lượng">
-    
-          <button>Xóa</button>
+      <a-table-column key="" title="Tuỳ chọn">
+        <template #default ="{ record }">
+          <button @click="deleteItemPetInCart(record.id)">Xóa</button>
+        </template>
+          
       </a-table-column>
 
     </a-table>
@@ -88,7 +90,7 @@ export default defineComponent({
 
       const serverURL = `http://localhost:3000/client/show-cart/showCart/${idArray}`;
       axios
-        .post(serverURL)
+        .get(serverURL)
         .then((response) => {
           petCategories.value = response.data;
           console.log("du lieu tra ve", petCategories.value);
@@ -97,9 +99,23 @@ export default defineComponent({
           console.log("Lỗi:", error);
         });
     });
+    const deleteItemPetInCart = (id) => {
+      console.log(id);
+   
+      let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+
+      // Tìm và xoá item có id trùng với id được truyền vào
+      cartItems = cartItems.filter(item => item.id !== id);
+
+      // Cập nhật lại danh sách items trong localStorage
+      localStorage.setItem("cart", JSON.stringify(cartItems));
+      window.location.reload();
+    }
+
 
     // Return all the variables/functions you want to use in the template
     return {
+      deleteItemPetInCart,
       petCategories,
       value,
       deleteItem,
