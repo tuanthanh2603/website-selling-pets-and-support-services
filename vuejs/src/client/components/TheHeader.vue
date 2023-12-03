@@ -77,12 +77,12 @@
     </a-sub-menu>
 
     <a-menu-item key="tim-kiem">
+      <router-link to="/tim-kiem" tag="a" class="menu-item"></router-link>
       <search-outlined />
       Tìm kiếm
     </a-menu-item>
     <a-menu-item key="gio-hang">
       <router-link to="/gio-hang" tag="a" class="menu-item">
-
       <shopping-outlined />
       Giỏ hàng
     </router-link>

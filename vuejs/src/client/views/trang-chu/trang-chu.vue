@@ -147,9 +147,10 @@
         <div class="product-grid">
           <div class="product-image">
             <a href="" class="image">
-              <img v-if="category.images && category.images.length > 0" :src="'http://localhost:3000/uploads/' + category.images[0].name    " alt="Pet Image" />
+              <img v-if="category.images && category.images.length > 0"
+                :src="'http://localhost:3000/uploads/' + category.images[0].name" alt="Pet Image" />
             </a>
-          
+
             <ul class="product-links">
               <li>
                 <a href="#"><search-outlined /></a>
@@ -171,10 +172,10 @@
           </div>
         </div>
       </div>
-     
+
     </div>
   </div>
-
+  <button @click="clearLocalStorage">Clear History</button>
   <a-affix :offset-bottom="bottom">
     <a-button type="primary" @click="bottom" style="
         margin-left: 20px;
@@ -247,7 +248,6 @@ export default defineComponent({
         } else {
           cart.push({
             id: product.id,
-            quantity: 1,
           });
         }
         localStorage.setItem("cart", JSON.stringify(cart));
@@ -263,7 +263,16 @@ export default defineComponent({
         .post(severURL)
         .then((response) => {
           console.log("tra du lieu thanh cong", response.data);
-          // window.location.href = "/tim-kiem";
+
+          // Lưu giá trị mới vào localStorage
+          localStorage.setItem("searchHistory", JSON.stringify([searchValue]));
+
+          // Hiển thị dữ liệu trong console
+          const data = JSON.parse(localStorage.getItem("searchHistory"));
+          console.log("Dữ liệu trong searchHistory:", data);
+
+          // Chuyển hướng đến trang tìm kiếm
+          window.location.href = "/tim-kiem";
         })
         .catch((error) => {
           console.log("Error:", error);
@@ -271,7 +280,7 @@ export default defineComponent({
     };
 
     const clearLocalStorage = () => {
-      localStorage.removeItem("cart");
+      localStorage.removeItem("searchHistory");
       console.log("Dữ liệu trong local storage đã được xóa.");
     };
 
