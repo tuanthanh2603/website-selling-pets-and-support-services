@@ -13,11 +13,10 @@ export const cartController = async (req, res) => {
       const result = await Promise.all(pets.map(async pet => {
         const images = await ImagesPet.find({ petid: pet.id }).exec();
         return {
-          id: pet._id,
-          code: pet.code,
+          id: pet.id,
           images,
           name: pet.name,
-          breed: pet.breed,
+          sex:pet.sex,
           price: pet.price,
         };
       }));

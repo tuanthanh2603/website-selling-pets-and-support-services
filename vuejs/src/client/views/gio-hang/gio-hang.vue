@@ -1,43 +1,49 @@
 <template>
   <div class="container mt-5 mb-5">
-    <div class="d-flex" style="justify-content: space-between">
-      <table>
-        <thead>
-          <tr>
-            <th>Mã</th>
-            <th>Ảnh</th>
-            <th>Tên sản phẩm</th>
-            <th>Giống</th>
-            <th>Số lượng</th>
-            <th>Giá</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(category, index) in petCategories" :key="index">
-            <td>{{ category.id }}</td>
-            <td>
-              <a href="" class="image">
-                <img
-                  v-if="category.images && category.images.length > 0"
-                  :src="
-                    'http://localhost:3000/uploads/' + category.images[0].name
-                  "
-                  alt="Pet Image"
-                />
-              </a>
-            </td>
-            <td>{{ category.name }}</td>
-            <td>{{ category.breed }}</td>
-            <td><input type="number" /></td>
-            <td>{{ category.price }}</td>
-            <td><button>Xóa</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <a-table :data-source="petCategories">
+      <a-table-column key="id" title="ID">
+        <template #default="{ record }">
+          {{ record.id }}
+        </template>
+      </a-table-column>
+
+      <a-table-column key="images" title="Hình ảnh">
+        <template #default="{ record }">
+          <img v-if="record.images && record.images.length > 0" :src="'http://localhost:3000/uploads/' + record.images[0].name    " alt="Pet Image" />
+        </template>
+      </a-table-column>
+
+      <a-table-column key="name" title="Tên">
+        <template #default="{ record }">
+          {{ record.name }}
+        </template>
+      </a-table-column>
+
+      <a-table-column key="sex" title="Giới tính">
+        <template #default="{ record }">
+          {{ record.sex }}
+        </template>
+      </a-table-column>
+
+      <a-table-column key="price" title="Giá">
+        <template #default="{ record }">
+          {{ record.price }}
+        </template>
+      </a-table-column>
+
+      <a-table-column key="" title="Số lượng">
+          <input type="number">
+      </a-table-column>
+
+      <a-table-column key="soluong" title="Số lượng">
+    
+          <button>Xóa</button>
+      </a-table-column>
+
+    </a-table>
   </div>
 </template>
+
 
 <script>
 import { defineComponent, ref, onMounted } from "vue";
@@ -58,6 +64,14 @@ export default defineComponent({
   },
   setup() {
     const petCategories = ref([]);
+    const value = ref("");
+
+    // Move this outside onMounted
+    const deleteItem = (record) => {
+      // Logic to delete the item, you can use axios to make a delete request to your API
+      console.log("Xóa item:", record);
+    };
+
     onMounted(() => {
       var cartData = localStorage.getItem("cart");
       if (cartData) {
@@ -71,23 +85,25 @@ export default defineComponent({
       } else {
         console.log("Không có dữ liệu trong cart trong localStorage.");
       }
-      const value = ref("");
+
       const serverURL = `http://localhost:3000/client/show-cart/showCart/${idArray}`;
       axios
         .post(serverURL)
         .then((response) => {
-          console.log("tra du lieu thanh cong", response.data);
-
           petCategories.value = response.data;
+          console.log("du lieu tra ve", petCategories.value);
         })
         .catch((error) => {
           console.log("Lỗi:", error);
         });
-      return {
-        petCategories,
-        value,
-      };
     });
+
+    // Return all the variables/functions you want to use in the template
+    return {
+      petCategories,
+      value,
+      deleteItem,
+    };
   },
 });
 </script>
