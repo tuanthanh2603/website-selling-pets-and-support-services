@@ -126,14 +126,14 @@
     </div>
   </div>
 
-  <div class="container">
+  <!-- <div class="container">
     <div class="row" style="justify-content: space-between">
       <h2 class="col-md-6" style="text-align: left">Phổ biến nhất</h2>
       <div class="col-md-6" style="text-align: right">
         <a-button type="primary" danger><router-link to="/pho-bien-nhat">Xem thêm >></router-link></a-button>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <div class="container mt-5">
     <div class="d-flex" style="justify-content: space-between">
@@ -149,7 +149,7 @@
             <a href="" class="image">
               <img v-if="category.images && category.images.length > 0" :src="'http://localhost:3000/uploads/' + category.images[0].name    " alt="Pet Image" />
             </a>
-            <span class="product-discount-label">-0%</span>
+          
             <ul class="product-links">
               <li>
                 <a href="#"><search-outlined /></a>
@@ -167,13 +167,11 @@
             <h3 class="title">
               <a href="">{{ category.name }}</a>
             </h3>
-            <div class="price">{{ category.price }}<span>2.000.000đ</span></div>
+            <div class="price">{{ category.price }}</div>
           </div>
         </div>
       </div>
-      <button class="delete-storage" enter-button @click="clearLocalStorage">
-        xóa starage
-      </button>
+     
     </div>
   </div>
 

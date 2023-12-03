@@ -1,11 +1,11 @@
 <template>
   <div class="container mt-5 mb-5">
     <a-table :data-source="petCategories">
-      <a-table-column key="id" title="ID">
+      <!-- <a-table-column key="id" title="ID">
         <template #default="{ record }">
           {{ record.id }}
         </template>
-      </a-table-column>
+      </a-table-column> -->
 
       <a-table-column key="images" title="Hình ảnh">
         <template #default="{ record }">
@@ -31,18 +31,14 @@
         </template>
       </a-table-column>
 
-      <a-table-column key="" title="Số lượng">
-          <input type="number">
-      </a-table-column>
-
-      <a-table-column key="" title="Tuỳ chọn">
-        <template #default ="{ record }">
+      <a-table-column key="" title="">
+        <template #default="{ record }">
           <button @click="deleteItemPetInCart(record.id)">Xóa</button>
         </template>
-          
       </a-table-column>
-
     </a-table>
+
+    <h2 class="col-md-6" style="text-align: left">Thành tiền: {{ totalPrice }}</h2>
   </div>
 </template>
 
@@ -66,14 +62,9 @@ export default defineComponent({
   },
   setup() {
     const petCategories = ref([]);
+    const totalPrice=ref(0)
     const value = ref("");
-
-    // Move this outside onMounted
-    const deleteItem = (record) => {
-      // Logic to delete the item, you can use axios to make a delete request to your API
-      console.log("Xóa item:", record);
-    };
-
+  
     onMounted(() => {
       var cartData = localStorage.getItem("cart");
       if (cartData) {
@@ -93,32 +84,32 @@ export default defineComponent({
         .get(serverURL)
         .then((response) => {
           petCategories.value = response.data;
-          console.log("du lieu tra ve", petCategories.value);
+          totalPrice.value = response.data.reduce((acc, item) => {
+          return acc + item.price;
+        }, 0);
+
+        // console.log("Dữ liệu trả về", petCategories.value);
+        console.log("Tổng giá trị", totalPrice.value);
         })
         .catch((error) => {
           console.log("Lỗi:", error);
         });
     });
-    const deleteItemPetInCart = (id) => {
-      console.log(id);
-   
-      let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
 
+    const deleteItemPetInCart = (id) => {
+      let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
       // Tìm và xoá item có id trùng với id được truyền vào
       cartItems = cartItems.filter(item => item.id !== id);
-
       // Cập nhật lại danh sách items trong localStorage
       localStorage.setItem("cart", JSON.stringify(cartItems));
       window.location.reload();
     }
-
-
-    // Return all the variables/functions you want to use in the template
+    
+    
     return {
       deleteItemPetInCart,
-      petCategories,
+      petCategories,totalPrice,
       value,
-      deleteItem,
     };
   },
 });
