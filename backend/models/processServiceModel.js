@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-const { Scheme } = mongoose;
+const { Schema } = mongoose;
 
-const processService = new Scheme({
+const processService = new Schema({
     status: {
         type: String,
         required: true,

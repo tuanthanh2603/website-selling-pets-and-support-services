@@ -30,6 +30,7 @@ export const addCategoryPet = async (req, res) => {
     res.status(500).json({ msg: "Internal Server Error" });
   }
 };
+
 export const getCategoryPet = async (req, res) => {
   try {
     const categories = await CategoryPet.find();

@@ -1,6 +1,8 @@
 import { Router } from "express";
-import { getServices } from "../../controllers/admin/serviceController.js";
 const router = Router();
 
-router.get("/getServices", getServices);
+import { getAllServices } from "../../controllers/admin/serviceController.js";
+
+router.get('/getAllService', getAllServices);
+
 export default router;
