@@ -35,6 +35,7 @@ const routes = (app) => {
   // ---
   app.use("/client/xem-trang-chu", petRouterCL);
   app.use("/client/tim-kiem-san-pham", searchRouterCL);
+  app.use("/client/thong-tin-san-pham", searchRouterCL);
   app.use("/client/xem-trang-meo-canh", catRouterCL);
   app.use("/client/show-cart", cartRouterCL);
 

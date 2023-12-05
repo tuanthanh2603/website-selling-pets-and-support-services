@@ -153,13 +153,13 @@
 
             <ul class="product-links">
               <li>
-                <a href="#"><search-outlined /></a>
+                <a href="#" @click="onSearch(category.name)">  <search-outlined></search-outlined>   </a>
               </li>
               <li>
                 <a href="#"><heart-outlined /></a>
               </li>
               <li>
-                <a href="#"><export-outlined /></a>
+                <a :href="`/thong-tin-thu-cung/${category.id}`" @click="goToDetail(category.id)">  <export-outlined></export-outlined>   </a>           
               </li>
             </ul>
             <a href="#" class="add-to-cart" enter-button @click="addToCart(category)">Thêm vào giỏ hàng</a>
@@ -257,20 +257,18 @@ export default defineComponent({
     };
 
     const value = ref("");
+
     const onSearch = (searchValue) => {
       const severURL = `http://localhost:3000/client/tim-kiem-san-pham/searchPetName/${searchValue}`;
       axios
         .post(severURL)
         .then((response) => {
           console.log("tra du lieu thanh cong", response.data);
-
           // Lưu giá trị mới vào localStorage
           localStorage.setItem("searchHistory", JSON.stringify([searchValue]));
-
           // Hiển thị dữ liệu trong console
           const data = JSON.parse(localStorage.getItem("searchHistory"));
           console.log("Dữ liệu trong searchHistory:", data);
-
           // Chuyển hướng đến trang tìm kiếm
           window.location.href = "/tim-kiem";
         })
@@ -279,19 +277,46 @@ export default defineComponent({
         });
     };
 
+    const goToDetail=(id)=>{
+        console.log(id);
+        this.$router.push({ name: 'pet-information', params: { searchID: id } });
+    }
+
+    const onSearchID = (searchID) => {
+      const severURL = `http://localhost:3000/client/tim-kiem-san-pham/searchPetID/${searchID}`;
+      console.log(searchID)
+      axios
+        .post(severURL)
+        .then((response) => {
+          console.log("tra du lieu thanh cong", response.data);
+
+          // Lưu giá trị mới vào localStorage
+          localStorage.setItem("searchHistoryID", JSON.stringify([searchID]));
+
+          // Hiển thị dữ liệu trong console
+          const data = JSON.parse(localStorage.getItem("searchHistoryID"));
+          console.log("Dữ liệu trong searchHistoryID:", data);
+          // Chuyển hướng đến trang tìm kiếm
+          window.location.href = `/thong-tin-thu-cung`;
+        })
+        .catch((error) => {
+          console.log("Error:", error);
+        });
+    };
+
     const clearLocalStorage = () => {
-      localStorage.removeItem("searchHistory");
+      localStorage.removeItem("searchHistoryID");
       console.log("Dữ liệu trong local storage đã được xóa.");
     };
 
     return {
       checkIdKhachHang,
       petCategories,
-      onSearch,
+      onSearch,onSearchID,
       value,
       addToCart,
       clearLocalStorage,
-      bottom,
+      bottom,goToDetail
     };
   },
 });

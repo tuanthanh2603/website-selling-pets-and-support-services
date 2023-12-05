@@ -39,6 +39,7 @@
     </a-table>
 
     <h2 class="col-md-6" style="text-align: left">Thành tiền: {{ totalPrice }}</h2>
+    
   </div>
 </template>
 
