@@ -35,7 +35,13 @@ export const updateUser = async (req, res) => {
         const { name, phone, pass, email, address, classify, sex } = req.body;
         const updateUser = await Account.findByIdAndUpdate(
             userId, {
-                name, phone, pass, email, address, classify, sex
+                name, 
+                phone, 
+                pass, 
+                email, 
+                address, 
+                classify, 
+                sex
             }, {
                 new: true // Trả về document mới sau khi cập nhật
             }

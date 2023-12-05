@@ -17,27 +17,26 @@
 
                     <a-table :columns="columnsService" :data-source="dataService">
                         <template #bodyCell="{ column, record }">
-                            <template v-if="column.key === 'server_name'">
-                                {{ record.service_name }}
+                            <template v-if="column.key === 'name'">
+                                {{ record.name }}
                             </template>
 
-                            <template v-else-if="column.key === 'service_price'">
-                                {{ record.service_price }}
+                            <template v-else-if="column.key === 'price'">
+                                {{ record.price }}
                             </template>
 
-                            <template v-else-if="column.key === 'service_status'">
-                                {{ record.service_status }}
+                            <template v-else-if="column.key === 'status'">
+                                {{ record.status }}
                             </template>
 
                             <template v-else-if="column.key === 'stt'">
-                                {{ record.stt}}
                             </template>
 
                             <template v-else-if="column.key === 'setting'">
                                 <span>
-                                    <a-button @click="deletePet(record.id)"><delete-two-tone /></a-button>
-                                    &nbsp;
-                                    <a-button><edit-two-tone /></a-button>
+                                    <a-button @click="deleteService(record.id)" style="margin: 5px;"><delete-two-tone /></a-button>
+                                    <a-button @click="showModalUpdateService(record.id)"
+                                        style="margin: 5px;"><edit-two-tone /></a-button>
                                 </span>
                             </template>
                         </template>
@@ -46,96 +45,65 @@
             </div>
         </div>
     </div>
-    <!-- <a-modal v-model:visible="modalAddUser" title="Thêm nhân viên mới" :closable="false" style="top: 20px;">   
-        <a-form :model="formAddUser" v-bind="layoutFormAddUser" name="nest-messages" @finish="addUser">
-            <a-form-item name="name" label="Tên nhân viên" :rules="[{ required: true, message: 'Vui lòng nhập tên nhân viên!' }]">
-                <a-input v-model:value="formAddUser.name" />
+
+    <a-modal v-model:visible="modalAddService" title="Thêm dịch vụ mới" :closable="false" style="top: 20px;">   
+        <a-form :model="formAddService" v-bind="layoutFormAddService" name="nest-messages" @finish="addService">
+            <a-form-item name="name" label="Tên dịch vụ" :rules="[{ required: true, message: 'Vui lòng nhập tên dịch vụ!' }]">
+                <a-input v-model:value="formAddService.name" />
             </a-form-item>
             
-            <a-form-item name="phone" label="Số điện thoại" :rules="[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]">
-                <a-input v-model:value="formAddUser.phone" />
-            </a-form-item>
-            <a-form-item name="pass" label="Mật khẩu" :rules="[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]">
-                <a-input v-model:value="formAddUser.pass" />
-            </a-form-item>
-            <a-form-item name="email" label="Email" >
-                <a-input v-model:value="formAddUser.email" />
-            </a-form-item>
-            <a-form-item name="classify" label="Vai trò">
-                <a-radio-group v-model:value="formAddUser.classify">
-                    <a-radio value="Admin">Admin</a-radio>
-                    <a-radio value="Nhân viên">Nhân viên</a-radio>
-                    <a-radio value="Bác sĩ">Bác sĩ</a-radio>
-                </a-radio-group>
+            <a-form-item name="price" label="Giá dịch vụ" :rules="[{ required: true, message: 'Vui lòng nhập giá dịch vụ!' }]">
+                <a-input v-model:value="formAddService.price" />
             </a-form-item>
 
-            <a-form-item name="sex" label="Giới tính">
-                <a-radio-group v-model:value="formAddUser.sex">
-                    <a-radio value="Nam">Nam</a-radio>
-                    <a-radio value="Nữ">Nữ</a-radio>
-                    <a-radio value="Khác">Khác</a-radio>
+            <a-form-item name="status" label="Trạng thái dịch vụ">
+                <a-radio-group v-model:value="formAddService.status">
+                    <a-radio value="true">Đang hoạt động</a-radio>
+                    <a-radio value="false">Dừng hoạt động</a-radio>
                 </a-radio-group>
-            </a-form-item>
-            <a-form-item name="address" label="Địa chỉ">
-                <a-textarea v-model:value="formAddUser.address" />
             </a-form-item>
             
             <a-form-item :wrapper-col="{ span: 14, offset: 8 }">
-                <a-alert style="margin-bottom: 20px;" v-if="alertInfoUser" :message="alertInfoUser.message"
-                :type="alertInfoUser.type" show-icon />
+                <a-alert style="margin-bottom: 20px;" v-if="alertInfoService" :message="alertInfoService.message"
+                :type="alertInfoService.type" show-icon />
 
-                <a-button block type="primary" html-type="submit" style="margin-bottom: 10px;">Thêm nhân viên</a-button>
+                <a-button block type="primary" html-type="submit" style="margin-bottom: 10px;">Thêm dịch vụ</a-button>
 
-                <a-button block @click="exitModalAddUser">Thoát</a-button>
+                <a-button block @click="exitModalAddService">Thoát</a-button>
             </a-form-item>
 
         </a-form>
         <template #footer>
             
         </template>
-    </a-modal> -->
-    <!-- <a-modal v-model:visible="modalUpdateUser" title="Chỉnh sửa thông tin" :closable="false" style="top: 20px;">
+    </a-modal>
+
+    <a-modal v-model:visible="modalUpdateService" title="Chỉnh sửa dịch vụ" :closable="false" style="top: 20px;">
         
-        <a-form :model="formUpdateUser" v-bind="layoutFormAddUser" name="nest-messages" @finish="updateUser">
-            <a-form-item name="name" label="Tên nhân viên" :rules="[{ required: true, message: 'Vui lòng nhập tên nhân viên!' }]">
-                <a-input v-model:value="formUpdateUser.name" />
+        <a-form :model="formUpdateService" v-bind="layoutFormAddService" name="nest-messages" @finish="updateService">
+            <a-form-item name="name" label="Tên dịch vụ" :rules="[{ required: true, message: 'Vui lòng nhập tên dịch vụ!' }]">
+                <a-input v-model:value="formUpdateService.name" />
             </a-form-item>
-            
-            <a-form-item name="phone" label="Số điện thoại" :rules="[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]">
-                <a-input v-model:value="formUpdateUser.phone" />
+
+            <a-form-item name="price" label="Giá dịch vụ" :rules="[{ required: true, message: 'Vui lòng nhập giá dịch vụ!' }]">
+                <a-input v-model:value="formUpdateService.price" />
             </a-form-item>
-            <a-form-item name="pass" label="Mật khẩu" :rules="[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]">
-                <a-input v-model:value="formUpdateUser.pass" />
-            </a-form-item>
-            <a-form-item name="email" label="Email" >
-                <a-input v-model:value="formUpdateUser.email" />
-            </a-form-item>
-            <a-form-item name="classify" label="Vai trò">
-                <a-radio-group v-model:value="formUpdateUser.classify">
-                    <a-radio value="Admin">Admin</a-radio>
-                    <a-radio value="Nhân viên">Nhân viên</a-radio>
-                    <a-radio value="Bác sĩ">Bác sĩ</a-radio>
+
+            <a-form-item name="status" label="Trạng thái dịch vụ">
+                <a-radio-group v-model:value="formAddService.status">
+                    <a-radio value="true">Đang hoạt động</a-radio>
+                    <a-radio value="false">Dừng hoạt động</a-radio>
                 </a-radio-group>
             </a-form-item>
 
-            <a-form-item name="sex" label="Giới tính">
-                <a-radio-group v-model:value="formUpdateUser.sex">
-                    <a-radio value="Nam">Nam</a-radio>
-                    <a-radio value="Nữ">Nữ</a-radio>
-                    <a-radio value="Khác">Khác</a-radio>
-                </a-radio-group>
-            </a-form-item>
-            <a-form-item name="address" label="Địa chỉ">
-                <a-textarea v-model:value="formUpdateUser.address" />
-            </a-form-item>
             <a-form-item :wrapper-col="{ span: 14, offset: 8 }">
-                <a-button block type="primary" html-type="submit" style="margin-bottom: 10px;">Cập nhật thông tin</a-button>
-                <a-button danger block @click="deleteUser(formUpdateUser.id)" style="margin-bottom: 10px;">Xoá nhân viên</a-button>
-                <a-button block @click="exitModalUpdateUser">Thoát</a-button>
+                <a-button block type="primary" html-type="submit" style="margin-bottom: 10px;">Cập nhật dịch vụ</a-button>
+                <a-button danger block @click="deleteService(formUpdateService.id)" style="margin-bottom: 10px;">Xoá dịch vụ</a-button>
+                <a-button block @click="exitModalUpdateService">Thoát</a-button>
             </a-form-item>
         </a-form>
         <template #footer></template>
-    </a-modal> -->
+    </a-modal>
 </template>
 
 <script>
@@ -149,20 +117,26 @@ import 'noty/lib/noty.css'
 
 //Tên cột
 const columnsService = [
-    {
-        title: 'STT',
-        key: 'stt',
+    {    
+    title: 'STT',
+    key: 'stt',
+    customRender: (text, record, index) => {
+        const stt = text.renderIndex;
+        // console.log(stt + 1);
+        const STT = stt + 1;
+        return STT
+        }, 
     }, {
         title: 'Tên dịch vụ',
-        key: 'service_name',
+        key: 'name',
         dataIndex: 'name',
     }, {
         title: 'Giá tiền',
-        key: 'service_price',
+        key: 'price',
         dataIndex: 'price',
     }, {
         title: 'Trạng thái',
-        key: 'service_status',
+        key: 'status',
         dataIndex: 'status',
     }, {
         title: 'Tuỳ chọn',
@@ -186,20 +160,161 @@ export default defineComponent({
                 .then((response) => {
                     dataService.value = response.data.map((item, index) => ({
                         key: index +1,
-                        name: item.name,
-                        price: item.price,
-                        status: item.status,
+                        name: item.service_name,
+                        price: item.service_price,
+                        status: item.service_status,
                         id: item._id.toString(),
                     }))
                     console.log(response.data);
-                    console.log(name);
+                    console.log(dataService.value);
                 }) .catch ((error) => {
                     console.log("Error: ", error);
                 })
         })
+        const modalAddService = ref(false)
+        const loading = ref(false)
+        const showModalAddService = () => {
+            modalAddService.value = true
+        }
+
+        const exitModalAddService = () => {
+            modalAddService.value = false
+        }
+
+        const formAddService = ref({
+            name: '',
+            price: '',
+            status: '',
+        });
+
+        const layoutFormAddService = {
+            labelCol: {
+                span: 7,
+            },
+            wrapperCol: {
+                span: 16,
+            },
+        }
+
+        const alertInfoService = ref({ message: 'Nhập thông tin dịch vụ', type: 'info' });
+        //Thêm dịch vụ
+        const addService = (values) => {
+            const serverUrl = 'http://localhost:3000/admin/quan-ly-dich-vu/addService';
+            axios.post(serverUrl, values)
+            .then((response) => {
+                console.log('Phản hồi từ server:', response.data);
+                if(response.data.success){
+                    new Noty({
+                        text: 'Thêm dịch vụ thành công!',
+                        type: 'success',
+                        layout: 'topRight',
+                        theme: 'mint',
+                        timeout: 3000,
+                        callbacks: {
+                            afterShow: function () {
+                            // Sử dụng Promise để đảm bảo rằng làm mới chỉ xảy ra sau khi phản hồi đã được xử lý
+                            return new Promise((resolve) => {
+                                setTimeout(() => {
+                                window.location.reload();
+                                resolve();
+                                }, 2000); // Sau 3 giây
+                            });
+                            }
+                        }
+                    }).show();
+                } else {
+                    console.log(response.data.message)
+                }
+
+            })
+            .catch((error) => {
+                if(error.response && error.response.status === 400){
+                    alertInfoService.value = { message: "Thông tin dịch vụ đã tồn tại", type: "warning"}
+                } else {
+                    alertInfoService.value = { message: "Lỗi kết nối đến server", type: "error" };
+                }
+                
+            })
+            console.log('Thông tin dịch vụ:', values);
+        }
+        //Update dịch vụ
+        //Show bảng update
+        const idToUpdate = ref(null);
+        const showModalUpdateService = (id) => {
+            modalUpdateService.value = true
+            console.log(id)
+            const selectedService = dataService.value.find(item => item.id === id)
+            formUpdateService.name = selectedService.name
+            formUpdateService.price = selectedService.price
+ 
+            formUpdateService.id = selectedService.id
+            // console.log(selectedUser)
+            formUpdateService.status = selectedService.status
+            idToUpdate.value = id;
+        }
+        const modalUpdateService = ref(false)
+        const formUpdateService = reactive({
+        })
+
+        //Update dịch vụ
+        const updateService = (values) => {
+            const id = idToUpdate.value
+            console.log('ID update:', id)
+            console.log('Values:', values)
+            const serverUrl = `http://localhost:3000/admin/quan-ly-dich-vu/updateService/${id}`
+            
+            axios.put(serverUrl, values)
+                .then((response) => {
+                console.log('Update success', response.data);
+                new Noty({
+                            text: 'Cập nhật thông tin thành công!',
+                            type: 'success',
+                            layout: 'topRight',
+                            theme: 'mint',
+                            timeout: 3000,
+                            // callbacks: {
+                            //     afterShow: function () {
+                            //     // Sử dụng Promise để đảm bảo rằng làm mới chỉ xảy ra sau khi phản hồi đã được xử lý
+                            //     return new Promise((resolve) => {
+                            //         setTimeout(() => {
+                            //         //window.location.reload();
+                            //         resolve();
+                            //         }, 2000); // Sau 3 giây
+                            //     });
+                            //     }
+                            // }
+                        }).show();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            })
+
+        }
+        const exitModalUpdateService = () => {
+            modalUpdateService.value = false
+        }
+
         return {
             columnsService,
             dataService,
+            loading,
+            //Form Add Service
+            showModalAddService,
+            formAddService,
+            exitModalAddService,
+            layoutFormAddService,
+            modalAddService,
+            //Missing Info
+            alertInfoService,
+            //Add Service
+            addService,
+            //Update Service
+            modalUpdateService,
+            formUpdateService,
+            showModalUpdateService,
+            updateService,
+            exitModalUpdateService,
+            idToUpdate,
         }
 }
 })
