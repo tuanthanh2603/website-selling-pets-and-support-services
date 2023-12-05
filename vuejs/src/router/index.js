@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-
+import petInfo from "../client/views/thong-tin-thu-cung.vue";
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -15,6 +15,13 @@ const router = createRouter({
     {
       path: "/tim-kiem",
       component: () => import("../client/views/tim-kiem.vue"),
+    },
+    {
+      path: "/thong-tin-thu-cung/:id",
+      name:"pet-information",
+      component: petInfo,
+      props:true,
+
     },
     {
       path: "/cho-canh",

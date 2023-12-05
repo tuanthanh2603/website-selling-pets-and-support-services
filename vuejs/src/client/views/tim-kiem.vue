@@ -1,36 +1,52 @@
 <template>
-    <div class="container mt-5">
-        <div class="row g-5">
-            <div v-for="(category, index) in petCategories" :key="index" class="col-md-3 col-sm-6">
-              <div class="product-grid">
-                <div class="product-image">
-                  <a href="" class="image">
-                    <img v-if="category.images && category.images.length > 0" :src="'http://localhost:3000/uploads/' + category.images[0].name    " alt="Pet Image" />
-                  </a>
-                
-                  <ul class="product-links">
-                    <li>
-                      <a href="#"><search-outlined /></a>
-                    </li>
-                    <li>
-                      <a href="#"><heart-outlined /></a>
-                    </li>
-                    <li>
-                      <a href="#"><export-outlined /></a>
-                    </li>
-                  </ul>
-                  <a href="#" class="add-to-cart" enter-button @click="addToCart(category)">Thêm vào giỏ hàng</a>
-                </div>
-                <div class="product-content">
-                  <h3 class="title">
-                    <a href="">{{ category.name }}</a>
-                  </h3>
-                  <div class="price">{{ category.price }}</div>
-                </div>
-              </div>
-            </div>
+  <div class="container mt-5">
+    <div class="row g-5">
+      <div
+        v-for="(category, index) in petCategories"
+        :key="index"
+        class="col-md-3 col-sm-6"
+      >
+        <div class="product-grid">
+          <div class="product-image">
+            <a href="" class="image">
+              <img
+                v-if="category.images && category.images.length > 0"
+                :src="
+                  'http://localhost:3000/uploads/' + category.images[0].name
+                "
+                alt="Pet Image"
+              />
+            </a>
+
+            <ul class="product-links">
+              <li>
+                <a href="#" @click="onSearch(category.name)">  <search-outlined></search-outlined>   </a>
+              </li>
+              <li>
+                <a href="#"><heart-outlined /></a>
+              </li>
+              <li>
+                <a href="#" @click="onSearchID(category.id)">  <export-outlined></export-outlined>   </a>           
+              </li>
+            </ul>
+            <a
+              href="#"
+              class="add-to-cart"
+              enter-button
+              @click="addToCart(category)"
+              >Thêm vào giỏ hàng</a
+            >
+          </div>
+          <div class="product-content">
+            <h3 class="title">
+              <a href="">{{ category.name }}</a>
+            </h3>
+            <div class="price">{{ category.price }}</div>
+          </div>
         </div>
-</div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 import { defineComponent, ref, onMounted } from "vue";
@@ -41,24 +57,23 @@ export default defineComponent({
   setup() {
     const petCategories = ref([]);
     const searchValue = localStorage.getItem("searchHistory");
-
     const onSearch = () => {
       const serverURL = `http://localhost:3000/client/tim-kiem-san-pham/searchPetName/${searchValue}`;
       axios
         .post(serverURL)
         .then((response) => {
           console.log("tra du lieu thanh cong", response.data);
-          petCategories.value=response.data
+          petCategories.value = response.data;
         })
         .catch((error) => {
           console.log("Error:", error);
         });
     };
 
+
     const addToCart = (product) => {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
       const existingProduct = cart.find((item) => item.id === product.id);
-
       if (existingProduct) {
         console.log("Sản phẩm đã được thêm vào giỏ hàng!!!");
       } else {
@@ -68,10 +83,8 @@ export default defineComponent({
       }
 
       localStorage.setItem("cart", JSON.stringify(cart));
-    //   console.log("Dữ liệu trong local storage:", cart);
+      //   console.log("Dữ liệu trong local storage:", cart);
     };
-
-
 
     onMounted(() => {
       onSearch();
@@ -86,7 +99,6 @@ export default defineComponent({
   },
 });
 </script>
-
 
 <style scoped>
 .ant-carousel :deep(.slick-slide) {
