@@ -37,9 +37,24 @@
         </template>
       </a-table-column>
     </a-table>
-
     <h2 class="col-md-6" style="text-align: left">Thành tiền: {{ totalPrice }}</h2>
-    
+  </div>
+
+
+  <div class="container mt-5">
+    <a-table :data-source="customerCate" style="width: 500px;">
+      <a-table-column key="name" title="Tên khách hàng">
+        <template #default="{ text }">
+          {{ text.name }}
+        </template>
+      </a-table-column>
+
+      <a-table-column key="sdt" title="Số điện thoại khách hàng">
+        <template #default="{ text }">
+          {{ text.sdt }}
+        </template>
+      </a-table-column>
+    </a-table>
   </div>
 </template>
 
@@ -63,10 +78,29 @@ export default defineComponent({
   },
   setup() {
     const petCategories = ref([]);
-    const totalPrice=ref(0)
+    const customerCate=ref([]);
+    const totalPrice=ref(0);
     const value = ref("");
+
+
+    const showKhachHang = () => {
+      var idkhachHang = localStorage.getItem("user_id");
+      console.log("id cua khach hang",idkhachHang)
+            const serverURL = `http://localhost:3000/client/show-khach-hang/showKhachHang/${idkhachHang}`;
+            axios
+                .get(serverURL)
+                .then((response) => {
+                    console.log("tra du lieu thanh cong", response.data);
+                    customerCate.value = response.data;
+                })
+                .catch((error) => {
+                    console.log("Error:", error);
+                });
+      };
   
     onMounted(() => {
+      showKhachHang();
+
       var cartData = localStorage.getItem("cart");
       if (cartData) {
         var cartArray = JSON.parse(cartData);
@@ -106,10 +140,9 @@ export default defineComponent({
       window.location.reload();
     }
     
-    
     return {
-      deleteItemPetInCart,
-      petCategories,totalPrice,
+      deleteItemPetInCart,showKhachHang,
+      petCategories,totalPrice,customerCate,
       value,
     };
   },

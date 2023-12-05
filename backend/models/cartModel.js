@@ -5,14 +5,20 @@ const cart = new Schema({
     userId: {
         type: String,
     },
-    thanhTien:{
-        type:Number,
+    ten: {
+        type: String,
     },
-    thanhTienOld:{
-       type:Number 
+    sdt: {
+        type: String,
     },
-    trangThai:{
-        type:String,
+    diaChi: {
+        type: String,
+    },
+    thanhTien: {
+        type: Number,
+    },
+    trangThai: {
+        type: String,
     },
     created_at: {
         type: Date,
