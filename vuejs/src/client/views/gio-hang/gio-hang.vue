@@ -9,7 +9,8 @@
 
       <a-table-column key="images" title="Hình ảnh">
         <template #default="{ record }">
-          <img v-if="record.images && record.images.length > 0" :src="'http://localhost:3000/uploads/' + record.images[0].name    " alt="Pet Image" />
+          <img v-if="record.images && record.images.length > 0"
+            :src="'http://localhost:3000/uploads/' + record.images[0].name" alt="Pet Image" />
         </template>
       </a-table-column>
 
@@ -56,6 +57,10 @@
       </a-table-column>
     </a-table>
   </div>
+
+  <!-- Add this button in your template -->
+<button @click="completePayment">Hoàn thành thanh toán</button>
+
 </template>
 
 
@@ -78,29 +83,50 @@ export default defineComponent({
   },
   setup() {
     const petCategories = ref([]);
-    const customerCate=ref([]);
-    const totalPrice=ref(0);
+    const customerCate = ref([]);
+    const totalPrice = ref(0);
     const value = ref("");
 
 
     const showKhachHang = () => {
       var idkhachHang = localStorage.getItem("user_id");
-      console.log("id cua khach hang",idkhachHang)
-            const serverURL = `http://localhost:3000/client/show-khach-hang/showKhachHang/${idkhachHang}`;
-            axios
-                .get(serverURL)
-                .then((response) => {
-                    console.log("tra du lieu thanh cong", response.data);
-                    customerCate.value = response.data;
-                })
-                .catch((error) => {
-                    console.log("Error:", error);
-                });
-      };
+      console.log("id cua khach hang", idkhachHang)
+      const serverURL = `http://localhost:3000/client/show-khach-hang/showKhachHang/${idkhachHang}`;
+      axios
+        .get(serverURL)
+        .then((response) => {
+          console.log("tra du lieu thanh cong", response.data);
+          customerCate.value = response.data;
+        })
+        .catch((error) => {
+          console.log("Error:", error);
+        });
+    };
+
+    const completePayment = async () => {
+      try {
+        const idkhachHang = localStorage.getItem("user_id");
+        const serverURL = `http://localhost:3000/client/thanh-toan`;
+        const paymentData = {
+          userId: idkhachHang,
+          ten: customerCate.value.name, // Assuming customerCate contains the customer data
+          sdt: customerCate.value.sdt,
+          thanhTien: totalPrice.value,
+          trangThai: "Đã thanh toán", // You can adjust this based on your requirements
+        };
+        axios.post(serverURL).then((response)=>{
+          console.log("tra du lieu thanh cong", response.data);
+        })
+        
+
   
+      } catch (error) {
+        console.error("Error creating payment:", error);
+      }
+    };
+
     onMounted(() => {
       showKhachHang();
-
       var cartData = localStorage.getItem("cart");
       if (cartData) {
         var cartArray = JSON.parse(cartData);
@@ -120,11 +146,11 @@ export default defineComponent({
         .then((response) => {
           petCategories.value = response.data;
           totalPrice.value = response.data.reduce((acc, item) => {
-          return acc + item.price;
-        }, 0);
+            return acc + item.price;
+          }, 0);
 
-        // console.log("Dữ liệu trả về", petCategories.value);
-        console.log("Tổng giá trị", totalPrice.value);
+          // console.log("Dữ liệu trả về", petCategories.value);
+          console.log("Tổng giá trị", totalPrice.value);
         })
         .catch((error) => {
           console.log("Lỗi:", error);
@@ -139,10 +165,10 @@ export default defineComponent({
       localStorage.setItem("cart", JSON.stringify(cartItems));
       window.location.reload();
     }
-    
+
     return {
-      deleteItemPetInCart,showKhachHang,
-      petCategories,totalPrice,customerCate,
+      deleteItemPetInCart, showKhachHang,completePayment,
+      petCategories, totalPrice, customerCate,
       value,
     };
   },

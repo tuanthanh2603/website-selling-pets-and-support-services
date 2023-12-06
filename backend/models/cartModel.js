@@ -11,9 +11,7 @@ const cart = new Schema({
     sdt: {
         type: String,
     },
-    diaChi: {
-        type: String,
-    },
+
     thanhTien: {
         type: Number,
     },

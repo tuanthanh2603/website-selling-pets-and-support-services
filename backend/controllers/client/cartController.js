@@ -1,6 +1,7 @@
 import { Pet } from "../../models/admin/petModel.js";
 import { ImagesPet } from "../../models/admin/imagesPetModel.js"; 
 import { Account }from '../../models/account/AccountModel.js'; 
+import { Cart } from "../../models/cartModel.js";
 
 export const cartController = async (req, res) => {
     try {
@@ -26,6 +27,41 @@ export const cartController = async (req, res) => {
     } catch (error) {
       console.error("Error:", error);
       res.status(500).json({ error: "Internal Server Error" });
+    }
+  };
+
+  const calculateTotalPrice = (cartItems) => {
+    return cartItems.reduce((acc, item) => acc + item.price, 0);
+  };
+  
+  // Controller function for processing payments
+  export const thanhtoan = async (req, res) => {
+    try {
+      // Extract necessary data from the request body
+      const { userId, ten, sdt } = req.body;
+      const cartItems = req.body.cartItems; // Assuming you send the cart items for the payment
+  
+      // Calculate the total price
+      const thanhTien = calculateTotalPrice(cartItems);
+  
+      // Create a new payment record
+      const payment = new Cart({
+        userId,
+        ten,
+        sdt,
+        thanhTien,
+        trangThai: "Đã thanh toán", // You can adjust this based on your requirements
+      });
+  
+      // Save the payment record to the database
+      const savedPayment = await payment.save();
+  
+      // Send a success response
+      res.status(201).json(savedPayment);
+    } catch (error) {
+      // Handle errors
+      console.error("Error processing payment:", error);
+      res.status(500).send("Internal Server Error");
     }
   };
 
