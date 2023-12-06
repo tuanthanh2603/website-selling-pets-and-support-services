@@ -104,27 +104,36 @@ export default defineComponent({
     };
 
     const completePayment = async () => {
-      try {
-        const idkhachHang = localStorage.getItem("user_id");
-        const serverURL = `http://localhost:3000/client/thanh-toan`;
-        const paymentData = {
-          userId: idkhachHang,
-          ten: customerCate.value.name, // Assuming customerCate contains the customer data
-          sdt: customerCate.value.sdt,
-          thanhTien: totalPrice.value,
-          trangThai: "Đã thanh toán", // You can adjust this based on your requirements
-        };
-        axios.post(serverURL).then((response)=>{
-          console.log("tra du lieu thanh cong", response.data);
-        })
+  try {
+    const idkhachHang = localStorage.getItem("user_id");
+    const serverURL = "http://localhost:3000/client/thanh-toan/thanhtoan";
+    
+    // Check if there's at least one customer in the array
+    if (customerCate.value.length > 0) {
+      const paymentData = {
+        userId: idkhachHang,
+        ten: customerCate.value[0].name,
+        sdt: customerCate.value[0].sdt,
+        thanhTien: totalPrice.value,
+        trangThai: "Đã thanh toán",
+      };
+
+      const response = await axios.post(serverURL, paymentData);
+      if (response.status === 200) {
+        console.log("Payment successful", response.data);
         
-
-  
-      } catch (error) {
-        console.error("Error creating payment:", error);
+        // Show a success notification
+        alert("Thanh toán thành công! Cảm ơn bạn.");
+      } else {
+        console.error("Unexpected response from server:");
       }
-    };
-
+    } else {
+      console.error("No customer information available.");
+    }
+  } catch (error) {
+    console.error("Error during payment:", error);
+  }
+};
     onMounted(() => {
       showKhachHang();
       var cartData = localStorage.getItem("cart");
