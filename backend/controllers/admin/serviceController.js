@@ -21,7 +21,7 @@ export const addServiceToCategory = async (req, res) => {
 
 export const deleteService = async (req, res) => {
     const serviceIdToRemove = req.params.id;
-    console.log("id: " + itemId);
+    console.log("id: " + serviceIdToRemove);
     try {
         const deleteService = await ServiceCategory.findByIdAndRemove(serviceIdToRemove);
         
@@ -66,8 +66,6 @@ export const updateService = async (req, res) => {
         return res.status(500).json({ error: 'Có lỗi xảy ra khi cập nhật dịch vụ.' });
     }
 };
-
-
 
 export const getAllServices = async (req, res) => {
     try {

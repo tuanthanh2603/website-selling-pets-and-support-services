@@ -272,17 +272,17 @@ export default defineComponent({
                             layout: 'topRight',
                             theme: 'mint',
                             timeout: 3000,
-                            // callbacks: {
-                            //     afterShow: function () {
-                            //     // Sử dụng Promise để đảm bảo rằng làm mới chỉ xảy ra sau khi phản hồi đã được xử lý
-                            //     return new Promise((resolve) => {
-                            //         setTimeout(() => {
-                            //         //window.location.reload();
-                            //         resolve();
-                            //         }, 2000); // Sau 3 giây
-                            //     });
-                            //     }
-                            // }
+                            callbacks: {
+                                afterShow: function () {
+                                // Sử dụng Promise để đảm bảo rằng làm mới chỉ xảy ra sau khi phản hồi đã được xử lý
+                                return new Promise((resolve) => {
+                                    setTimeout(() => {
+                                    window.location.reload();
+                                    resolve();
+                                    }, 2000); // Sau 3 giây
+                                });
+                                }
+                            }
                         }).show();
             })
             .catch((error) => {
@@ -293,6 +293,43 @@ export default defineComponent({
         const exitModalUpdateService = () => {
             modalUpdateService.value = false
         }
+
+        //Delete Service
+        const deleteService = (id) => {
+            console.log("Delete ID: ", id)
+            const serverUrl = `http://localhost:3000/admin/quan-ly-dich-vu/deleteService/${id}`;
+            axios.delete(serverUrl)
+            .then((response) => {
+                if(response.status === 200){
+                    console.log('Delete success');
+                    new Noty({
+                            text: 'Xóa dịch vụ thành công!',
+                            type: 'success',
+                            layout: 'topRight',
+                            theme: 'mint',
+                            timeout: 3000,
+                            callbacks: {
+                                afterShow: function () {
+                                // Sử dụng Promise để đảm bảo rằng làm mới chỉ xảy ra sau khi phản hồi đã được xử lý
+                                return new Promise((resolve) => {
+                                    setTimeout(() => {
+                                    window.location.reload();
+                                    resolve();
+                                    }, 2000); // Sau 3 giây
+                                });
+                                }
+                            }
+                        }).show();
+                } else {
+                    console.log("Delete faild")
+                }
+                
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            })
+        }
+
 
         return {
             columnsService,
@@ -315,6 +352,8 @@ export default defineComponent({
             updateService,
             exitModalUpdateService,
             idToUpdate,
+            //Delete Service
+            deleteService,
         }
 }
 })

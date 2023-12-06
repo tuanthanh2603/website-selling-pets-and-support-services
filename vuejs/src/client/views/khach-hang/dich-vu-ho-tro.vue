@@ -39,12 +39,15 @@
                                     />
                                   </a-form-item>
                                   <!-- Form điền thông tin !-->
+                                  <a-alert :message="alertTotalPrice.message" type="warning" show-icon>
+                                    <template #icon><smile-outlined /></template>
+                                  </a-alert>
+                                  <!-- Table các loại dịch vụ -->
+                                  <a-table :columns="columnsServices" :data-source="dataServices" :row-selection="rowSelection" />
 
                                   <!-- Table các loại dịch vụ -->
-
-                                  <!-- Table các loại dịch vụ -->
-               
-                                  <a-form-item :wrapper-col="{ span: 14, offset: 8 }">
+                                  
+                                  <a-form-item :wrapper-col="{ span: 17, offset: 4 }">
                                       <a-alert style="margin-bottom: 20px;" v-if="alertInfoService" :message="alertInfoService.message"
                                       :type="alertInfoService.type" show-icon />
 
@@ -89,13 +92,14 @@
 import TheMenu from './TheMenu.vue';
 import dayjs from 'dayjs';
 import { ClockCircleOutlined } from '@ant-design/icons-vue';
-import { DownOutlined } from '@ant-design/icons-vue'
+import { DownOutlined, SmileOutlined } from '@ant-design/icons-vue'
 import { defineComponent, ref } from 'vue';
 export default defineComponent({
     components:{
         TheMenu,
         DownOutlined,
         ClockCircleOutlined,
+        SmileOutlined,  
     },
     setup() {
         //Thêm thông tin dịch vụ
@@ -111,12 +115,13 @@ export default defineComponent({
             time: '',
         });
         const alertInfoService = ref({ message: 'Vui lòng nhập thông tin dịch vụ', type: 'info' });
+        const alertTotalPrice = ref({ message: 'Tổng giá tiền' });
         const exitModalCreateService = () => {
             modalCreateService.value = false
         }
         const layoutFormCreateService = {
             labelCol: {
-                span: 7,
+                span: 6,
             },
             wrapperCol: {
                 span: 16,
@@ -139,9 +144,59 @@ export default defineComponent({
             exitModalCreateService,
             layoutFormCreateService,
             disabledDate,
+            columnsServices,
+            dataServices,
+            rowSelection,
+            alertTotalPrice,
         };
     },
 })
+
+//Column ChoseService
+const columnsServices = [{
+  title: 'Tên dịch vụ',
+  dataIndex: 'name',
+  key: 'name',
+}, {
+  title: 'Giá tiền',
+  dataIndex: 'price',
+  key: 'price',
+  width: '15%',
+}, {
+  title: 'Trạng thái dịch vụ',
+  dataIndex: 'status',
+  width: '30%',
+  key: 'status',
+}];
+const dataServices = [{
+  key: 1,
+  name: 'Tẩy giun (abcdefg)',
+  price: 200000,
+  status: 'Đang hoạt động',
+}, {
+    key: 12,
+    name: 'Tẩy giun (abcdefg)',
+    price: 500000,  
+    status: 'Đang hoạt động',
+  }];
+
+const rowSelection = ref({
+  onChange: (selectedRowKeys, selectedRows) => {
+    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+  },
+  onSelect: (record, selected, selectedRows) => {
+    console.log(record, selected, selectedRows);
+  },
+  onSelectAll: (selected, selectedRows, changeRows) => {
+    console.log(selected, selectedRows, changeRows);
+  },
+});
+
+
+
+
+
+
 
 //Column Service
 const columns = [{
