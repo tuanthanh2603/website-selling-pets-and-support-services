@@ -6,7 +6,7 @@ router.get("/showCart/:searchValue",cartController)
 
 router.get("/showKhachHang/:idkhachHang",khachHangController)
 
-router.post("/thanh-toan", thanhtoan);
+router.post("/thanhtoan", thanhtoan);
 
 
 

@@ -11,17 +11,12 @@ const cart = new Schema({
     sdt: {
         type: String,
     },
-
     thanhTien: {
         type: Number,
     },
     trangThai: {
         type: String,
     },
-    created_at: {
-        type: Date,
-        default: Date.now,
-    }
 });
 
 export const Cart = mongoose.model("Cart", cart, "Cart");
