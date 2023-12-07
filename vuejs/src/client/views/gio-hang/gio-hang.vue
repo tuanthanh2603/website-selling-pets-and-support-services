@@ -38,12 +38,13 @@
         </template>
       </a-table-column>
     </a-table>
-    <h2 class="col-md-6" style="text-align: left">Thành tiền: {{ totalPrice }}</h2>
+    <h2 class="col-md-6" style="text-align: left">
+      Thành tiền: {{ totalPrice }}
+    </h2>
   </div>
 
-
   <div class="container mt-5">
-    <a-table :data-source="customerCate" style="width: 500px;">
+    <a-table :data-source="customerCate" style="width: 500px">
       <a-table-column key="name" title="Tên khách hàng">
         <template #default="{ text }">
           {{ text.name }}
@@ -61,7 +62,6 @@
   <!-- Add this button in your template -->
   <button @click="completePayment">Hoàn thành thanh toán</button>
 </template>
-
 
 <script>
 import { defineComponent, ref, onMounted } from "vue";
@@ -86,10 +86,9 @@ export default defineComponent({
     const totalPrice = ref(0);
     const value = ref("");
 
-
     const showKhachHang = () => {
       var idkhachHang = localStorage.getItem("user_id");
-      console.log("id cua khach hang", idkhachHang)
+      console.log("id cua khach hang", idkhachHang);
       const serverURL = `http://localhost:3000/client/show-khach-hang/showKhachHang/${idkhachHang}`;
       axios
         .get(serverURL)
@@ -103,45 +102,34 @@ export default defineComponent({
     };
 
     const completePayment = async () => {
-  try {
-    const idkhachHang = localStorage.getItem("user_id");
-    const serverURL = "http://localhost:3000/client/thanh-toan/thanhtoan";
-    
-    // Check if there's at least one customer in the array
-    if (petCategories.value.length > 0) {
-      const paymentData = {
-        userId: idkhachHang,
-        ten: customerCate.value[0].name,
-        sdt: customerCate.value[0].sdt,
-        thanhTien: totalPrice.value,
-        trangThai: "Đã thanh toán",
-      };
-
-      const response = await axios.post(serverURL, paymentData);
-      if (response.status === 200) {
-        console.log("Payment successful", response.data);
-        
-        // Show a success notification
-        alert("Thanh toán thành công! Cảm ơn bạn.");
-        localStorage.removeItem("cart");
-
-        // Clear petCategories and totalPrice after successful payment
-        petCategories.value = [];
-        totalPrice.value = 0;
-      } else {
-        console.error("Unexpected response from server:", response.status);
+      try {
+        const idkhachHang = localStorage.getItem("user_id");
+        const serverURL = "http://localhost:3000/client/thanh-toan/thanhtoan";
+        if (petCategories.value.length > 0) {
+          const paymentData = {
+            userId: idkhachHang,
+            ten: customerCate.value[0].name,
+            sdt: customerCate.value[0].sdt,
+            thanhTien: totalPrice.value,
+            trangThai: "Đã thanh toán",
+          };
+          const response = await axios.post(serverURL, paymentData);
+          if (response.status === 200) {
+            alert("Thanh toán thành công! Cảm ơn bạn.");
+            localStorage.removeItem("cart");
+            petCategories.value = [];
+            totalPrice.value = 0;
+          } else {
+            console.error("loi server:", response.status);
+          }
+        } else {
+          alert("Vui lòng thêm sản phẩm vào giỏ hàng trước khi thanh toán.");
+        }
+      } catch (error) {
+        console.error("Error during payment:", error);
       }
-    } else {
-      // Display a message prompting the user to add products to the shopping cart
-      alert("Vui lòng thêm sản phẩm vào giỏ hàng trước khi thanh toán.");
-    }
-  } catch (error) {
-    console.error("Error during payment:", error);
-  }
-};
+    };
 
-
-    
     onMounted(() => {
       showKhachHang();
       var cartData = localStorage.getItem("cart");
@@ -177,15 +165,19 @@ export default defineComponent({
     const deleteItemPetInCart = (id) => {
       let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
       // Tìm và xoá item có id trùng với id được truyền vào
-      cartItems = cartItems.filter(item => item.id !== id);
+      cartItems = cartItems.filter((item) => item.id !== id);
       // Cập nhật lại danh sách items trong localStorage
       localStorage.setItem("cart", JSON.stringify(cartItems));
       window.location.reload();
-    }
+    };
 
     return {
-      deleteItemPetInCart, showKhachHang, completePayment,
-      petCategories, totalPrice, customerCate,
+      deleteItemPetInCart,
+      showKhachHang,
+      completePayment,
+      petCategories,
+      totalPrice,
+      customerCate,
       value,
     };
   },
