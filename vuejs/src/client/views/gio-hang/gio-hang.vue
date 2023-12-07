@@ -59,8 +59,7 @@
   </div>
 
   <!-- Add this button in your template -->
-<button @click="completePayment">Hoàn thành thanh toán</button>
-
+  <button @click="completePayment">Hoàn thành thanh toán</button>
 </template>
 
 
@@ -109,7 +108,7 @@ export default defineComponent({
     const serverURL = "http://localhost:3000/client/thanh-toan/thanhtoan";
     
     // Check if there's at least one customer in the array
-    if (customerCate.value.length > 0) {
+    if (petCategories.value.length > 0) {
       const paymentData = {
         userId: idkhachHang,
         ten: customerCate.value[0].name,
@@ -124,16 +123,25 @@ export default defineComponent({
         
         // Show a success notification
         alert("Thanh toán thành công! Cảm ơn bạn.");
+        localStorage.removeItem("cart");
+
+        // Clear petCategories and totalPrice after successful payment
+        petCategories.value = [];
+        totalPrice.value = 0;
       } else {
-        console.error("Unexpected response from server:");
+        console.error("Unexpected response from server:", response.status);
       }
     } else {
-      console.error("No customer information available.");
+      // Display a message prompting the user to add products to the shopping cart
+      alert("Vui lòng thêm sản phẩm vào giỏ hàng trước khi thanh toán.");
     }
   } catch (error) {
     console.error("Error during payment:", error);
   }
 };
+
+
+    
     onMounted(() => {
       showKhachHang();
       var cartData = localStorage.getItem("cart");
@@ -176,7 +184,7 @@ export default defineComponent({
     }
 
     return {
-      deleteItemPetInCart, showKhachHang,completePayment,
+      deleteItemPetInCart, showKhachHang, completePayment,
       petCategories, totalPrice, customerCate,
       value,
     };
