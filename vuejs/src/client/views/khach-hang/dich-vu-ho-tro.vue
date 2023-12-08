@@ -22,13 +22,13 @@
                                 <!-- Create Service Form -->
                                 <a-form :model="formCreateService" v-bind="layoutFormCreateService" name="nest-messages" @finish="createService">
                                   <!-- Form điền thông tin -->
-                                  <a-form-item name="name" label="Tên khách hàng" :rules="[{ required: true, message: 'Vui lòng nhập tên khách hàng!' }]">
+                                  <a-form-item name="name" label="Tên khách hàng" :rules="[nameRule]">
                                       <a-input v-model:value="formCreateService.name" />
                                   </a-form-item>                      
-                                  <a-form-item name="phone" label="Số điện thoại" :rules="[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]">
+                                  <a-form-item name="phone" label="Số điện thoại" :rules="[phoneRule]">
                                       <a-input v-model:value="formCreateService.phone" />
                                   </a-form-item>
-                                  <a-form-item name="petName" label="Tên thú cưng" :rules="[{ required: true, message: 'Vui lòng nhập tên thú cưng!' }]">
+                                  <a-form-item name="petName" label="Tên thú cưng" :rules="[petNameRule]">
                                       <a-input v-model:value="formCreateService.petName" />
                                   </a-form-item>
                                   <a-form-item name="createdDate" label="Ngày khởi tạo" >
@@ -114,7 +114,7 @@ import TheMenu from './TheMenu.vue';
 import dayjs from 'dayjs';
 import { ClockCircleOutlined } from '@ant-design/icons-vue';
 import { DownOutlined, SmileOutlined } from '@ant-design/icons-vue'
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, onMounted, ref, watch } from 'vue';
 import axios from 'axios';
 
 export default defineComponent({
@@ -130,6 +130,7 @@ export default defineComponent({
         const showModalCreateService = () => {
             modalCreateService.value = true
         }
+
         const formCreateService = ref({
             name: '',
             phone: '',
@@ -137,6 +138,7 @@ export default defineComponent({
             serviceType: '',
             time: '',
         });
+
         const exitModalCreateService = () => {
             modalCreateService.value = false
         }
@@ -148,6 +150,7 @@ export default defineComponent({
                 span: 16,
             },
         }
+
         //time
         const disabledDate = current => {
           // Can not select days before today and today
@@ -228,19 +231,39 @@ export default defineComponent({
           //Kiểm tra sđt
           const isPhoneValid = /^\d+$/.test(phone);
           const isPhoneLengthValid = phone.length > 0 && phone.length <= 11;
+
           //Trả kết quả
-          if (!isNameValid) {
-          }
+          errorName.value = isNameValid;
+          errorPhone.value = isPhoneValid && isPhoneLengthValid;
+          errorPetName.value = isPetNameValid;
 
-          if (!isPhoneValid || !isPhoneLengthValid) {
-
-          }
-
-          if (!isPetNameValid) {
-          }
-          return isNameValid, isPetNameValid, isPhoneValid, isPhoneLengthValid;
+          //tiếp tục ktra lỗi
+          const hasError = !isNameValid || !(isPhoneValid && isPhoneLengthValid) || !isPetNameValid;
+          if (!hasError) {
+            console.log("Không có lỗi trong việc kiểm tra.!");
+          };
+          
+          return {
+            hasError,
+            isNameValid,
+            isPetNameValid,
+            isPhoneValid,
+            isPhoneLengthValid,
+          };
         };
 
+        //Check từng trường hợp
+        const nameRule = ref({ required: true, message: 'Vui lòng nhập tên khách hàng!', trigger: 'blur' });
+        const phoneRule = ref({ required: true, message: 'Vui lòng nhập số điện thoại!', trigger: 'blur' });
+        const petNameRule = ref({ required: true, message: 'Vui lòng nhập tên thú cưng!', trigger: 'blur' });
+        
+        // Biến lưu trữ tình trạng lỗi cho từng trường
+        const errorName = ref(false);
+        const errorPhone = ref(false);
+        const errorPetName = ref(false);
+        
+        
+        
         return {
             data,
             columns,
@@ -266,6 +289,12 @@ export default defineComponent({
 
             validateFormData,
             validateData,
+            errorName,
+            errorPhone,
+            errorPetName,
+            nameRule,
+            phoneRule,
+            petNameRule,
         };
     },
 });
