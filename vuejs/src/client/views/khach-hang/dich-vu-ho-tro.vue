@@ -67,7 +67,7 @@
                                       :type="alertInfoService.type" show-icon />
                                       
                                       <!-- validateInputs là kiểm tra dữ liệu đã được nhập chưa -->
-                                      <a-button block type="primary" html-type="submit" style="margin-bottom: 10px;" @finish="showModalPayment">Xác nhận đăng ký dịch vụ</a-button>
+                                      <a-button block type="primary" @click="validateData" style="margin-bottom: 10px;">Xác nhận đăng ký dịch vụ</a-button>
                                         <a-modal v-model:visible="modalCreatePayment" title="Xác nhận thanh toán">
                                           <p>Some contents...</p>
                                           <p>Some contents...</p>
@@ -137,7 +137,6 @@ export default defineComponent({
             serviceType: '',
             time: '',
         });
-        const alertInfoService = ref({ message: 'Vui lòng nhập thông tin dịch vụ', type: 'info' });
         const exitModalCreateService = () => {
             modalCreateService.value = false
         }
@@ -206,7 +205,41 @@ export default defineComponent({
         const showModalPayment = () => {
           console.log('showModalPayment is called');
           modalCreatePayment = true;
-        }; 
+        };
+
+        const alertInfoService = ref({ message: 'Hãy nhập thông tin của bạn', type: 'info' });
+        const validateData = () => {
+          const valid = validateFormData();
+          if (valid) {
+            console.log("Hello World")
+          } else {
+            alertInfoService.value.message = 'Vui lòng nhập thông tin của bạn';
+            alertInfoService.value.type = 'error';
+          }
+        }
+
+        const validateFormData = () => {
+          const { name, phone, petName } = formCreateService.value;
+
+          //Kiểm tra độ dài
+          const isNameValid = name.length > 0;
+          const isPetNameValid = petName.length > 0;
+
+          //Kiểm tra sđt
+          const isPhoneValid = /^\d+$/.test(phone);
+          const isPhoneLengthValid = phone.length > 0 && phone.length <= 11;
+          //Trả kết quả
+          if (!isNameValid) {
+          }
+
+          if (!isPhoneValid || !isPhoneLengthValid) {
+
+          }
+
+          if (!isPetNameValid) {
+          }
+          return isNameValid, isPetNameValid, isPhoneValid, isPhoneLengthValid;
+        };
 
         return {
             data,
@@ -216,24 +249,26 @@ export default defineComponent({
             modalCreateService,
             showModalCreateService,
             formCreateService,
-            alertInfoService,
             exitModalCreateService,
             layoutFormCreateService,
             disabledDate,
+
+            alertInfoService,
+            alertTotalPrice,
 
             columnsServices,
             dataServices,
             rowSelection,
             totalPrice,
-            alertTotalPrice,
 
             showModalPayment,
             modalCreatePayment,
+
+            validateFormData,
+            validateData,
         };
     },
-})
-
-
+});
 
 const data = [];
 //Column Service
