@@ -39,20 +39,41 @@
                                     />
                                   </a-form-item>
                                   <!-- Form điền thông tin !-->
-                                  <a-alert :message="alertTotalPrice.message" type="warning" show-icon>
+
+                                  <!-- Thông báo tổng tiền -->
+                                  <a-alert :message="alertTotalPrice.message" :type="alertTotalPrice.type" show-icon>
                                     <template #icon><smile-outlined /></template>
                                   </a-alert>
+
                                   <!-- Table các loại dịch vụ -->
-                                  <a-table :columns="columnsServices" :data-source="dataServices" :row-selection="rowSelection" />
+                                  <a-table :columns="columnsServices" :data-source="dataServices" :row-selection="rowSelection">
+                                    <template #bodyCell="{ column, record }">
+                                      <template v-if="column.key === 'name'">
+                                          {{ record.name }}
+                                      </template>
+                                      <template v-if="column.key === 'price'">
+                                          {{ record.price }}
+                                      </template>
+                                      <template v-if="column.key === 'status'">
+                                          {{ record.status }}
+                                      </template>
+                                    </template>
+                                  </a-table>
 
                                   <!-- Table các loại dịch vụ -->
                                   
                                   <a-form-item :wrapper-col="{ span: 17, offset: 4 }">
                                       <a-alert style="margin-bottom: 20px;" v-if="alertInfoService" :message="alertInfoService.message"
                                       :type="alertInfoService.type" show-icon />
-
-                                      <a-button block type="primary" html-type="submit" style="margin-bottom: 10px;">Đăng kí dịch vụ</a-button>
-
+                                      
+                                      <!-- validateInputs là kiểm tra dữ liệu đã được nhập chưa -->
+                                      <a-button block type="primary" html-type="submit" style="margin-bottom: 10px;" @finish="showModalPayment">Xác nhận đăng ký dịch vụ</a-button>
+                                        <a-modal v-model:visible="modalCreatePayment" title="Xác nhận thanh toán">
+                                          <p>Some contents...</p>
+                                          <p>Some contents...</p>
+                                          <p>Some contents...</p>
+                                        </a-modal>
+                                      
                                       <a-button block @click="exitModalCreateService">Thoát</a-button>
                                   </a-form-item>
 
@@ -93,7 +114,9 @@ import TheMenu from './TheMenu.vue';
 import dayjs from 'dayjs';
 import { ClockCircleOutlined } from '@ant-design/icons-vue';
 import { DownOutlined, SmileOutlined } from '@ant-design/icons-vue'
-import { defineComponent, ref } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
+import axios from 'axios';
+
 export default defineComponent({
     components:{
         TheMenu,
@@ -115,7 +138,6 @@ export default defineComponent({
             time: '',
         });
         const alertInfoService = ref({ message: 'Vui lòng nhập thông tin dịch vụ', type: 'info' });
-        const alertTotalPrice = ref({ message: 'Tổng giá tiền' });
         const exitModalCreateService = () => {
             modalCreateService.value = false
         }
@@ -132,6 +154,60 @@ export default defineComponent({
           // Can not select days before today and today
           return current && current < dayjs().endOf('day');
         };
+
+        //show dịch vụ để đăng ký
+        onMounted(() => {
+          const serverUrl = 'http://localhost:3000/admin/quan-ly-dich-vu/getAllService';
+          axios.get(serverUrl)
+            .then((response) => {
+              dataServices.value = response.data.map((item, index) => ({
+                key: index + 1,
+                name: item.service_name,
+                price: item.service_price,
+                status: item.service_status,
+              }))
+              console.log(response.data)
+            }) .catch ((error) => {
+              console.log("Error: ", error);
+            })
+        });
+
+        //tính tổng tiền các cột được chọn
+        const totalPrice = ref(0);
+        const alertTotalPrice = ref({ message: 'Tổng giá trị dịch vụ bạn đã chọn: 0', type: 'warning' });
+        const rowSelection = ref({
+          onChange: (selectedRowKeys, selectedRows) => {
+            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            updateTotalPrice(selectedRows);
+          },
+          onSelect: (record, selected, selectedRows) => {
+            updateTotalPrice(selectedRows);
+          },
+          onSelectAll: (selected, selectedRows, changeRows) => {
+            updateTotalPrice(selectedRows);
+          },
+        });
+
+        const updateTotalPrice = (selectedRows) => {
+          totalPrice.value = selectedRows.reduce((total, row) => total + row.price, 0);
+          alertTotalPrice.value.message = `Tổng giá trị dịch vụ bạn đã chọn: ${doitien(totalPrice.value)}`;
+          alertTotalPrice.value.type = 'success'; // Đổi loại thành công cần thiết
+        };
+
+        const doitien = (value) => {
+          return value.toLocaleString('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          });
+        };
+        
+        //Payment method
+        const modalCreatePayment = ref(false);
+        const showModalPayment = () => {
+          console.log('showModalPayment is called');
+          modalCreatePayment = true;
+        }; 
+
         return {
             data,
             columns,
@@ -144,60 +220,22 @@ export default defineComponent({
             exitModalCreateService,
             layoutFormCreateService,
             disabledDate,
+
             columnsServices,
             dataServices,
             rowSelection,
+            totalPrice,
             alertTotalPrice,
+
+            showModalPayment,
+            modalCreatePayment,
         };
     },
 })
 
-//Column ChoseService
-const columnsServices = [{
-  title: 'Tên dịch vụ',
-  dataIndex: 'name',
-  key: 'name',
-}, {
-  title: 'Giá tiền',
-  dataIndex: 'price',
-  key: 'price',
-  width: '15%',
-}, {
-  title: 'Trạng thái dịch vụ',
-  dataIndex: 'status',
-  width: '30%',
-  key: 'status',
-}];
-const dataServices = [{
-  key: 1,
-  name: 'Tẩy giun (abcdefg)',
-  price: 200000,
-  status: 'Đang hoạt động',
-}, {
-    key: 12,
-    name: 'Tẩy giun (abcdefg)',
-    price: 500000,  
-    status: 'Đang hoạt động',
-  }];
-
-const rowSelection = ref({
-  onChange: (selectedRowKeys, selectedRows) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-  },
-  onSelect: (record, selected, selectedRows) => {
-    console.log(record, selected, selectedRows);
-  },
-  onSelectAll: (selected, selectedRows, changeRows) => {
-    console.log(selected, selectedRows, changeRows);
-  },
-});
 
 
-
-
-
-
-
+const data = [];
 //Column Service
 const columns = [{
   title: 'Họ và Tên',
@@ -224,7 +262,8 @@ const columns = [{
   dataIndex: 'createdAt',
   key: 'createdAt',
 }];
-const data = [];
+const dataServices = ref([]);
+
 for (let i = 0; i < 3; ++i) {
   data.push({
     key: i,
@@ -236,6 +275,24 @@ for (let i = 0; i < 3; ++i) {
     createdAt: '2014-12-24 23:12:00',
   });
 }
+
+//cl services
+const columnsServices = [{
+  title: 'Tên dịch vụ',
+  dataIndex: 'name',
+  key: 'name',
+}, {
+  title: 'Giá tiền',
+  dataIndex: 'price',
+  key: 'price',
+  width: '15%',
+}, {
+  title: 'Trạng thái dịch vụ',
+  dataIndex: 'status',
+  width: '30%',
+  key: 'status',
+}];
+
 
 const innerColumns = [{
   title: 'Thời gian khởi tạo',
