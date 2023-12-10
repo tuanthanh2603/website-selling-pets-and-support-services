@@ -147,19 +147,23 @@
         <div class="product-grid">
           <div class="product-image">
             <a href="" class="image">
-              <img v-if="category.images && category.images.length > 0"
-                :src="'http://localhost:3000/uploads/' + category.images[0].name" alt="Pet Image" />
+              <img v-if="category.images && category.images.length > 0" :src="'http://localhost:3000/uploads/' + category.images[0].name
+                " alt="Pet Image" />
             </a>
 
             <ul class="product-links">
               <li>
-                <a href="#" @click="onSearch(category.name)">  <search-outlined></search-outlined>   </a>
+                <a href="#" @click="onSearch(category.name)">
+                  <search-outlined></search-outlined>
+                </a>
               </li>
               <li>
                 <a href="#"><heart-outlined /></a>
               </li>
               <li>
-                <a :href="`/thong-tin-thu-cung/${category.id}`" @click="goToDetail(category.id)">  <export-outlined></export-outlined>   </a>           
+                <a :href="`/thong-tin-thu-cung/${category.id}`" @click="goToDetail(category.id)">
+                  <export-outlined></export-outlined>
+                </a>
               </li>
             </ul>
             <a href="#" class="add-to-cart" enter-button @click="addToCart(category)">Thêm vào giỏ hàng</a>
@@ -172,10 +176,9 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
-  <button @click="clearLocalStorage">Clear History</button>
+  <!-- <button @click="clearLocalStorage">Clear History</button> -->
   <a-affix :offset-bottom="bottom">
     <a-button type="primary" @click="bottom" style="
         margin-left: 20px;
@@ -242,17 +245,19 @@ export default defineComponent({
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
       const existingProduct = cart.find((item) => item.id === product.id);
       if (checkIdKhachHang() == false) {
+        alert("Vui long dang nhap truoc khi them");
       } else {
         if (existingProduct) {
-          console.log("Sản phẩm đã được thêm vào giỏ hàng!!!");
+          alert("Đã có sản phảm này trong giỏ hàng");
         } else {
           cart.push({
             id: product.id,
           });
+          localStorage.setItem("cart", JSON.stringify(cart));
+          const retrievedCart = JSON.parse(localStorage.getItem("cart"));
+          console.log("Dữ liệu trong local storage:", retrievedCart);
+          alert("Sản phẩm đã được thêm vào giỏ hàng");
         }
-        localStorage.setItem("cart", JSON.stringify(cart));
-        const retrievedCart = JSON.parse(localStorage.getItem("cart"));
-        console.log("Dữ liệu trong local storage:", retrievedCart);
       }
     };
 
@@ -277,14 +282,14 @@ export default defineComponent({
         });
     };
 
-    const goToDetail=(id)=>{
-        console.log(id);
-        this.$router.push({ name: 'pet-information', params: { searchID: id } });
-    }
+    const goToDetail = (id) => {
+      console.log(id);
+      this.$router.push({ name: "pet-information", params: { searchID: id } });
+    };
 
     const onSearchID = (searchID) => {
       const severURL = `http://localhost:3000/client/tim-kiem-san-pham/searchPetID/${searchID}`;
-      console.log(searchID)
+      console.log(searchID);
       axios
         .post(severURL)
         .then((response) => {
@@ -312,11 +317,13 @@ export default defineComponent({
     return {
       checkIdKhachHang,
       petCategories,
-      onSearch,onSearchID,
+      onSearch,
+      onSearchID,
       value,
       addToCart,
       clearLocalStorage,
-      bottom,goToDetail
+      bottom,
+      goToDetail,
     };
   },
 });

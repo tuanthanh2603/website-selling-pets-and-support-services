@@ -20,13 +20,17 @@
 
             <ul class="product-links">
               <li>
-                <a href="#" @click="onSearch(category.name)">  <search-outlined></search-outlined>   </a>
+                <a href="#" @click="onSearch(category.name)">
+                  <search-outlined></search-outlined>
+                </a>
               </li>
               <li>
                 <a href="#"><heart-outlined /></a>
               </li>
               <li>
-                <a href="#" @click="onSearchID(category.id)">  <export-outlined></export-outlined>   </a>           
+                <a href="#" @click="onSearchID(category.id)">
+                  <export-outlined></export-outlined>
+                </a>
               </li>
             </ul>
             <a
@@ -70,20 +74,36 @@ export default defineComponent({
         });
     };
 
+    const checkIdKhachHang = () => {
+      const idkhachHang = localStorage.getItem("user_id");
+      if (!idkhachHang) {
+        console.log("ID Khach Hang not found in localStorage");
+        return false;
+        // window.location.href = "/login";
+      } else {
+        console.log("ID Khach Hang found in localStorage:", idkhachHang);
+        return true;
+      }
+    };
 
     const addToCart = (product) => {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
       const existingProduct = cart.find((item) => item.id === product.id);
-      if (existingProduct) {
-        console.log("Sản phẩm đã được thêm vào giỏ hàng!!!");
+      if (checkIdKhachHang() == false) {
+        alert("Vui long dang nhap truoc khi them");
       } else {
-        cart.push({
-          id: product.id,
-        });
+        if (existingProduct) {
+          alert("Đã có sản phảm này trong giỏ hàng");
+        } else {
+          cart.push({
+            id: product.id,
+          });
+          localStorage.setItem("cart", JSON.stringify(cart));
+          const retrievedCart = JSON.parse(localStorage.getItem("cart"));
+          console.log("Dữ liệu trong local storage:", retrievedCart);
+          alert("Sản phẩm đã được thêm vào giỏ hàng");
+        }
       }
-
-      localStorage.setItem("cart", JSON.stringify(cart));
-      //   console.log("Dữ liệu trong local storage:", cart);
     };
 
     onMounted(() => {
@@ -94,6 +114,7 @@ export default defineComponent({
       petCategories,
       searchValue,
       onSearch,
+      checkIdKhachHang,
       addToCart,
     };
   },

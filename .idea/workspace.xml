@@ -4,11 +4,16 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c0ac59a3-d61a-4e7c-8ffc-42638d1dd223" name="Changes" comment="" />
+    <list default="true" id="c0ac59a3-d61a-4e7c-8ffc-42638d1dd223" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/vuejs/src/client/views/tim-kiem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/vuejs/src/client/views/tim-kiem.vue" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -26,6 +31,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
+    "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "last_opened_file_path": "C:/Users/USER/Downloads/Lab11"
   }
