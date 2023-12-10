@@ -242,17 +242,19 @@ export default defineComponent({
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
       const existingProduct = cart.find((item) => item.id === product.id);
       if (checkIdKhachHang() == false) {
+        alert("Vui long dang nhap truoc khi them");
       } else {
         if (existingProduct) {
-          console.log("Sản phẩm đã được thêm vào giỏ hàng!!!");
+          alert("Đã có sản phảm này trong giỏ hàng");
         } else {
           cart.push({
             id: product.id,
           });
+          localStorage.setItem("cart", JSON.stringify(cart));
+          const retrievedCart = JSON.parse(localStorage.getItem("cart"));
+          console.log("Dữ liệu trong local storage:", retrievedCart);
+          alert("Sản phẩm đã được thêm vào giỏ hàng");
         }
-        localStorage.setItem("cart", JSON.stringify(cart));
-        const retrievedCart = JSON.parse(localStorage.getItem("cart"));
-        console.log("Dữ liệu trong local storage:", retrievedCart);
       }
     };
 
