@@ -91,8 +91,8 @@
 
             <a-form-item name="status" label="Trạng thái dịch vụ">
                 <a-radio-group v-model:value="formAddService.status">
-                    <a-radio value="true">Đang hoạt động</a-radio>
-                    <a-radio value="false">Dừng hoạt động</a-radio>
+                    <a-radio value="Đang hoạt động">Đang hoạt động</a-radio>
+                    <a-radio value="Dừng hoạt động">Dừng hoạt động</a-radio>
                 </a-radio-group>
             </a-form-item>
 

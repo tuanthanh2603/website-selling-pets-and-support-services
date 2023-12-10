@@ -33,7 +33,7 @@
                                   </a-form-item>
                                   <a-form-item name="createdDate" label="Ngày khởi tạo" >
                                     <a-date-picker
-                                      v-model:value="value1"
+                                      v-model:value="formCreateService.createdDate"
                                       format="YYYY-MM-DD"
                                       :disabled-date="disabledDate"
                                     />

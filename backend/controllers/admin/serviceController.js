@@ -1,5 +1,4 @@
-import { ServiceCategory } from "../../models/ServicesModel.js";
-import path from "path"
+import { ServiceCategory } from "../../models/admin/servicesModel.js";
 
 export const addServiceToCategory = async (req, res) => {
     try {
