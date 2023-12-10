@@ -205,16 +205,12 @@ export default defineComponent({
         
         //Payment method
         const modalCreatePayment = ref(false);
-        const showModalPayment = () => {
-          console.log('showModalPayment is called');
-          modalCreatePayment = true;
-        };
-
         const alertInfoService = ref({ message: 'Hãy nhập thông tin của bạn', type: 'info' });
+
         const validateData = () => {
           const valid = validateFormData();
           if (valid) {
-            console.log("Hello World")
+            modalCreatePayment.value = true;
           } else {
             alertInfoService.value.message = 'Vui lòng nhập thông tin của bạn';
             alertInfoService.value.type = 'error';
@@ -284,7 +280,6 @@ export default defineComponent({
             rowSelection,
             totalPrice,
 
-            showModalPayment,
             modalCreatePayment,
 
             validateFormData,
