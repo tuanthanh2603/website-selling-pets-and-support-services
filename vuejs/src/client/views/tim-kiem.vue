@@ -20,13 +20,17 @@
 
             <ul class="product-links">
               <li>
-                <a href="#" @click="onSearch(category.name)">  <search-outlined></search-outlined>   </a>
+                <a href="#" @click="onSearch(category.name)">
+                  <search-outlined></search-outlined>
+                </a>
               </li>
               <li>
                 <a href="#"><heart-outlined /></a>
               </li>
               <li>
-                <a href="#" @click="onSearchID(category.id)">  <export-outlined></export-outlined>   </a>           
+                <a href="#" @click="onSearchID(category.id)">
+                  <export-outlined></export-outlined>
+                </a>
               </li>
             </ul>
             <a
@@ -82,7 +86,6 @@ export default defineComponent({
       }
     };
 
-
     const addToCart = (product) => {
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
       const existingProduct = cart.find((item) => item.id === product.id);
@@ -110,7 +113,8 @@ export default defineComponent({
     return {
       petCategories,
       searchValue,
-      onSearch,checkIdKhachHang,
+      onSearch,
+      checkIdKhachHang,
       addToCart,
     };
   },
