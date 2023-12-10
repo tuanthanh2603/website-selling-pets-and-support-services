@@ -175,7 +175,7 @@
 
     </div>
   </div>
-  <button @click="clearLocalStorage">Clear History</button>
+  <!-- <button @click="clearLocalStorage">Clear History</button> -->
   <a-affix :offset-bottom="bottom">
     <a-button type="primary" @click="bottom" style="
         margin-left: 20px;
