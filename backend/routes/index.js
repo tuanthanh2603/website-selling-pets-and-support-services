@@ -10,6 +10,7 @@ import serviceRouter from "./admin/serviceRouter.js";
 import accessoryRouter from "./admin/accessoryRouter.js";
 import petRouterClient from "./client/petRouter.js"
 import utilitiesRouter from "./client/utilitiesRouter.js"
+import orderServiceRouter from "./client/orderServiceRouter.js"
 
 
 
@@ -31,7 +32,6 @@ const routes = (app) => {
   app.use("/client/dog-page", petRouterClient);
   app.use("/client/utilities", utilitiesRouter);
   // app.use('/admin/quan-ly-don-hang', )
-  // app.use('/admin/quan-ly-dich-vu', )
   // ---
   app.use("/client/xem-trang-chu", petRouterCL);
   app.use("/client/tim-kiem-san-pham", searchRouterCL);
@@ -39,7 +39,8 @@ const routes = (app) => {
   app.use("/client/xem-trang-meo-canh", catRouterCL);
   app.use("/client/show-cart", cartRouterCL);
   app.use("/client/show-khach-hang", cartRouterCL);
-  app.use("/client/thanh-toan", cartRouterCL);
+  app.use("/client/thanh-toan", cartRouterCL); 
+  app.use("/client/dang-ky-dich-vu", orderServiceRouter);
 
   app.use("/admin/quan-ly-dich-vu", serviceRouter);
 };

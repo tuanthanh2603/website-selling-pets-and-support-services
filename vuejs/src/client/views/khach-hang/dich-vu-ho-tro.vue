@@ -18,7 +18,7 @@
                         <div class="col-md-2">
                             <a-button type="primary" @click="showModalCreateService">Đăng kí dịch vụ</a-button>
                         </div>
-                            <a-modal v-model:visible="modalCreateService" v-bind="layoutFormAddService" width="1000px" title="Đăng ký dịch vụ" @finish="createService">
+                            <a-modal v-model:visible="modalCreateService" v-bind="layoutFormAddService" width="1000px" title="Đăng ký dịch vụ">
                                 <!-- Create Service Form -->
                                 <a-form :model="formCreateService" v-bind="layoutFormCreateService" name="nest-messages" @finish="createService">
                                   <!-- Form điền thông tin -->
@@ -38,7 +38,6 @@
                                       :disabled-date="disabledDate"
                                     />
                                   </a-form-item>
-                                  <!-- Form điền thông tin !-->
 
                                   <!-- Thông báo tổng tiền -->
                                   <a-alert :message="alertTotalPrice.message" :type="alertTotalPrice.type" show-icon>
@@ -59,8 +58,6 @@
                                       </template>
                                     </template>
                                   </a-table>
-
-                                  <!-- Table các loại dịch vụ -->
                                   
                                   <a-form-item :wrapper-col="{ span: 17, offset: 4 }">
                                       <a-alert style="margin-bottom: 20px;" v-if="alertInfoService" :message="alertInfoService.message"
@@ -68,19 +65,24 @@
                                       
                                       <!-- validateInputs là kiểm tra dữ liệu đã được nhập chưa -->
                                       <a-button block type="primary" @click="validateData" style="margin-bottom: 10px;">Xác nhận đăng ký dịch vụ</a-button>
+                                      <a-button block @click="exitModalCreateService">Thoát</a-button>  
+                                      
+                                        <!-- Form Payment được hiển thị sau khi kiểm tra xong -->
                                         <a-modal v-model:visible="modalCreatePayment" title="Xác nhận thanh toán">
                                           <p>Some contents...</p>
                                           <p>Some contents...</p>
                                           <p>Some contents...</p>
+
+                                          <a-button block type="success" @click="createOrder" style="margin-bottom: 10px;">Đã thanh toán</a-button>
+                                          <a-button block @click="exitModalCreatePayment">Thoát</a-button>
+                                          
+                                          <template #footer></template>
                                         </a-modal>
-                                      
-                                      <a-button block @click="exitModalCreateService">Thoát</a-button>
+                     
                                   </a-form-item>
 
                               </a-form>
-                              <template #footer>
-                                  
-                              </template>
+                              <template #footer></template>
                             </a-modal>
                   </div>
 
@@ -142,6 +144,11 @@ export default defineComponent({
         const exitModalCreateService = () => {
             modalCreateService.value = false
         }
+
+        const exitModalCreatePayment = () => {
+            modalCreatePayment.value = false
+        }
+
         const layoutFormCreateService = {
             labelCol: {
                 span: 6,
@@ -208,8 +215,8 @@ export default defineComponent({
         const alertInfoService = ref({ message: 'Hãy nhập thông tin của bạn', type: 'info' });
 
         const validateData = () => {
-          const valid = validateFormData();
-          if (valid) {
+          const validationResult = validateFormData();
+          if (!validationResult.hasError) {
             modalCreatePayment.value = true;
           } else {
             alertInfoService.value.message = 'Vui lòng nhập thông tin của bạn';
@@ -257,6 +264,46 @@ export default defineComponent({
         const errorName = ref(false);
         const errorPhone = ref(false);
         const errorPetName = ref(false);
+
+        const createOrder = (values) => {
+          const serverUrl = 'http://localhost:3000/client/dang-ky-dich-vu/createOrderService'
+          axios.post(serverUrl, values)
+          .then((response) => {
+            console.log('Phản hồi từ server: ', response.data)
+            if(response.data.success){
+                    new Noty({
+                        text: 'Đăng ký dịch vụ thành công!',
+                        type: 'success',
+                        layout: 'topRight',
+                        theme: 'mint',
+                        timeout: 3000,
+                        callbacks: {
+                            afterShow: function () {
+                            // Sử dụng Promise để đảm bảo rằng làm mới chỉ xảy ra sau khi phản hồi đã được xử lý
+                            return new Promise((resolve) => {
+                                setTimeout(() => {
+                                window.location.reload();
+                                resolve();
+                                }, 2000); // Sau 3 giây
+                            });
+                            }
+                        }
+                    }).show();
+                } else {
+                    console.log(response.data.message)
+                }
+
+            })
+            .catch((error) => {
+                if(error.response && error.response.status === 400){
+                    alertInfoService.value = { message: "Lỗi khi đăng kí dịch vụ", type: "warning"}
+                } else {
+                    alertInfoService.value = { message: "Lỗi kết nối đến server", type: "error" };
+                }
+                
+            })
+            console.log('Thông tin đăng ký dịch vụ:', values);
+        }
         
         
         
@@ -290,6 +337,9 @@ export default defineComponent({
             nameRule,
             phoneRule,
             petNameRule,
+            exitModalCreatePayment,
+
+            createOrder,
         };
     },
 });

@@ -16,11 +16,18 @@ const orderServiceModel = new Schema({
     },
     service_selected: {
         type: String,
-        required: true
+        required: true,
     },
-    date: {
+    date_selected: {
         type: Date,
-    }
+    },
+    date_created: {
+        type: Date,
+    },
+    payment: {
+        type: String,
+        required: true,
+    },
 });
 
 export const OrderService = mongoose.model("OrderService", orderServiceModel, "OrderService");
