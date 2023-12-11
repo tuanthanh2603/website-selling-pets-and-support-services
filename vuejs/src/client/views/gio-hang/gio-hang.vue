@@ -59,8 +59,28 @@
     </a-table>
   </div>
 
-  <!-- Add this button in your template -->
-  <button @click="completePayment">Hoàn thành thanh toán</button>
+  <nav>
+    <ul>
+      <li @click=" showPaymentForm">
+        <a :class="{ active: selectedPaymentOption === 'online' }">Thanh toán online</a>
+      </li>
+      <li @click="completePayment">
+        <a :class="{ active: selectedPaymentOption === 'offline' }">Thanh toán offline</a>
+      </li>
+    </ul>
+  </nav>
+
+    <a-modal v-model:visible="modalVisible" title="QR Code">
+      <a-form name="basic" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }" autocomplete="off">
+        <img class="larger-image" src="/images/qrcode.png"  alt="QR Code" />
+        <button @click="completePayment">Hoàn thành thanh toán</button>
+      </a-form>
+      <template #footer></template>
+    </a-modal>
+
+  
+
+
 </template>
 
 <script>
@@ -85,6 +105,7 @@ export default defineComponent({
     const customerCate = ref([]);
     const totalPrice = ref(0);
     const value = ref("");
+    const modalVisible = ref(false);
 
     const showKhachHang = () => {
       var idkhachHang = localStorage.getItem("user_id");
@@ -100,6 +121,8 @@ export default defineComponent({
           console.log("Error:", error);
         });
     };
+
+    const showPaymentForm = () => {  modalVisible.value = true; };
 
     const completePayment = async () => {
       try {
@@ -128,7 +151,10 @@ export default defineComponent({
       } catch (error) {
         console.error("Error during payment:", error);
       }
+      modalVisible.value = false;
     };
+
+    
 
     onMounted(() => {
       showKhachHang();
@@ -171,6 +197,8 @@ export default defineComponent({
       window.location.reload();
     };
 
+    
+
     return {
       deleteItemPetInCart,
       showKhachHang,
@@ -179,11 +207,24 @@ export default defineComponent({
       totalPrice,
       customerCate,
       value,
+      showPaymentForm,modalVisible
     };
   },
 });
 </script>
 
+
+
+<style scoped>
+/* Add scoped styles for the component */
+.larger-image {
+  width: 100%; /* Set the image width to 100% */
+  max-width: 400px; /* Set a maximum width to control the size */
+  height: 400px;
+  display: block;
+  margin: 0 auto; /* Center the image horizontally */
+}
+</style>
 <style>
 table {
   width: 800px;

@@ -3,7 +3,7 @@ import { Account } from "../../models/account/AccountModel.js";
 export const addUser = async (req, res) => {
     const { phone } = req.body;
     try {
-        const existingUser = await Account.findOne({ phone });
+        const existingUser = await Account.findOne({ phone });f
         if(existingUser){
             console.log("nhân viên đã tồn tại.");
             return res.status(400).json({ message: "nhân viên đã tồn tại." });
