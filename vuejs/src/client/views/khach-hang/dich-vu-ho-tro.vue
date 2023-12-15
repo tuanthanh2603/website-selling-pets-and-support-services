@@ -219,7 +219,7 @@ export default defineComponent({
           if (!validationResult.hasError) {
             modalCreatePayment.value = true;
           } else {
-            alertInfoService.value.message = 'Vui lòng nhập thông tin của bạn';
+            alertInfoService.value.message = 'Thông tin bạn nhập không đúng yêu cầu! Vui lòng nhập lại';
             alertInfoService.value.type = 'error';
           }
         }
