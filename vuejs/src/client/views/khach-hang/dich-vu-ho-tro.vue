@@ -31,13 +31,6 @@
                                   <a-form-item name="petName" label="Tên thú cưng" :rules="[petNameRule]">
                                       <a-input v-model:value="formCreateService.petName" />
                                   </a-form-item>
-                                  <a-form-item name="createdDate" label="Ngày khởi tạo" >
-                                    <a-date-picker
-                                      v-model:value="formCreateService.createdDate"
-                                      format="YYYY-MM-DD"
-                                      :disabled-date="disabledDate"
-                                    />
-                                  </a-form-item>
 
                                   <!-- Thông báo tổng tiền -->
                                   <a-alert :message="alertTotalPrice.message" :type="alertTotalPrice.type" show-icon>
@@ -69,10 +62,7 @@
                                       
                                         <!-- Form Payment được hiển thị sau khi kiểm tra xong -->
                                         <a-modal v-model:visible="modalCreatePayment" title="Xác nhận thanh toán">
-                                          <p>Some contents...</p>
-                                          <p>Some contents...</p>
-                                          <p>Some contents...</p>
-
+                                          <p>Loading....</p>
                                           <a-button block type="success" @click="createOrder" style="margin-bottom: 10px;">Đã thanh toán</a-button>
                                           <a-button block @click="exitModalCreatePayment">Thoát</a-button>
                                           
@@ -90,7 +80,7 @@
             </div>
 
             <!-- Table -->
-            <a-table :columns="columns" :data-source="data" class="components-table-demo-nested">
+            <a-table :columns="columnsOrderService" :data-source="dataOrderService" class="components-table-demo-nested">
                 <template #expandedRowRender>
                   <a-timeline>
                     <a-timeline-item>Tạo dịch vụ thành công. (4:00 AM - 28/11/2023)  </a-timeline-item>
@@ -127,27 +117,44 @@ export default defineComponent({
         SmileOutlined,  
     },
     setup() {
-        //Thêm thông tin dịch vụ
-        const modalCreateService = ref(false)
-        const showModalCreateService = () => {
-            modalCreateService.value = true
-        }
+      onMounted(() => {
+        const userId = localStorage.getItem('user_id');
+        console.log("User ID: ", userId);
+        const serverUrl = `http://localhost:3000/client/dich-vu-ho-tro/getListOrderService/${userId}`;
 
-        const formCreateService = ref({
+        axios.get(serverUrl)
+          .then((response) => {
+            dataOrderService.value = response.data.orders.map((order, index) => ({
+              key: index + 1,
+              name: order.name,
+              phone: order.phone,
+              petName: order.petName,
+              selectedService: order.service_selected,
+              total_price: order.total_price,
+              payment: order.payment, 
+              createdDate: order.date_created,
+            }));
+            console.log("bearbear:", response.data.orders);
+            console.log("Pandaaaa: ", dataOrderService);
+          })
+          .catch((error) => {
+            console.log("Error: ", error);
+          });
+      })
+
+        //Khai báo các modal
+        const formCreateService = ref({ 
             name: '',
             phone: '',
             petName: '',
             serviceType: '',
-            time: '',
         });
 
-        const exitModalCreateService = () => {
-            modalCreateService.value = false
-        }
-
-        const exitModalCreatePayment = () => {
-            modalCreatePayment.value = false
-        }
+        const modalCreatePaymentData = ref({
+          selectedServicesName: '',
+          selectedServicesPrice: '',
+          totalPrice: '',
+        });
 
         const layoutFormCreateService = {
             labelCol: {
@@ -158,14 +165,35 @@ export default defineComponent({
             },
         }
 
-        //time
-        const disabledDate = current => {
-          // Can not select days before today and today
-          return current && current < dayjs().endOf('day');
-        };
+        //Khai báo giá trị value của modal
+        const modalCreateService = ref(false)
+        const modalCreatePayment = ref(false);
+
+        const showModalCreateService = () => {
+            modalCreateService.value = true
+            getListService();
+        }
+
+        const exitModalCreateService = () => {
+            modalCreateService.value = false
+        }
+
+        const exitModalCreatePayment = () => {
+            modalCreatePayment.value = false
+        }
+
+        //Khai báo biến
+        const totalPrice = ref(0); //tính tổng tiền
+
+        const selectedServicesName = ref([]); //tách thành mảng name
+        const selectedServicesPrice = ref([]); //tách thành mảng price
+
+        //Các alert
+        const alertTotalPrice = ref({ message: 'Tổng giá trị dịch vụ bạn đã chọn: 0', type: 'warning' }); //alert báo tiền
+        const alertInfoService = ref({ message: 'Hãy nhập thông tin của bạn', type: 'info' }); //alert thông tin
 
         //show dịch vụ để đăng ký
-        onMounted(() => {
+        const getListService = () => {
           const serverUrl = 'http://localhost:3000/admin/quan-ly-dich-vu/getAllService';
           axios.get(serverUrl)
             .then((response) => {
@@ -179,24 +207,26 @@ export default defineComponent({
             }) .catch ((error) => {
               console.log("Error: ", error);
             })
-        });
-
-        //tính tổng tiền các cột được chọn
-        const totalPrice = ref(0);
-        const alertTotalPrice = ref({ message: 'Tổng giá trị dịch vụ bạn đã chọn: 0', type: 'warning' });
+        };
+        
+        //Check theo từng thay đổi của bảng
         const rowSelection = ref({
           onChange: (selectedRowKeys, selectedRows) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
             updateTotalPrice(selectedRows);
+            getSelectedServices(selectedRows);
           },
           onSelect: (record, selected, selectedRows) => {
             updateTotalPrice(selectedRows);
+            getSelectedServices(selectedRows);
           },
           onSelectAll: (selected, selectedRows, changeRows) => {
             updateTotalPrice(selectedRows);
+            getSelectedServices(selectedRows);
           },
         });
 
+        //tính tổng tiền
         const updateTotalPrice = (selectedRows) => {
           totalPrice.value = selectedRows.reduce((total, row) => total + row.price, 0);
           alertTotalPrice.value.message = `Tổng giá trị dịch vụ bạn đã chọn: ${doitien(totalPrice.value)}`;
@@ -209,11 +239,8 @@ export default defineComponent({
             currency: 'VND',
           });
         };
-        
-        //Payment method
-        const modalCreatePayment = ref(false);
-        const alertInfoService = ref({ message: 'Hãy nhập thông tin của bạn', type: 'info' });
 
+        //Check thông tin trước khi thanh toán
         const validateData = () => {
           const validationResult = validateFormData();
           if (!validationResult.hasError) {
@@ -265,11 +292,27 @@ export default defineComponent({
         const errorPhone = ref(false);
         const errorPetName = ref(false);
 
+        //lấy dữ liệu name và price
+        const getSelectedServices = (selectedRows) => {
+          selectedServicesName.value = selectedRows.map(row => row.name);
+          selectedServicesPrice.value = selectedRows.map(row => row.price);
+        };
+
+        //Tạo dịch vụ
         const createOrder = (values) => {
-          const serverUrl = 'http://localhost:3000/client/dang-ky-dich-vu/createOrderService'
-          axios.post(serverUrl, values)
+          const dataToSend = {
+            userId: localStorage.getItem('user_id'),
+            name: formCreateService.value.name,
+            phone: formCreateService.value.phone,
+            petName: formCreateService.value.petName,
+            selected_service_name: selectedServicesName.value,
+            selected_service_price: selectedServicesPrice.value,
+            totalPrice: totalPrice.value,
+          };
+          const serverUrl = 'http://localhost:3000/client/dich-vu-ho-tro/createOrderService'
+          axios.post(serverUrl, dataToSend)
           .then((response) => {
-            console.log('Phản hồi từ server: ', response.data)
+            console.log('Phản hồi từ server: ', response.data);
             if(response.data.success){
                     new Noty({
                         text: 'Đăng ký dịch vụ thành công!',
@@ -302,33 +345,42 @@ export default defineComponent({
                 }
                 
             })
-            console.log('Thông tin đăng ký dịch vụ:', values);
+            console.log('Thông tin đăng ký dịch vụ:', dataToSend);
         }
         
-        
-        
         return {
-            data,
-            columns,
-            innerColumns,
-            innerData,
-            modalCreateService,
-            showModalCreateService,
-            formCreateService,
-            exitModalCreateService,
-            layoutFormCreateService,
-            disabledDate,
+          //Tên cột và dữ liệu
+            columnsProcessService,
+            dataProcessService,
+            dataOrderService,
+            columnsOrderService,
+            columnsServices,
+            dataServices,
 
+          //modalCreateService
+            modalCreateService,
+            formCreateService,
+            layoutFormCreateService,
+            showModalCreateService,
+            getListService,        
+            exitModalCreateService,
+           
+          //Các alert
             alertInfoService,
             alertTotalPrice,
 
-            columnsServices,
-            dataServices,
+          //Tạo dịch vụ
+            modalCreatePayment, 
             rowSelection,
             totalPrice,
-
-            modalCreatePayment,
-
+            modalCreatePaymentData,
+            selectedServicesName,
+            selectedServicesPrice,
+            exitModalCreatePayment,
+            getSelectedServices,
+            createOrder,
+            
+          //Check lỗi
             validateFormData,
             validateData,
             errorName,
@@ -337,55 +389,13 @@ export default defineComponent({
             nameRule,
             phoneRule,
             petNameRule,
-            exitModalCreatePayment,
-
-            createOrder,
         };
     },
 });
 
-const data = [];
-//Column Service
-const columns = [{
-  title: 'Họ và Tên',
-  dataIndex: 'name',
-  key: 'name',
-}, {
-  title: 'Số điện thoại',
-  dataIndex: 'phone',
-  key: 'phone',
-}, {
-  title: 'Tên thú cưng',
-  dataIndex: 'petName',
-  key: 'petName',
-}, {
-  title: 'Loại dịch vụ',
-  dataIndex: 'serviceName',
-  key: 'serviceName',
-}, {
-  title: 'Người tạo',
-  dataIndex: 'creator',
-  key: 'creator',
-}, {
-  title: 'Thời gian khởi tạo',
-  dataIndex: 'createdAt',
-  key: 'createdAt',
-}];
+//Data listService
 const dataServices = ref([]);
-
-for (let i = 0; i < 3; ++i) {
-  data.push({
-    key: i,
-    name: `Peter ${i + 1}`,
-    phone: '123123123',
-    petName: 'Lucky',
-    serviceName: 'Cắt / tỉa lông',
-    creator: 'Tên nhân viên / Peter',
-    createdAt: '2014-12-24 23:12:00',
-  });
-}
-
-//cl services
+//Column listService
 const columnsServices = [{
   title: 'Tên dịch vụ',
   dataIndex: 'name',
@@ -402,8 +412,50 @@ const columnsServices = [{
   key: 'status',
 }];
 
+//Data orderService
+const dataOrderService = ref([]);
+//Column orderService
+const columnsOrderService = [{
+  title: 'Họ và Tên',
+  dataIndex: 'name',
+  key: 'name',
+}, {
+  title: 'Số điện thoại',
+  dataIndex: 'phone',
+  key: 'phone',
+}, {
+  title: 'Tên thú cưng',
+  dataIndex: 'petName',
+  key: 'petName',
+}, {
+  title: 'Tên dịch vụ - Giá dịch vụ',
+  dataIndex: 'selectedService',
+  key: 'selectedService',
+}, { 
+  title: 'Tổng tiền',
+  dataIndex: 'total_price',
+  key: 'total_price',
+}, {
+  title: 'Tình trạng thanh toán',
+  dataIndex: 'payment',
+  key: 'payment',
+}, {
+  title: 'Thời gian khởi tạo',
+  dataIndex: 'createdDate',
+  key: 'createdDate',
+}];
 
-const innerColumns = [{
+//Data processService
+const dataProcessService = [];
+for (let i = 0; i < 3; ++i) {
+  dataProcessService.push({
+    key: i,
+    date: '2014-12-24 23:12:00',
+    process: `Đã nhận thú cưng ${i + 1}`,
+  });
+}
+//Column processService
+const columnsProcessService = [{
   title: 'Thời gian khởi tạo',
   dataIndex: 'date',
   key: 'date',
@@ -416,14 +468,7 @@ const innerColumns = [{
   key: 'state',
 }];
 
-const innerData = [];
-for (let i = 0; i < 3; ++i) {
-  innerData.push({
-    key: i,
-    date: '2014-12-24 23:12:00',
-    process: `Đã nhận thú cưng ${i + 1}`,
-  });
-}
+
 
 </script>
 

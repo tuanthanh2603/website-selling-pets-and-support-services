@@ -40,7 +40,8 @@ const routes = (app) => {
   app.use("/client/show-cart", cartRouterCL);
   app.use("/client/show-khach-hang", cartRouterCL);
   app.use("/client/thanh-toan", cartRouterCL); 
-  app.use("/client/dang-ky-dich-vu", orderServiceRouter);
+  
+  app.use("/client/dich-vu-ho-tro", orderServiceRouter);
 
   app.use("/admin/quan-ly-dich-vu", serviceRouter);
 };

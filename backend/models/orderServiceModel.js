@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const orderServiceModel = new Schema({
+    userId: {
+        type: String,
+        required: true,
+    },
     name: {
         type: String,
         required: true,
@@ -18,15 +22,15 @@ const orderServiceModel = new Schema({
         type: String,
         required: true,
     },
-    date_selected: {
-        type: Date,
-    },
     date_created: {
-        type: Date,
+        type: String,
+    },
+    total_price: {
+        type: Number,
     },
     payment: {
         type: String,
-        required: true,
+        default: 'Chưa thanh toán',
     },
 });
 
