@@ -61,7 +61,7 @@
 
   <nav>
     <ul>
-      <li @click=" showPaymentForm">
+      <li @click="showPaymentForm">
         <a :class="{ active: selectedPaymentOption === 'online' }">Thanh toán online</a>
       </li>
       <li @click="completePayment">
@@ -70,17 +70,13 @@
     </ul>
   </nav>
 
-    <a-modal v-model:visible="modalVisible" title="QR Code">
-      <a-form name="basic" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }" autocomplete="off">
-        <img class="larger-image" src="/images/qrcode.png"  alt="QR Code" />
-        <button @click="completePayment">Hoàn thành thanh toán</button>
-      </a-form>
-      <template #footer></template>
-    </a-modal>
-
-  
-
-
+  <a-modal v-model:visible="modalVisible" title="QR Code">
+    <a-form name="basic" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }" autocomplete="off">
+      <img class="larger-image" src="/images/qrcode.png" alt="QR Code" />
+      <button @click="completePayment">Hoàn thành thanh toán</button>
+    </a-form>
+    <template #footer></template>
+  </a-modal>
 </template>
 
 <script>
@@ -121,8 +117,18 @@ export default defineComponent({
           console.log("Error:", error);
         });
     };
-
-    const showPaymentForm = () => {  modalVisible.value = true; };
+    const showPaymentForm = () => {
+      const cartItems = JSON.parse(localStorage.getItem("cart"));
+      if (cartItems && cartItems.length > 0) {
+        modalVisible.value = true;
+        setTimeout(() => {
+          console.log("Xoa sau 5 giay");
+          modalVisible.value = false;
+        }, 5000);
+      } else {
+        alert("Vui lòng thêm sản phẩm vào giỏ hàng trước khi thanh toán.");
+      }
+    };
 
     const completePayment = async () => {
       try {
@@ -142,19 +148,18 @@ export default defineComponent({
             localStorage.removeItem("cart");
             petCategories.value = [];
             totalPrice.value = 0;
+            modalVisible.value = false;
           } else {
             console.error("loi server:", response.status);
+            alert("Vui lòng thêm sản phẩm vào giỏ hàng trước khi thanh toán.");
           }
-        } else {
+        } else {        
           alert("Vui lòng thêm sản phẩm vào giỏ hàng trước khi thanh toán.");
         }
       } catch (error) {
         console.error("Error during payment:", error);
       }
-      modalVisible.value = false;
     };
-
-    
 
     onMounted(() => {
       showKhachHang();
@@ -179,8 +184,6 @@ export default defineComponent({
           totalPrice.value = response.data.reduce((acc, item) => {
             return acc + item.price;
           }, 0);
-
-          // console.log("Dữ liệu trả về", petCategories.value);
           console.log("Tổng giá trị", totalPrice.value);
         })
         .catch((error) => {
@@ -190,14 +193,10 @@ export default defineComponent({
 
     const deleteItemPetInCart = (id) => {
       let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-      // Tìm và xoá item có id trùng với id được truyền vào
       cartItems = cartItems.filter((item) => item.id !== id);
-      // Cập nhật lại danh sách items trong localStorage
       localStorage.setItem("cart", JSON.stringify(cartItems));
       window.location.reload();
     };
-
-    
 
     return {
       deleteItemPetInCart,
@@ -207,22 +206,24 @@ export default defineComponent({
       totalPrice,
       customerCate,
       value,
-      showPaymentForm,modalVisible
+      showPaymentForm,
+      modalVisible, setTimeout,
     };
   },
 });
 </script>
 
-
-
 <style scoped>
 /* Add scoped styles for the component */
 .larger-image {
-  width: 100%; /* Set the image width to 100% */
-  max-width: 400px; /* Set a maximum width to control the size */
+  width: 100%;
+  /* Set the image width to 100% */
+  max-width: 400px;
+  /* Set a maximum width to control the size */
   height: 400px;
   display: block;
-  margin: 0 auto; /* Center the image horizontally */
+  margin: 0 auto;
+  /* Center the image horizontally */
 }
 </style>
 <style>
