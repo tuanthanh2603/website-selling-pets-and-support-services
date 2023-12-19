@@ -71,6 +71,7 @@
           </router-link>
         </a-menu-item>
       </a-sub-menu>
+
       <a-sub-menu key="sub5">
         <template #title>
           <span>
@@ -83,7 +84,13 @@
             <span>Danh sách dịch vụ</span>
           </router-link>
         </a-menu-item>
+        <a-menu-item key="18">
+          <router-link to="/don-hang-dich-vu">
+            <span>Đơn hàng dịch vụ</span>
+          </router-link>
+        </a-menu-item>
       </a-sub-menu>
+
       <a-sub-menu key="sub6">
         <template #title>
           <span>

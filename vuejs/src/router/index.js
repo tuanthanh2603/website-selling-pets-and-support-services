@@ -38,11 +38,6 @@ const router = createRouter({
         import("../client/views/phu-kien-thu-cung/phu-kien-thu-cung.vue"),
     },
     {
-      path: "/dich-vu-ho-tro",
-      component: () =>
-        import("../client/views/dich-vu-ho-tro/dich-vu-ho-tro.vue"),
-    },
-    {
       path: "/trao-doi",
       component: () =>
         import("../client/views/trao-doi/nhan-tin-trao-doi.vue"),
@@ -70,6 +65,7 @@ const router = createRouter({
       component: () =>
         import("../admin/views/quan-ly-san-pham/thu-cung.vue"),
     },
+
     {
         path: "/admin-phu-kien",
         component: () =>
@@ -80,6 +76,13 @@ const router = createRouter({
       component: () =>
         import("../admin/views/quan-ly-khach-hang/danh-sach-khach-hang.vue"),
     },
+
+    {
+      path: "/don-hang-dich-vu",
+      component: () =>
+        import("../admin/views/quan-ly-dich-vu/don-hang-dich-vu.vue"),
+    },
+
     {
       path: "/danh-sach-dich-vu",
       component: () =>
@@ -108,6 +111,7 @@ const router = createRouter({
     },
   ],
 });
+
 router.beforeEach((to, from, next) => {
   const localStorageClassify = localStorage.getItem("user_classify");
   if (to.matched.some((record) => record.meta.requiresDashboard)) {

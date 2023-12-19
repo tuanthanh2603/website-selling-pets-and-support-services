@@ -8,9 +8,10 @@ import catRouterCL from "./client/catRouterCL.js"
 import userRouter from "./admin/userRouter.js";
 import serviceRouter from "./admin/serviceRouter.js";
 import accessoryRouter from "./admin/accessoryRouter.js";
-import petRouterClient from "./client/petRouter.js"
-import utilitiesRouter from "./client/utilitiesRouter.js"
-import orderServiceRouter from "./client/orderServiceRouter.js"
+import petRouterClient from "./client/petRouter.js";
+import utilitiesRouter from "./client/utilitiesRouter.js";
+import orderServiceRouter from "./client/orderServiceRouter.js";
+import processOrderServiceRouter from "./admin/processOrderServiceRouter.js";
 
 
 
@@ -44,6 +45,7 @@ const routes = (app) => {
   app.use("/client/dich-vu-ho-tro", orderServiceRouter);
 
   app.use("/admin/quan-ly-dich-vu", serviceRouter);
+  app.use("/admin/quan-ly-dich-vu", processOrderServiceRouter);
 };
 
 export default routes;
