@@ -12,7 +12,6 @@ const serviceCategory = new Schema({
     },
     service_status: {
         type: String,
-        default: true,
     }
 });
 

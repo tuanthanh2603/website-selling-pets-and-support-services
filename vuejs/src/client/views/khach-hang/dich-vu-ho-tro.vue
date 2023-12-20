@@ -108,6 +108,10 @@ import { ClockCircleOutlined } from '@ant-design/icons-vue';
 import { DownOutlined, SmileOutlined } from '@ant-design/icons-vue'
 import { defineComponent, onMounted, ref, watch } from 'vue';
 import axios from 'axios';
+import Noty from 'noty';
+import 'noty/lib/themes/mint.css'
+import 'noty/lib/noty.css'
+import 'noty/lib/noty.js'
 
 export default defineComponent({
     components:{
@@ -311,30 +315,26 @@ export default defineComponent({
           };
           const serverUrl = 'http://localhost:3000/client/dich-vu-ho-tro/createOrderService'
           axios.post(serverUrl, dataToSend)
-          .then((response) => {
-            console.log('Phản hồi từ server: ', response.data);
-            if(response.data.success){
-                    new Noty({
-                        text: 'Đăng ký dịch vụ thành công!',
-                        type: 'success',
-                        layout: 'topRight',
-                        theme: 'mint',
-                        timeout: 3000,
-                        callbacks: {
-                            afterShow: function () {
-                            // Sử dụng Promise để đảm bảo rằng làm mới chỉ xảy ra sau khi phản hồi đã được xử lý
-                            return new Promise((resolve) => {
-                                setTimeout(() => {
-                                window.location.reload();
-                                resolve();
-                                }, 2000); // Sau 3 giây
-                            });
-                            }
-                        }
-                    }).show();
-                } else {
-                    console.log(response.data.message)
-                }
+            .then((response) => {
+              console.log('Phản hồi từ server: ', response.data);
+              if (response.data.success) {
+                new Noty({
+                  text: 'Thêm dịch vụ thành công!',
+                  type: 'success',
+                  layout: 'topRight',
+                  theme: 'mint',
+                  timeout: 3000,
+                  callbacks: {
+                    afterShow: function () {
+                      setTimeout(() => {
+                        window.location.reload();
+                      }, 2000);
+                    }
+                  } 
+                }).show();
+              } else {
+                  console.log(response.data.message)
+              }
 
             })
             .catch((error) => {
