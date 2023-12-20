@@ -256,7 +256,7 @@ export default defineComponent({
                         }
                     }).show();
                 } else {
-                    console.log(response.data.message)
+                    console.log("data: ", response.data.message)
                 }
 
             })

@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 export const createOrderService = async (req, res) => {
   try {
       const { userId, name, phone, petName, selected_service_name, selected_service_price, totalPrice } = req.body;
-      console.log("Panda: ", userId, name, phone, petName, selected_service_name, selected_service_price, totalPrice)
+      //console.log("Panda: ", userId, name, phone, petName, selected_service_name, selected_service_price, totalPrice)
       // Gộp thành mảng duy nhất
       const selectedServices = selected_service_name.map((name, index) => `${name} - ${selected_service_price[index]}`);
       const serviceInfoString = selectedServices.join(', ');
@@ -25,7 +25,7 @@ export const createOrderService = async (req, res) => {
       // Lưu order vào database
       await newOrder.save();
 
-      res.status(201).json({ message: 'Tạo dịch vụ thành công' });
+      res.status(201).json({ success: true });
   } catch (error) {
       console.error('Error submitting order:', error);
       res.status(500).json({ error: 'Lỗi xác nhận tạo dịch vụ', details: error.message });

@@ -58,8 +58,8 @@
 
             <a-form-item name="status" label="Trạng thái dịch vụ">
                 <a-radio-group v-model:value="formAddService.status">
-                    <a-radio value="true">Đang hoạt động</a-radio>
-                    <a-radio value="false">Dừng hoạt động</a-radio>
+                    <a-radio value="Đang hoạt động">Đang hoạt động</a-radio>
+                    <a-radio value="Dừng hoạt động">Dừng hoạt động</a-radio>
                 </a-radio-group>
             </a-form-item>
             
@@ -90,7 +90,7 @@
             </a-form-item>
 
             <a-form-item name="status" label="Trạng thái dịch vụ">
-                <a-radio-group v-model:value="formAddService.status">
+                <a-radio-group v-model:value="formUpdateService.status">
                     <a-radio value="Đang hoạt động">Đang hoạt động</a-radio>
                     <a-radio value="Dừng hoạt động">Dừng hoạt động</a-radio>
                 </a-radio-group>
@@ -203,29 +203,24 @@ export default defineComponent({
             axios.post(serverUrl, values)
             .then((response) => {
                 console.log('Phản hồi từ server:', response.data);
-                if(response.data.success){
-                    new Noty({
-                        text: 'Thêm dịch vụ thành công!',
-                        type: 'success',
-                        layout: 'topRight',
-                        theme: 'mint',
-                        timeout: 3000,
-                        callbacks: {
-                            afterShow: function () {
-                            // Sử dụng Promise để đảm bảo rằng làm mới chỉ xảy ra sau khi phản hồi đã được xử lý
-                            return new Promise((resolve) => {
-                                setTimeout(() => {
-                                window.location.reload();
-                                resolve();
-                                }, 2000); // Sau 3 giây
-                            });
+                new Noty({
+                            text: 'Cập nhật thông tin thành công!',
+                            type: 'success',
+                            layout: 'topRight',
+                            theme: 'mint',
+                            timeout: 3000,
+                            callbacks: {
+                                afterShow: function () {
+                                // Sử dụng Promise để đảm bảo rằng làm mới chỉ xảy ra sau khi phản hồi đã được xử lý
+                                return new Promise((resolve) => {
+                                    setTimeout(() => {
+                                    window.location.reload();
+                                    resolve();
+                                    }, 2000); // Sau 3 giây
+                                });
+                                }
                             }
-                        }
-                    }).show();
-                } else {
-                    console.log(response.data.message)
-                }
-
+                        }).show();
             })
             .catch((error) => {
                 if(error.response && error.response.status === 400){
@@ -291,6 +286,7 @@ export default defineComponent({
             })
 
         }
+
         const exitModalUpdateService = () => {
             modalUpdateService.value = false
         }

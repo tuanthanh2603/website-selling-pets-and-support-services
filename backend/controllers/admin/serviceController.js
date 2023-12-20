@@ -8,10 +8,11 @@ export const addServiceToCategory = async (req, res) => {
         const newService = await ServiceCategory.create({
             service_name: serviceData.name,
             service_price: serviceData.price, 
+            service_status: serviceData.status,
         });
         const serviceId = newService._id;
         console.log("Thêm dịch vụ thành công");
-        res.status(200).json({ message: "Dữ liệu đã được xử lý thành công"});
+        res.status(200).json({ success: true});
     } catch (error) {
         console.error("Lỗi khi xử lý dữ liệu: ", error);
         res.status(500).json({ error: "Có lỗi khi xử lý dữ liệu"});
