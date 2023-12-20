@@ -38,7 +38,7 @@
         </template>
       </a-table-column>
     </a-table>
-   
+
   </div>
 
   <div class="container mt-5">
@@ -65,11 +65,12 @@
   <h2 class="" style="display: flex; justify-content: flex-end;margin-right: 130px;">Thành tiền: {{ totalPrice }}</h2>
   <div style="display: flex; justify-content: flex-end; margin-right: 130px;">
     <button @click="showPaymentForm" :class="{ active: selectedPaymentOption === 'online' }">Thanh toán online</button>
-    <button @click="completePayment" :class="{ active: selectedPaymentOption === 'offline' }" style="margin-left: 60px;">Thanh toán offline</button>
+    <button @click="completePayment" :class="{ active: selectedPaymentOption === 'offline' }"
+      style="margin-left: 60px;">Thanh toán offline</button>
   </div>
-  
-  
-  
+
+
+
 
   <a-modal v-model:visible="modalVisible" title="QR Code">
     <a-form name="basic" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }" autocomplete="off">
@@ -137,31 +138,38 @@ export default defineComponent({
         const idkhachHang = localStorage.getItem("user_id");
         const serverURL = "http://localhost:3000/client/thanh-toan/thanhtoan";
         if (petCategories.value.length > 0) {
-          const paymentData = {
-            userId: idkhachHang,
-            ten: customerCate.value[0].name,
-            sdt: customerCate.value[0].sdt,
-            thanhTien: totalPrice.value,
-            trangThai: "Đã thanh toán",
-          };
-          const response = await axios.post(serverURL, paymentData);
-          if (response.status === 200) {
-            alert("Thanh toán thành công! Cảm ơn bạn.");
-            localStorage.removeItem("cart");
-            petCategories.value = [];
-            totalPrice.value = 0;
-            modalVisible.value = false;
+          const customerInfo = customerCate.value[0];
+          if (customerInfo.name && customerInfo.sdt) {
+            const paymentData = {
+              userId: idkhachHang,
+              ten: customerInfo.name,
+              sdt: customerInfo.sdt,
+              thanhTien: totalPrice.value,
+              trangThai: "Đã thanh toán",
+            };
+            const response = await axios.post(serverURL, paymentData);
+            if (response.status === 200) {
+              alert("Thanh toán thành công! Cảm ơn bạn.");
+              localStorage.removeItem("cart");
+              petCategories.value = [];
+              totalPrice.value = 0;
+              modalVisible.value = false;
+            } else {
+              console.error("loi server:", response.status);
+              alert("Vui lòng thêm sản phẩm vào giỏ hàng trước khi thanh toán.");
+            }
           } else {
-            console.error("loi server:", response.status);
-            alert("Vui lòng thêm sản phẩm vào giỏ hàng trước khi thanh toán.");
+            alert("Vui lòng điền đầy đủ thông tin.");
+            modalVisible.value = false;
           }
-        } else {        
+        } else {
           alert("Vui lòng thêm sản phẩm vào giỏ hàng trước khi thanh toán.");
         }
       } catch (error) {
         console.error("Error during payment:", error);
       }
     };
+
 
     onMounted(() => {
       showKhachHang();
