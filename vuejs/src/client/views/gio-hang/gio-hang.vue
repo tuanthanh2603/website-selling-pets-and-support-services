@@ -74,8 +74,7 @@
 
   <a-modal v-model:visible="modalVisible" title="QR Code">
     <a-form name="basic" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }" autocomplete="off">
-      <img class="larger-image" src="/images/qrcode.png" alt="QR Code" />
-      <button @click="completePayment">Hoàn thành thanh toán</button>
+      <img class="larger-image" src="/images/qrcode.png" alt="QR Code" @click="completePayment"/>
     </a-form>
     <template #footer></template>
   </a-modal>
