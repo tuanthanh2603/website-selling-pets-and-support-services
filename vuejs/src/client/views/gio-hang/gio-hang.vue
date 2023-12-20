@@ -38,37 +38,38 @@
         </template>
       </a-table-column>
     </a-table>
-    <h2 class="col-md-6" style="text-align: left">
-      Thành tiền: {{ totalPrice }}
-    </h2>
+   
   </div>
 
   <div class="container mt-5">
-    <a-table :data-source="customerCate" style="width: 500px">
-      <a-table-column key="name" title="Tên khách hàng">
-        <template #default="{ text }">
-          {{ text.name }}
-        </template>
-      </a-table-column>
-
-      <a-table-column key="sdt" title="Số điện thoại khách hàng">
-        <template #default="{ text }">
-          {{ text.sdt }}
-        </template>
-      </a-table-column>
-    </a-table>
+    <table style="width: 500px">
+      <thead>
+        <tr>
+          <th>Tên khách hàng</th>
+          <th>Số điện thoại khách hàng</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(customer, index) in customerCate" :key="index">
+          <td>
+            <input v-model="customer.name" style="width: 200px; height: 30px;" />
+          </td>
+          <td>
+            <input v-model="customer.sdt" style="width: 200px; height: 30px;" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <nav>
-    <ul>
-      <li @click="showPaymentForm">
-        <a :class="{ active: selectedPaymentOption === 'online' }">Thanh toán online</a>
-      </li>
-      <li @click="completePayment">
-        <a :class="{ active: selectedPaymentOption === 'offline' }">Thanh toán offline</a>
-      </li>
-    </ul>
-  </nav>
+  <h2 class="" style="display: flex; justify-content: flex-end;margin-right: 130px;">Thành tiền: {{ totalPrice }}</h2>
+  <div style="display: flex; justify-content: flex-end; margin-right: 130px;">
+    <button @click="showPaymentForm" :class="{ active: selectedPaymentOption === 'online' }">Thanh toán online</button>
+    <button @click="completePayment" :class="{ active: selectedPaymentOption === 'offline' }" style="margin-left: 60px;">Thanh toán offline</button>
+  </div>
+  
+  
+  
 
   <a-modal v-model:visible="modalVisible" title="QR Code">
     <a-form name="basic" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }" autocomplete="off">
@@ -117,6 +118,7 @@ export default defineComponent({
           console.log("Error:", error);
         });
     };
+
     const showPaymentForm = () => {
       const cartItems = JSON.parse(localStorage.getItem("cart"));
       if (cartItems && cartItems.length > 0) {
